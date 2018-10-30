@@ -8,6 +8,8 @@
 #include <QTimer>
 #include <QTime>
 
+#include "settingsdialog.h"
+
 class Tomato:public QObject
 {
  Q_OBJECT
@@ -27,6 +29,8 @@ private:
  reps=2,
  round=0;
 
+ bool turnLongRest=false;
+
  enum TYPE{WORK=0, SHORTREST, LONGREST}type=WORK;
 
  void updateDisplay();
@@ -37,6 +41,8 @@ private slots:
  void slotStart();
  void slotStop();
  void slotUpdate();
+
+ void slotOpenSettings();
 };
 
 #endif // TOMATO_H

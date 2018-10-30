@@ -20,6 +20,7 @@ Tomato::Tomato(QObject *p)
  pmenu->addAction(padisplay);
  pmenu->addAction(pastart);
  pmenu->addAction(pastop);
+ pmenu->addAction("Settings", this, SLOT(slotOpenSettings()));
  pmenu->addAction("Exit", qApp, SLOT(quit()));
 
  ptray->setContextMenu(pmenu);
@@ -28,6 +29,8 @@ Tomato::Tomato(QObject *p)
  connect(pastart, SIGNAL(triggered()), SLOT(slotStart()));
  connect(pastop, SIGNAL(triggered()), SLOT(slotStop()));
  connect(ptimer, SIGNAL(timeout()), SLOT(slotUpdate()));
+
+ qApp->setQuitOnLastWindowClosed(false);
 }
 
 void Tomato::slotStart()
@@ -108,4 +111,16 @@ void Tomato::slotUpdate()
 
  updateDisplay();
  qDebug()<<ptime->toString("mm:ss");
+}
+
+void Tomato::slotOpenSettings()
+{
+ qDebug()<<workDuration;
+ SettingsDialog *pdialog=new SettingsDialog(&workDuration,
+																						&shortRestDuration,
+																						&longRestDuration,
+																						&reps,
+																						&turnLongRest);
+ pdialog->exec();
+ qDebug()<<workDuration;
 }

@@ -26,10 +26,12 @@ CONFIG += c++11
 
 SOURCES += \
         main.cpp \
-    tomato.cpp
+    tomato.cpp \
+    settingsdialog.cpp
 
 HEADERS += \
-    tomato.h
+    tomato.h \
+    settingsdialog.h
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin
