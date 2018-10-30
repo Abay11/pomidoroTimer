@@ -14,6 +14,7 @@ class Tomato:public QObject
 private:
  QSystemTrayIcon *ptray;
  QMenu *pmenu;
+ QAction *padisplay;
  QAction *pastart;
  QAction *pastop;
  QTimer *ptimer;
@@ -27,6 +28,8 @@ private:
  round=0;
 
  enum TYPE{WORK=0, SHORTREST, LONGREST}type=WORK;
+
+ void updateDisplay();
 public:
  Tomato(QObject *p=nullptr);
 

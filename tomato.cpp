@@ -1,14 +1,23 @@
 #include "tomato.h"
 
+void Tomato::updateDisplay()
+{
+ padisplay->setText(ptime->toString("mm:ss"));
+}
+
 Tomato::Tomato(QObject *p)
  :QObject(p)
  ,ptray(new QSystemTrayIcon(QIcon(":/Icons/gray.png"), this))
  ,pmenu(new QMenu)
+ ,padisplay(new QAction(pmenu))
  ,pastart(new QAction("Start", pmenu))
  ,pastop(new QAction("Stop", pmenu))
  ,ptimer(new QTimer(this))
  ,ptime(new QTime)
 {
+ updateDisplay();
+ padisplay->setText(QString("%1:00").arg(workDuration));
+ pmenu->addAction(padisplay);
  pmenu->addAction(pastart);
  pmenu->addAction(pastop);
  pmenu->addAction("Exit", qApp, SLOT(quit()));
@@ -49,6 +58,8 @@ void Tomato::slotStop()
 {
  qDebug()<<"STOP";
  ptimer->stop();
+ ptime->setHMS(0, 10, 0);
+ updateDisplay();
  pastart->setText("Start");
 }
 
@@ -95,5 +106,6 @@ void Tomato::slotUpdate()
 		}
 	}
 
+ updateDisplay();
  qDebug()<<ptime->toString("mm:ss");
 }
