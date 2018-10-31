@@ -16,18 +16,25 @@ private:
  *pshort,
  *plong,
  *preps;
- bool *pturnLongRest;
+ bool *pturnLongRest,
+ *pshowAgain;
 
  QLineEdit *plework,
  *pleshort,
  *plelong,
  *plereps;
 
- QCheckBox *pchturnLongRest;
+ QCheckBox *pchturnLongRest, *pchshowAgain;
 
  QPushButton *pcmdOk, *pcmdCancel;
 public:
- SettingsDialog(int *w, int *s, int *l, int *r,bool *turnLongRest, QWidget *p=nullptr);
+ SettingsDialog(int *w,
+								int *s,
+								int *l,
+								int *r,
+								bool *turnLongRest,
+								bool *showAgain,
+								QWidget *p=nullptr);
 
 private slots:
  void slotAccept();
