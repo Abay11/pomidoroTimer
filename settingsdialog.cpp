@@ -36,8 +36,8 @@ SettingsDialog::SettingsDialog(int *w,
  pflay->addRow(new QLabel("Short rest duration"), pleshort);
  pflay->addRow(new QLabel("Long rest duration"), plelong);
  pflay->addRow(new QLabel("Reps count"), plereps);
- pflay->addRow(new QLabel("Continue pomidoro"), pchturnLongRest);
- pflay->addRow(new QLabel("Ask about proceeding each time after"), pchshowAgain);
+ pflay->addRow(new QLabel("Automatically start new pomidoro"), pchturnLongRest);
+ pflay->addRow(new QLabel("Don't show request's dialog each time"), pchshowAgain);
  pflay->addRow(pcmdOk, pcmdCancel);
 
  setLayout(pflay);

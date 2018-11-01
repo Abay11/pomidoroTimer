@@ -7,6 +7,8 @@
 #include <QDebug>
 #include <QTimer>
 #include <QTime>
+#include <QFile>
+#include <QDataStream>
 
 #include "settingsdialog.h"
 
@@ -30,12 +32,16 @@ private:
  round=0;
 
  bool turnLongRest=false;
+ bool showAgainDialog=true;
 
  enum TYPE{WORK=0, SHORTREST, LONGREST}type=WORK;
 
  void updateDisplay();
+ void saveSettings();
+ void restoreSettings();
 public:
  Tomato(QObject *p=nullptr);
+ ~Tomato();
 
 private slots:
  void slotStart();

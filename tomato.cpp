@@ -5,6 +5,33 @@ void Tomato::updateDisplay()
  padisplay->setText(ptime->toString("mm:ss"));
 }
 
+void Tomato::saveSettings()
+{
+ QFile file("data.bin");
+ if(file.open(QIODevice::WriteOnly))
+	{
+		 QDataStream in(&file);
+		 in<<workDuration
+			<<shortRestDuration
+		 <<longRestDuration
+		 <<reps
+		 <<turnLongRest
+		 <<showAgainDialog;
+	}
+
+}
+
+void Tomato::restoreSettings()
+{
+ QFile file("data.bin");
+ if(file.open(QIODevice::ReadOnly))
+	{
+		 QDataStream out(&file);
+		 out>>workDuration>>shortRestDuration>>longRestDuration
+			 >>reps>>turnLongRest>>showAgainDialog;
+	}
+}
+
 Tomato::Tomato(QObject *p)
  :QObject(p)
  ,ptray(new QSystemTrayIcon(QIcon(":/Icons/gray.png"), this))
@@ -15,7 +42,9 @@ Tomato::Tomato(QObject *p)
  ,ptimer(new QTimer(this))
  ,ptime(new QTime)
 {
+ restoreSettings();
  updateDisplay();
+
  padisplay->setText(QString("%1:00").arg(workDuration));
  pmenu->addAction(padisplay);
  pmenu->addAction(pastart);
@@ -30,7 +59,13 @@ Tomato::Tomato(QObject *p)
  connect(pastop, SIGNAL(triggered()), SLOT(slotStop()));
  connect(ptimer, SIGNAL(timeout()), SLOT(slotUpdate()));
 
+
  qApp->setQuitOnLastWindowClosed(false);
+}
+
+Tomato::~Tomato()
+{
+ saveSettings();
 }
 
 void Tomato::slotStart()
@@ -81,14 +116,18 @@ void Tomato::slotUpdate()
 				{
 				 type=SHORTREST;
 				 ptime->setHMS(0, 0, 5-1);
+				 ptray->showMessage("Pomidoro timer", "Have a short break!", QSystemTrayIcon::Information, 3000);
 				 qDebug()<<"short rest launched after work";
 				}
 			 else
 				{
 				 type=LONGREST;
 				 bool execreturn=false;
+				 ptray->showMessage("Pomidoro timer", "Have a long break!", QSystemTrayIcon::Information, 3000);
 				 if(execreturn)
-				 ptime->setHMS(0,0,15-1);
+					{
+					 ptime->setHMS(0,0,15-1);
+					}
 					else
 				 slotStop();
 				 qDebug()<<"long rest launched after work";
@@ -98,12 +137,14 @@ void Tomato::slotUpdate()
 		case SHORTREST:
 		 type=WORK;
 		 ptime->setHMS(0,0,10-1);
+		 ptray->showMessage("Pomidoro timer", "Continue your work!", QSystemTrayIcon::Information, 3000);
 		 qDebug()<<"new round launched after short rest";
 		 break;
 
 		case LONGREST:
 		 type=WORK;
 		 ptime->setHMS(0,0,10-1);
+		 ptray->showMessage("Pomidoro timer", "Continue your work!", QSystemTrayIcon::Information, 3000);
 		 qDebug()<<"new pomidoro launched after long rest";
 		 break;
 		}
@@ -120,7 +161,8 @@ void Tomato::slotOpenSettings()
 																						&shortRestDuration,
 																						&longRestDuration,
 																						&reps,
-																						&turnLongRest);
+																						&turnLongRest,
+																						&showAgainDialog);
  pdialog->exec();
  qDebug()<<workDuration;
 }
