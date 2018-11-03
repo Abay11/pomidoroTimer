@@ -23,6 +23,7 @@ private:
  QAction *padisplay;
  QAction *parounds;
  QAction *pastart;
+ QAction *pareset;
  QAction *pastop;
  QTimer *ptimer;
  QTime *ptime;
@@ -51,6 +52,7 @@ public:
 
 private slots:
  void slotStart();
+ void slotReset();
  void slotStop();
  void slotUpdate();
 

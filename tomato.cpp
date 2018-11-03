@@ -40,6 +40,7 @@ Tomato::Tomato(QObject *p)
  ,padisplay(new QAction(pmenu))
  ,parounds(new QAction(pmenu))
  ,pastart(new QAction("Start", pmenu))
+ ,pareset(new QAction("Reset timer", pmenu))
  ,pastop(new QAction("Stop", pmenu))
  ,ptimer(new QTimer(this))
  ,ptime(new QTime)
@@ -52,6 +53,7 @@ Tomato::Tomato(QObject *p)
  pmenu->addAction(padisplay);
  pmenu->addAction(parounds);
  pmenu->addAction(pastart);
+ pmenu->addAction(pareset);
  pmenu->addAction(pastop);
  pmenu->addAction("Settings", this, SLOT(slotOpenSettings()));
  pmenu->addAction("Exit", qApp, SLOT(quit()));
@@ -60,9 +62,9 @@ Tomato::Tomato(QObject *p)
  ptray->show();
 
  connect(pastart, SIGNAL(triggered()), SLOT(slotStart()));
+ connect(pareset, SIGNAL(triggered()), SLOT(slotReset()));
  connect(pastop, SIGNAL(triggered()), SLOT(slotStop()));
  connect(ptimer, SIGNAL(timeout()), SLOT(slotUpdate()));
-
 
  qApp->setQuitOnLastWindowClosed(false);
 }
@@ -94,6 +96,24 @@ void Tomato::slotStart()
 	 qDebug()<<"CONTINUE";
 	}
  ptray->setIcon(QIcon(":/Icons/red.png"));
+}
+
+void Tomato::slotReset()
+{
+ switch(type)
+	{
+	case WORK:
+	 ptime->setHMS(0, workDuration, 0);
+	 break;
+	case SHORTREST:
+	 ptime->setHMS(0, shortRestDuration, 0);
+	 break;
+	case LONGREST:
+	 ptime->setHMS(0, longRestDuration, 0);
+	 break;
+	}
+
+ updateInfo();
 }
 
 void Tomato::slotStop()
