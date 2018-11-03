@@ -1,8 +1,9 @@
 #include "tomato.h"
 
-void Tomato::updateDisplay()
+void Tomato::updateInfo()
 {
  padisplay->setText(ptime->toString("mm:ss"));
+ parounds->setText(QString("%1/%2. Total: %3").arg(round%reps).arg(reps).arg(total));
 }
 
 void Tomato::saveSettings()
@@ -37,16 +38,19 @@ Tomato::Tomato(QObject *p)
  ,ptray(new QSystemTrayIcon(QIcon(":/Icons/gray.png"), this))
  ,pmenu(new QMenu)
  ,padisplay(new QAction(pmenu))
+ ,parounds(new QAction(pmenu))
  ,pastart(new QAction("Start", pmenu))
  ,pastop(new QAction("Stop", pmenu))
  ,ptimer(new QTimer(this))
  ,ptime(new QTime)
+ ,psound(new QSound(":/Sounds/birds.wav"))
 {
  restoreSettings();
- updateDisplay();
+ updateInfo();
 
  padisplay->setText(QString("%1:00").arg(workDuration));
  pmenu->addAction(padisplay);
+ pmenu->addAction(parounds);
  pmenu->addAction(pastart);
  pmenu->addAction(pastop);
  pmenu->addAction("Settings", this, SLOT(slotOpenSettings()));
@@ -70,10 +74,9 @@ Tomato::~Tomato()
 
 void Tomato::slotStart()
 {
-
  if(pastart->text()=="Start")
 	{
-	 ptime->setHMS(0, 0, 10);
+	 ptime->setHMS(0, workDuration, 0);
 	 pastart->setText("Pause");
 	 ptimer->start(1000);
 	 qDebug()<<"START";
@@ -90,15 +93,17 @@ void Tomato::slotStart()
 	 ptimer->start(1000);
 	 qDebug()<<"CONTINUE";
 	}
+ ptray->setIcon(QIcon(":/Icons/red.png"));
 }
 
 void Tomato::slotStop()
 {
  qDebug()<<"STOP";
  ptimer->stop();
- ptime->setHMS(0, 10, 0);
- updateDisplay();
+ ptime->setHMS(0, workDuration, 0);
+ updateInfo();
  pastart->setText("Start");
+ ptray->setIcon(QIcon(":/Icons/gray.png"));
 }
 
 void Tomato::slotUpdate()
@@ -109,48 +114,72 @@ void Tomato::slotUpdate()
 	}
  else
 	{
+	 psound->play();
+
 	 switch (type) {
 
 		case WORK:
 			 if(++round%reps!=0)
 				{
 				 type=SHORTREST;
-				 ptime->setHMS(0, 0, 5-1);
+				 ptime->setHMS(0, shortRestDuration, 0);
 				 ptray->showMessage("Pomidoro timer", "Have a short break!", QSystemTrayIcon::Information, 3000);
 				 qDebug()<<"short rest launched after work";
 				}
 			 else
 				{
+				 ++total;
+
 				 type=LONGREST;
-				 bool execreturn=false;
 				 ptray->showMessage("Pomidoro timer", "Have a long break!", QSystemTrayIcon::Information, 3000);
-				 if(execreturn)
+
+				 if(showAgainDialog)
 					{
-					 ptime->setHMS(0,0,15-1);
+					RequestDialog *prdialog=new RequestDialog(&showAgainDialog);
+					turnLongRest=prdialog->exec();
+					delete prdialog;
+					}
+
+				 if(turnLongRest)
+					{
+					 qDebug()<<"long rest launched after work";
+					 ptime->setHMS(0,longRestDuration,0);
 					}
 					else
-				 slotStop();
-				 qDebug()<<"long rest launched after work";
+					{
+					 qDebug()<<"pomidoro stopped";
+					 slotStop();
+					}
 				}
+			 ptray->setIcon(QIcon(":/Icons/green.png"));
 		 break;
 
-		case SHORTREST:
+		default:
 		 type=WORK;
-		 ptime->setHMS(0,0,10-1);
+		 ptime->setHMS(0,workDuration,0);
 		 ptray->showMessage("Pomidoro timer", "Continue your work!", QSystemTrayIcon::Information, 3000);
+		 ptray->setIcon(QIcon(":/Icons/red.png"));
 		 qDebug()<<"new round launched after short rest";
-		 break;
 
-		case LONGREST:
-		 type=WORK;
-		 ptime->setHMS(0,0,10-1);
-		 ptray->showMessage("Pomidoro timer", "Continue your work!", QSystemTrayIcon::Information, 3000);
-		 qDebug()<<"new pomidoro launched after long rest";
-		 break;
+//		case SHORTREST:
+//		 type=WORK;
+//		 ptime->setHMS(0,workDuration,0);
+//		 ptray->showMessage("Pomidoro timer", "Continue your work!", QSystemTrayIcon::Information, 3000);
+//		 ptray->setIcon(QIcon(":/Icons/red.png"));
+//		 qDebug()<<"new round launched after short rest";
+//		 break;
+
+//		case LONGREST:
+//		 type=WORK;
+//		 ptime->setHMS(0,0,10-1);
+//		 ptray->showMessage("Pomidoro timer", "Continue your work!", QSystemTrayIcon::Information, 3000);
+//		 ptray->setIcon(QIcon(":/Icons/red.png"));
+//		 qDebug()<<"new pomidoro launched after long rest";
+//		 break;
 		}
 	}
 
- updateDisplay();
+ updateInfo();
  qDebug()<<ptime->toString("mm:ss");
 }
 
@@ -163,6 +192,9 @@ void Tomato::slotOpenSettings()
 																						&reps,
 																						&turnLongRest,
 																						&showAgainDialog);
- pdialog->exec();
+
+ if(pdialog->exec())
+		slotStop();
+
  qDebug()<<workDuration;
 }

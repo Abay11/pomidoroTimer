@@ -52,7 +52,7 @@ void SettingsDialog::slotAccept()
  *plong=plelong->text().toInt();
  *preps=plereps->text().toInt();
  *pturnLongRest=pchturnLongRest->isChecked();
- *pshowAgain=pchshowAgain->isChecked();
+ *pshowAgain=!pchshowAgain->isChecked();
  accept();
 }
 

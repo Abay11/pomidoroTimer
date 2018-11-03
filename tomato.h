@@ -9,8 +9,10 @@
 #include <QTime>
 #include <QFile>
 #include <QDataStream>
+#include <QSound>
 
 #include "settingsdialog.h"
+#include "requestdialog.h"
 
 class Tomato:public QObject
 {
@@ -19,24 +21,28 @@ private:
  QSystemTrayIcon *ptray;
  QMenu *pmenu;
  QAction *padisplay;
+ QAction *parounds;
  QAction *pastart;
  QAction *pastop;
  QTimer *ptimer;
  QTime *ptime;
+ QSound *psound;
+
 
  int
  workDuration      =20,
  shortRestDuration =5,
  longRestDuration  =15,
- reps=2,
- round=0;
+ reps=1,
+ round=0,
+ total=0;
 
  bool turnLongRest=false;
  bool showAgainDialog=true;
 
  enum TYPE{WORK=0, SHORTREST, LONGREST}type=WORK;
 
- void updateDisplay();
+ void updateInfo();
  void saveSettings();
  void restoreSettings();
 public:

@@ -1,5 +1,8 @@
 <RCC>
     <qresource prefix="/">
         <file>Icons/gray.png</file>
+        <file>Icons/red.png</file>
+        <file>Icons/green.png</file>
+        <file>Sounds/birds.wav</file>
     </qresource>
 </RCC>
