@@ -121,6 +121,7 @@ void Tomato::slotStop()
  qDebug()<<"STOP";
  ptimer->stop();
  ptime->setHMS(0, workDuration, 0);
+ round=0;
  updateInfo();
  pastart->setText("Start");
  ptray->setIcon(QIcon(":/Icons/gray.png"));
