@@ -14,20 +14,23 @@
 #include "settingsdialog.h"
 #include "requestdialog.h"
 
+const QString VERSION="v1.2.2.2";
+
 class Tomato:public QObject
 {
  Q_OBJECT
 private:
- QSystemTrayIcon *ptray;
- QMenu *pmenu;
- QAction *padisplay;
- QAction *parounds;
- QAction *pastart;
- QAction *pareset;
- QAction *pastop;
- QTimer *ptimer;
- QTime *ptime;
- QSound *psound;
+ QSystemTrayIcon *tray;
+ QMenu *menu;
+ QAction *display;
+ QAction *rounds;
+ QAction *start;
+ QAction *reset;
+ QAction *stop;
+ QAction *version;
+ QTimer *timer;
+ QTime *time;
+ QSound *player;
 
 
  int
@@ -46,6 +49,7 @@ private:
  void updateInfo();
  void saveSettings();
  void restoreSettings();
+
 public:
  Tomato(QObject *p=nullptr);
  ~Tomato();

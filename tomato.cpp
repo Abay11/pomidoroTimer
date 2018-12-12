@@ -2,8 +2,8 @@
 
 void Tomato::updateInfo()
 {
- padisplay->setText(ptime->toString("mm:ss"));
- parounds->setText(QString("%1/%2. Total: %3").arg(round%reps).arg(reps).arg(total));
+ display->setText(time->toString("mm:ss"));
+ rounds->setText(QString("%1/%2. Total: %3").arg(round%reps).arg(reps).arg(total));
 }
 
 void Tomato::saveSettings()
@@ -35,36 +35,38 @@ void Tomato::restoreSettings()
 
 Tomato::Tomato(QObject *p)
  :QObject(p)
- ,ptray(new QSystemTrayIcon(QIcon(":/Icons/gray.png"), this))
- ,pmenu(new QMenu)
- ,padisplay(new QAction(pmenu))
- ,parounds(new QAction(pmenu))
- ,pastart(new QAction("Start", pmenu))
- ,pareset(new QAction("Reset timer", pmenu))
- ,pastop(new QAction("Stop", pmenu))
- ,ptimer(new QTimer(this))
- ,ptime(new QTime)
- ,psound(new QSound(":/Sounds/birds.wav"))
+ ,tray(new QSystemTrayIcon(QIcon(":/Icons/gray.png"), this))
+ ,menu(new QMenu)
+ ,display(new QAction(menu))
+ ,rounds(new QAction(menu))
+ ,start(new QAction("Start", menu))
+ ,reset(new QAction("Reset timer", menu))
+ ,stop(new QAction("Stop", menu))
+ ,version(new QAction(VERSION, menu))
+ ,timer(new QTimer(this))
+ ,time(new QTime)
+ ,player(new QSound(":/Sounds/birds.wav"))
 {
  restoreSettings();
  updateInfo();
 
- padisplay->setText(QString("%1:00").arg(workDuration));
- pmenu->addAction(padisplay);
- pmenu->addAction(parounds);
- pmenu->addAction(pastart);
- pmenu->addAction(pareset);
- pmenu->addAction(pastop);
- pmenu->addAction("Settings", this, SLOT(slotOpenSettings()));
- pmenu->addAction("Exit", qApp, SLOT(quit()));
+ display->setText(QString("%1:00").arg(workDuration));
+ menu->addAction(display);
+ menu->addAction(rounds);
+ menu->addAction(start);
+ menu->addAction(reset);
+ menu->addAction(stop);
+ menu->addAction("Settings", this, SLOT(slotOpenSettings()));
+ menu->addAction(version);
+ menu->addAction("Exit", qApp, SLOT(quit()));
 
- ptray->setContextMenu(pmenu);
- ptray->show();
+ tray->setContextMenu(menu);
+ tray->show();
 
- connect(pastart, SIGNAL(triggered()), SLOT(slotStart()));
- connect(pareset, SIGNAL(triggered()), SLOT(slotReset()));
- connect(pastop, SIGNAL(triggered()), SLOT(slotStop()));
- connect(ptimer, SIGNAL(timeout()), SLOT(slotUpdate()));
+ connect(start, SIGNAL(triggered()), SLOT(slotStart()));
+ connect(reset, SIGNAL(triggered()), SLOT(slotReset()));
+ connect(stop, SIGNAL(triggered()), SLOT(slotStop()));
+ connect(timer, SIGNAL(timeout()), SLOT(slotUpdate()));
 
  qApp->setQuitOnLastWindowClosed(false);
 }
@@ -76,26 +78,26 @@ Tomato::~Tomato()
 
 void Tomato::slotStart()
 {
- if(pastart->text()=="Start")
+ if(start->text()=="Start")
 	{
-	 ptime->setHMS(0, workDuration, 0);
-	 pastart->setText("Pause");
-	 ptimer->start(1000);
+	 time->setHMS(0, workDuration, 0);
+	 start->setText("Pause");
+	 timer->start(1000);
 	 qDebug()<<"START";
 	}
- else if(pastart->text()=="Pause")
+ else if(start->text()=="Pause")
 	{
-	 pastart->setText("Continue");
-	 ptimer->stop();
+	 start->setText("Continue");
+	 timer->stop();
 	 qDebug()<<"PAUSE";
 	}
- else if(pastart->text()=="Continue")
+ else if(start->text()=="Continue")
 	{
-	 pastart->setText("Pause");
-	 ptimer->start(1000);
+	 start->setText("Pause");
+	 timer->start(1000);
 	 qDebug()<<"CONTINUE";
 	}
- ptray->setIcon(QIcon(":/Icons/red.png"));
+ tray->setIcon(QIcon(":/Icons/red.png"));
 }
 
 void Tomato::slotReset()
@@ -103,13 +105,13 @@ void Tomato::slotReset()
  switch(type)
 	{
 	case WORK:
-	 ptime->setHMS(0, workDuration, 0);
+	 time->setHMS(0, workDuration, 0);
 	 break;
 	case SHORTREST:
-	 ptime->setHMS(0, shortRestDuration, 0);
+	 time->setHMS(0, shortRestDuration, 0);
 	 break;
 	case LONGREST:
-	 ptime->setHMS(0, longRestDuration, 0);
+	 time->setHMS(0, longRestDuration, 0);
 	 break;
 	}
 
@@ -119,23 +121,24 @@ void Tomato::slotReset()
 void Tomato::slotStop()
 {
  qDebug()<<"STOP";
- ptimer->stop();
- ptime->setHMS(0, workDuration, 0);
+ timer->stop();
+ type=WORK;
+ time->setHMS(0, workDuration, 0);
  round=0;
  updateInfo();
- pastart->setText("Start");
- ptray->setIcon(QIcon(":/Icons/gray.png"));
+ start->setText("Start");
+ tray->setIcon(QIcon(":/Icons/gray.png"));
 }
 
 void Tomato::slotUpdate()
 {
- if(ptime->minute()>0 || ptime->second()>0)
+ if(time->minute()>0 || time->second()>0)
 	{
-	 *ptime=ptime->addSecs(-1);
+	 *time=time->addSecs(-1);
 	}
  else
 	{
-	 psound->play();
+	 player->play();
 
 	 switch (type) {
 
@@ -143,8 +146,8 @@ void Tomato::slotUpdate()
 			 if(++round%reps!=0)
 				{
 				 type=SHORTREST;
-				 ptime->setHMS(0, shortRestDuration, 0);
-				 ptray->showMessage("Pomidoro timer", "Have a short break!", QSystemTrayIcon::Information, 3000);
+				 time->setHMS(0, shortRestDuration, 0);
+				 tray->showMessage("Pomidoro timer", "Have a short break!", QSystemTrayIcon::Information, 3000);
 				 qDebug()<<"short rest launched after work";
 				}
 			 else
@@ -152,7 +155,7 @@ void Tomato::slotUpdate()
 				 ++total;
 
 				 type=LONGREST;
-				 ptray->showMessage("Pomidoro timer", "Have a long break!", QSystemTrayIcon::Information, 3000);
+				 tray->showMessage("Pomidoro timer", "Have a long break!", QSystemTrayIcon::Information, 3000);
 
 				 if(showAgainDialog)
 					{
@@ -164,22 +167,25 @@ void Tomato::slotUpdate()
 				 if(turnLongRest)
 					{
 					 qDebug()<<"long rest launched after work";
-					 ptime->setHMS(0,longRestDuration,0);
+					 time->setHMS(0,longRestDuration,0);
 					}
 					else
 					{
 					 qDebug()<<"pomidoro stopped";
+					 //if user don't want to have a long rest
+					 //set type the WORK
+					 type=WORK;
 					 slotStop();
 					}
 				}
-			 ptray->setIcon(QIcon(":/Icons/green.png"));
+			 tray->setIcon(QIcon(":/Icons/green.png"));
 		 break;
 
 		default:
 		 type=WORK;
-		 ptime->setHMS(0,workDuration,0);
-		 ptray->showMessage("Pomidoro timer", "Continue your work!", QSystemTrayIcon::Information, 3000);
-		 ptray->setIcon(QIcon(":/Icons/red.png"));
+		 time->setHMS(0,workDuration,0);
+		 tray->showMessage("Pomidoro timer", "Continue your work!", QSystemTrayIcon::Information, 3000);
+		 tray->setIcon(QIcon(":/Icons/red.png"));
 		 qDebug()<<"new round launched after short rest";
 
 //		case SHORTREST:
@@ -201,7 +207,7 @@ void Tomato::slotUpdate()
 	}
 
  updateInfo();
- qDebug()<<ptime->toString("mm:ss");
+ qDebug()<<time->toString("mm:ss");
 }
 
 void Tomato::slotOpenSettings()
