@@ -14,15 +14,15 @@ SettingsDialog::SettingsDialog(int *w,
  ,preps(r)
  ,pturnLongRest(turnLongRest)
  ,pshowAgain(showAgain)
- ,plework(new QLineEdit)
- ,pleshort(new QLineEdit)
- ,plelong(new QLineEdit)
- ,plereps(new QLineEdit)
- ,pchturnLongRest(new QCheckBox)
- ,pchshowAgain(new QCheckBox)
- ,pcmdOk(new QPushButton("Accept and reset timer"))
- ,pcmdCancel(new QPushButton("Cancel"))
 {
+ plework=new QLineEdit;
+ pleshort=new QLineEdit;
+ plelong=new QLineEdit;
+ plereps=new QLineEdit;
+ pchturnLongRest=new QCheckBox;
+ pchshowAgain=new QCheckBox;
+ pcmdOk=new QPushButton("Accept and reset timer");
+ pcmdCancel=new QPushButton("Cancel");
 
  plework->setText(QString::number(*w));
  pleshort->setText(QString::number(*s));

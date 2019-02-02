@@ -187,22 +187,6 @@ void Tomato::slotUpdate()
 		 tray->showMessage("Pomidoro timer", "Continue your work!", QSystemTrayIcon::Information, 3000);
 		 tray->setIcon(QIcon(":/Icons/red.png"));
 		 qDebug()<<"new round launched after short rest";
-
-//		case SHORTREST:
-//		 type=WORK;
-//		 ptime->setHMS(0,workDuration,0);
-//		 ptray->showMessage("Pomidoro timer", "Continue your work!", QSystemTrayIcon::Information, 3000);
-//		 ptray->setIcon(QIcon(":/Icons/red.png"));
-//		 qDebug()<<"new round launched after short rest";
-//		 break;
-
-//		case LONGREST:
-//		 type=WORK;
-//		 ptime->setHMS(0,0,10-1);
-//		 ptray->showMessage("Pomidoro timer", "Continue your work!", QSystemTrayIcon::Information, 3000);
-//		 ptray->setIcon(QIcon(":/Icons/red.png"));
-//		 qDebug()<<"new pomidoro launched after long rest";
-//		 break;
 		}
 	}
 
