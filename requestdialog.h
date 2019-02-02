@@ -19,6 +19,7 @@ public:
  RequestDialog(bool *showAgain, QWidget *p=nullptr);
 private slots:
  void slotAccept();
+ void slotReject();
 };
 
 #endif // REQUESTDIALOG_H

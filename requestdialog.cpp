@@ -15,11 +15,17 @@ RequestDialog::RequestDialog(bool *showAgain, QWidget *p)
  setLayout(pflay);
 
  connect(pcmdOk, SIGNAL(clicked()), SLOT(slotAccept()));
- connect(pcmdCancel, SIGNAL(clicked()), qApp, SLOT((quit())));
+ connect(pcmdCancel, SIGNAL(clicked()), SLOT(slotReject()));
 }
 
 void RequestDialog::slotAccept()
 {
  *pshowAgain=!pchshowAgain->isChecked();
  return accept();
+}
+
+void RequestDialog::slotReject()
+{
+ *pshowAgain=!pchshowAgain->isChecked();
+ return reject();
 }
