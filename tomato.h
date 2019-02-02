@@ -14,7 +14,7 @@
 #include "settingsdialog.h"
 #include "requestdialog.h"
 
-const QString VERSION="v1.2.2.2";
+const QString VERSION="v1.3";
 
 class Tomato:public QObject
 {
