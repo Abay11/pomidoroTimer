@@ -3,6 +3,7 @@
 void Tomato::updateInfo()
 {
  display->setText(time->toString("mm:ss"));
+ tray->setToolTip(time->toString("mm:ss"));
  rounds->setText(QString("%1/%2. Total: %3").arg(round%reps).arg(reps).arg(total));
 }
 
@@ -19,7 +20,6 @@ void Tomato::saveSettings()
 		 <<turnLongRest
 		 <<showAgainDialog;
 	}
-
 }
 
 void Tomato::restoreSettings()
