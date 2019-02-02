@@ -7,6 +7,7 @@
 #include <QLabel>
 #include <QLineEdit>
 #include <QCheckBox>
+#include <QSpinBox>
 
 class SettingsDialog:public QDialog
 {
@@ -19,10 +20,7 @@ private:
  bool *pturnLongRest,
  *pshowAgain;
 
- QLineEdit *plework,
- *pleshort,
- *plelong,
- *plereps;
+ QSpinBox *spinWork, *spinShort, *spinLong, *spinReps;
 
  QCheckBox *pchturnLongRest, *pchshowAgain;
 

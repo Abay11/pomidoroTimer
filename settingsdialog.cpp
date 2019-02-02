@@ -15,27 +15,31 @@ SettingsDialog::SettingsDialog(int *w,
  ,pturnLongRest(turnLongRest)
  ,pshowAgain(showAgain)
 {
- plework=new QLineEdit;
- pleshort=new QLineEdit;
- plelong=new QLineEdit;
- plereps=new QLineEdit;
+ spinWork=new QSpinBox();
+ spinWork->setSingleStep(5);
+ spinShort=new QSpinBox();
+ spinShort->setSingleStep(5);
+ spinLong=new QSpinBox();
+ spinLong->setSingleStep(5);
+ spinReps=new QSpinBox();
  pchturnLongRest=new QCheckBox;
  pchshowAgain=new QCheckBox;
  pcmdOk=new QPushButton("Accept and reset timer");
  pcmdCancel=new QPushButton("Cancel");
 
- plework->setText(QString::number(*w));
- pleshort->setText(QString::number(*s));
- plelong->setText(QString::number(*l));
- plereps->setText(QString::number(*r));
+ spinWork->setValue(*w);
+ spinShort->setValue(*s);
+ spinLong->setValue(*l);
+ spinReps->setValue(*r);
  pchturnLongRest->setChecked(*turnLongRest);
  pchshowAgain->setChecked(*showAgain);
 
  QFormLayout *pflay=new QFormLayout;
- pflay->addRow(new QLabel("Work duration"), plework);
- pflay->addRow(new QLabel("Short rest duration"), pleshort);
- pflay->addRow(new QLabel("Long rest duration"), plelong);
- pflay->addRow(new QLabel("Reps count"), plereps);
+
+ pflay->addRow(new QLabel("Work duration"), spinWork);
+ pflay->addRow(new QLabel("Short rest duration"), spinShort);
+ pflay->addRow(new QLabel("Long rest duration"), spinLong);
+ pflay->addRow(new QLabel("Reps count"), spinReps);
  pflay->addRow(new QLabel("Automatically start new pomidoro"), pchturnLongRest);
  pflay->addRow(new QLabel("Don't show request's dialog each time"), pchshowAgain);
  pflay->addRow(pcmdOk, pcmdCancel);
@@ -47,10 +51,10 @@ SettingsDialog::SettingsDialog(int *w,
 
 void SettingsDialog::slotAccept()
 {
- *pwork=plework->text().toInt();
- *pshort=pleshort->text().toInt();
- *plong=plelong->text().toInt();
- *preps=plereps->text().toInt();
+ *pwork=spinWork->value();
+ *pshort=spinShort->value();
+ *plong=spinLong->value();
+ *preps=spinReps->value();
  *pturnLongRest=pchturnLongRest->isChecked();
  *pshowAgain=!pchshowAgain->isChecked();
  accept();
