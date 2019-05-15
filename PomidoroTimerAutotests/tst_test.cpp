@@ -1,23 +1,24 @@
 #include <QtTest>
 
 // add necessary includes here
+#include "../utility.h"
 
 class Test : public QObject
 {
- Q_OBJECT
+	Q_OBJECT
 
 public:
- Test();
- ~Test();
+	Test();
+	~Test();
 
 private slots:
- void test_case1();
+	void test_count_possible_repetitions0();
+	void test_count_possible_repetitions1();
 
 };
 
 Test::Test()
 {
-
 }
 
 Test::~Test()
@@ -25,9 +26,18 @@ Test::~Test()
 
 }
 
-void Test::test_case1()
+void Test::test_count_possible_repetitions0()
 {
+	int res = Utility::count_possible_repetitions(20, 3, 15, QTime::fromString("23:00", "hh:mm"));
 
+	QCOMPARE(res, 0);
+}
+
+void Test::test_count_possible_repetitions1()
+{
+	int res = Utility::count_possible_repetitions(20, 3, 15, QTime::fromString("22:16", "hh:mm"));
+
+	QCOMPARE(res, 1);
 }
 
 QTEST_APPLESS_MAIN(Test)

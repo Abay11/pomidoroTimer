@@ -6,4 +6,8 @@ CONFIG -= app_bundle
 
 TEMPLATE = app
 
-SOURCES +=  tst_test.cpp
+SOURCES +=  tst_test.cpp \
+    ../utility.cpp
+
+HEADERS += \
+    ../utility.h
