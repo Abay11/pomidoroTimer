@@ -31,37 +31,55 @@ Test::~Test()
 
 void Test::test_count_possible_repetitions0()
 {
-	int res = Utility::count_possible_repetitions(20, 3, 15, QTime::fromString("23:00", "hh:mm"));
+	int res;
+	QTime time;
+
+	std::tie(res, time) = Utility::count_possible_repetitions(20, 3, 15, QTime::fromString("23:00", "hh:mm"));
 
 	QCOMPARE(res, 0);
+	QCOMPARE(time, QTime::fromString("23:00", "hh:mm"));
 }
 
 void Test::test_count_possible_repetitions1()
 {
-	int res = Utility::count_possible_repetitions(20, 3, 15, QTime::fromString("22:16", "hh:mm"));
+	int res = Utility::count_possible_repetitions(20, 3, 15, QTime::fromString("22:16", "hh:mm")).first;
+	QTime time;
+
+	std::tie(res, time) = Utility::count_possible_repetitions(20, 3, 15, QTime::fromString("22:16", "hh:mm"));
 
 	QCOMPARE(res, 1);
+	QCOMPARE(time, QTime::fromString("00:00", "hh:mm"));
 }
 
 void Test::test_count_possible_repetitions2()
 {
-	int res = Utility::count_possible_repetitions(20, 3, 15, QTime::fromString("22:15", "hh:mm"));
+	int res;
+	QTime time;
+
+	std::tie(res, time) = Utility::count_possible_repetitions(20, 3, 15, QTime::fromString("22:15", "hh:mm"));
 
 	QCOMPARE(res, 1);
+	QCOMPARE(time, QTime::fromString("23:59", "hh:mm"));
 }
 
 void Test::test_count_possible_repetitions3()
 {
-	int res = Utility::count_possible_repetitions(25, 5, 30, QTime::fromString("21:35", "hh:mm"));
+	int res;
+	QTime time;
+	std::tie(res, time) = Utility::count_possible_repetitions(25, 5, 30, QTime::fromString("21:35", "hh:mm"));
 
 	QCOMPARE(res, 1);
+	QCOMPARE(time, QTime::fromString("00:00", "hh:mm"));
 }
 
 void Test::test_count_possible_repetitions4()
 {
-	int res = Utility::count_possible_repetitions(25, 5, 30, QTime::fromString("21:36", "hh:mm"));
+	int res;
+	QTime time;
+	std::tie(res, time) = Utility::count_possible_repetitions(25, 5, 30, QTime::fromString("21:36", "hh:mm"));
 
 	QCOMPARE(res, 0);
+	QCOMPARE(time, QTime::fromString("21:36", "hh:mm"));
 }
 
 QTEST_APPLESS_MAIN(Test)
