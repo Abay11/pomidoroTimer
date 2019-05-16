@@ -11,6 +11,7 @@
 #include <QCheckBox>
 #include <QSpinBox>
 #include <QDateTime>
+#include <QDebug>
 
 class SettingsDialog: public QDialog
 {
@@ -24,7 +25,14 @@ public:
 		bool* showAgain,
 		QWidget* p = nullptr);
 
+
+
+	// QWidget interface
+protected:
+	void showEvent(QShowEvent* event) override;
+
 private:
+	void setLabelMaxRepetitions();
 
 
 	int* pwork;
@@ -42,11 +50,14 @@ private:
 
 	QPushButton* pcmdOk, *pcmdCancel;
 
-	QLabel* label_possible_repetitions;
+	QLabel* max_tomatoes_label;
 
 private slots:
 	void slotAccept();
+
 	void slotReject();
+
+	void slotParametersChanged();
 
 };
 

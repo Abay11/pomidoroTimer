@@ -14,7 +14,7 @@ SettingsDialog::SettingsDialog(int* w,
 	, preps(r)
 	, pturnLongRest(turnLongRest)
 	, pshowAgain(showAgain)
-	, label_possible_repetitions(new QLabel)
+	, max_tomatoes_label(new QLabel)
 {
 	spinWork = new QSpinBox();
 	spinWork->setSingleStep(5);
@@ -43,14 +43,43 @@ SettingsDialog::SettingsDialog(int* w,
 	pflay->addRow(new QLabel("Reps count"), spinReps);
 	pflay->addRow(new QLabel("Automatically start new pomidoro"), pchturnLongRest);
 	pflay->addRow(new QLabel("Don't show request's dialog each time"), pchshowAgain);
-
-	label_possible_repetitions->setText(QString::number(Utility::count_possible_repetitions(*pwork, *pshort, *plong, QTime::currentTime())));
-	pflay->addRow(new QLabel("How many tomatoes you can still do"), label_possible_repetitions);
+	pflay->addRow(max_tomatoes_label);
 	pflay->addRow(pcmdOk, pcmdCancel);
 
 	setLayout(pflay);
 	connect(pcmdOk, SIGNAL(clicked()), SLOT(slotAccept()));
 	connect(pcmdCancel, SIGNAL(clicked()), SLOT(slotReject()));
+
+	connect(spinWork, SIGNAL(valueChanged(int)), SLOT(slotParametersChanged()));
+	connect(spinShort, SIGNAL(valueChanged(int)), SLOT(slotParametersChanged()));
+	connect(spinLong, SIGNAL(valueChanged(int)), SLOT(slotParametersChanged()));
+	connect(spinReps, SIGNAL(valueChanged(int)), SLOT(slotParametersChanged()));
+}
+
+void SettingsDialog::showEvent(QShowEvent* event)
+{
+	QWidget::showEvent(event);
+
+	setLabelMaxRepetitions();
+	qDebug() << "showEvent";
+}
+
+void SettingsDialog::setLabelMaxRepetitions()
+{
+	int maxTomatoes;
+	QTime finishTime;
+
+	int workDuration = spinWork->value();
+	int shortDuration = spinShort->value();
+	int longDuration = spinLong->value();
+
+	std::tie(maxTomatoes, finishTime) = Utility::count_possible_repetitions(workDuration,
+			shortDuration,
+			longDuration,
+			QTime::currentTime());
+
+	max_tomatoes_label->setText("You can do " + QString::number(maxTomatoes)
+		+ " Tomatoes till " + finishTime.toString("hh:mm"));
 }
 
 
@@ -68,4 +97,9 @@ void SettingsDialog::slotAccept()
 void SettingsDialog::slotReject()
 {
 	reject();
+}
+
+void SettingsDialog::slotParametersChanged()
+{
+	setLabelMaxRepetitions();
 }
