@@ -12,25 +12,25 @@ std::pair<int, QTime> Utility::count_possible_repetitions(int pomidoroDuration, 
 	int remainHours = 23 - hour;
 	int remainMinutes = 60 - minute;
 
-	int totalRemainMinutes = remainHours * 60 + remainMinutes;
+	int totalDurationMinutes = remainHours * 60 + remainMinutes;
 
-	int minutesPerSession = pomidoroDuration * 4 + shortRest * 3 + longRest;
+	int minutesPerTomato = pomidoroDuration * 4 + shortRest * 3 + longRest;
 
-	int tomatoes = 0;
-	tomatoes = totalRemainMinutes / minutesPerSession;
+	int maxTomatoes = 0;
+	maxTomatoes = totalDurationMinutes / minutesPerTomato;
 
-	int totalMinutesForAllPossibleTomatoes = totalRemainMinutes % minutesPerSession;
+	int durationMinutesForMaxTomatoes = totalDurationMinutes % minutesPerTomato;
 
-	int tillHour = totalMinutesForAllPossibleTomatoes / 60;
-	int tillMinutes = totalMinutesForAllPossibleTomatoes % 60;
+	int remainingHours = durationMinutesForMaxTomatoes / 60;
+	int remainingMinutes = durationMinutesForMaxTomatoes % 60;
 
-	int resHour = tillMinutes > 0 ? 23 - tillHour : 24 - tillHour;
-	resHour = resHour == 24 ? 0 : resHour;
+	int finishHour = remainingMinutes > 0 ? 23 - remainingHours : 24 - remainingHours;
+	finishHour %= 24;
 
-	int resMinutes = 60 - tillMinutes;
-	resMinutes = 60 == resMinutes ? 0 : resMinutes;
+	int finishMinute = 60 - remainingMinutes;
+	finishMinute = 60 == finishMinute ? 0 : finishMinute;
 
-	QTime tillTime(resHour, resMinutes);
+	QTime finishTime(finishHour, finishMinute);
 
-	return std::make_pair(tomatoes, tillTime);
+	return std::make_pair(maxTomatoes, finishTime);
 }
