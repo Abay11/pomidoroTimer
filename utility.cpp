@@ -34,3 +34,16 @@ std::pair<int, QTime> Utility::count_possible_repetitions(int pomidoroDuration, 
 
 	return std::make_pair(maxTomatoes, finishTime);
 }
+
+QTime Utility::next_completion(int pomidoroDuration, int shortRest, QTime time)
+{
+	int total_minutes = 4 * pomidoroDuration + 3 * shortRest;
+	int hours = total_minutes / 60;
+	int remainder_minutes = total_minutes % 60;
+
+	int res_minutes = (time.minute() + remainder_minutes) % 60;
+	int res_hours = (time.hour() + hours + (time.minute() + remainder_minutes) / 60) % 24;
+
+	return QTime(res_hours,
+			res_minutes);
+}
