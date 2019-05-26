@@ -14,6 +14,7 @@ SettingsDialog::SettingsDialog(int* w,
 	, preps(r)
 	, pturnLongRest(turnLongRest)
 	, pshowAgain(showAgain)
+	, next_tomato_completion(new QLabel)
 	, max_tomatoes_label(new QLabel)
 {
 	spinWork = new QSpinBox();
@@ -43,6 +44,7 @@ SettingsDialog::SettingsDialog(int* w,
 	pflay->addRow(new QLabel("Reps count"), spinReps);
 	pflay->addRow(new QLabel("Automatically start new pomidoro"), pchturnLongRest);
 	pflay->addRow(new QLabel("Don't show request's dialog each time"), pchshowAgain);
+	pflay->addRow(next_tomato_completion);
 	pflay->addRow(max_tomatoes_label);
 	pflay->addRow(pcmdOk, pcmdCancel);
 
@@ -60,11 +62,11 @@ void SettingsDialog::showEvent(QShowEvent* event)
 {
 	QWidget::showEvent(event);
 
-	setLabelMaxRepetitions();
+	setInfoLabels();
 	qDebug() << "showEvent";
 }
 
-void SettingsDialog::setLabelMaxRepetitions()
+void SettingsDialog::setInfoLabels()
 {
 	int maxTomatoes;
 	QTime finishTime;
@@ -77,6 +79,9 @@ void SettingsDialog::setLabelMaxRepetitions()
 			shortDuration,
 			longDuration,
 			QTime::currentTime());
+
+	next_tomato_completion->setText("If start now you will complete a session at "
+		+ Utility::next_completion(workDuration, shortDuration).toString("hh:mm"));
 
 	max_tomatoes_label->setText("You can do " + QString::number(maxTomatoes)
 		+ " Tomatoes till " + finishTime.toString("hh:mm"));
@@ -101,5 +106,5 @@ void SettingsDialog::slotReject()
 
 void SettingsDialog::slotParametersChanged()
 {
-	setLabelMaxRepetitions();
+	setInfoLabels();
 }

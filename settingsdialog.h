@@ -32,7 +32,7 @@ protected:
 	void showEvent(QShowEvent* event) override;
 
 private:
-	void setLabelMaxRepetitions();
+	void setInfoLabels();
 
 
 	int* pwork;
@@ -49,6 +49,8 @@ private:
 	QCheckBox* pchturnLongRest, *pchshowAgain;
 
 	QPushButton* pcmdOk, *pcmdCancel;
+
+	QLabel* next_tomato_completion;
 
 	QLabel* max_tomatoes_label;
 
