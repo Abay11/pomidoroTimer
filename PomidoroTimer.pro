@@ -29,13 +29,17 @@ SOURCES += \
     tomato.cpp \
     settingsdialog.cpp \
     requestdialog.cpp \
-    utility.cpp
+    utility.cpp \
+    abstractstate.cpp \
+    concretestates.cpp
 
 HEADERS += \
     tomato.h \
     settingsdialog.h \
     requestdialog.h \
-    utility.h
+    utility.h \
+    abstractstate.h \
+    concretestates.h
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin
