@@ -26,20 +26,20 @@ CONFIG += c++11
 
 SOURCES += \
         main.cpp \
-    tomato.cpp \
     settingsdialog.cpp \
     requestdialog.cpp \
     utility.cpp \
-    abstractstate.cpp \
-    concretestates.cpp
+    concretestates.cpp \
+    state.cpp \
+    pomidoro.cpp
 
 HEADERS += \
-    tomato.h \
     settingsdialog.h \
     requestdialog.h \
     utility.h \
-    abstractstate.h \
-    concretestates.h
+    concretestates.h \
+    state.h \
+    pomidoro.h
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin

@@ -1,10 +1,10 @@
 #include <QApplication>
-#include <tomato.h>
+#include <pomidoro.h>
 
 int main(int argc, char *argv[])
 {
  QApplication a(argc, argv);
- Tomato w(&a);
+ Pomidoro w(&a);
 
  return a.exec();
 }

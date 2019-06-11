@@ -1,13 +1,13 @@
-#include "tomato.h"
+#include "pomidoro.h"
 
-void Tomato::updateInfo()
+void Pomidoro::updateInfo()
 {
 	display->setText(time->toString("mm:ss"));
 	tray->setToolTip(time->toString("mm:ss"));
 	rounds->setText(QString("%1/%2. Total: %3").arg(round % reps).arg(reps).arg(total));
 }
 
-void Tomato::saveSettings()
+void Pomidoro::saveSettings()
 {
 	QFile file("data.bin");
 
@@ -23,7 +23,7 @@ void Tomato::saveSettings()
 	}
 }
 
-void Tomato::restoreSettings()
+void Pomidoro::restoreSettings()
 {
 	QFile file("data.bin");
 
@@ -35,7 +35,7 @@ void Tomato::restoreSettings()
 	}
 }
 
-Tomato::Tomato(QObject* p)
+Pomidoro::Pomidoro(QObject* p)
 	: QObject(p)
 	, tray(new QSystemTrayIcon(QIcon(":/Icons/gray.png"), this))
 	, menu(new QMenu)
@@ -48,6 +48,12 @@ Tomato::Tomato(QObject* p)
 	, timer(new QTimer(this))
 	, time(new QTime)
 	, player(new QSound(":/Sounds/birds.wav"))
+	, inactiveState(new Inactive(reps, this))
+	, activeState(new Active(reps, this))
+	, pausedState(new Paused(reps, this))
+	, shortRestState(new ShortRest(reps, this))
+	, longRestState(new LongRest(reps, this))
+	, state(inactiveState)
 {
 	restoreSettings();
 	updateInfo();
@@ -73,13 +79,21 @@ Tomato::Tomato(QObject* p)
 	qApp->setQuitOnLastWindowClosed(false);
 }
 
-Tomato::~Tomato()
+Pomidoro::~Pomidoro()
 {
 	saveSettings();
+
+	delete inactiveState;
+	delete activeState;
+	delete pausedState;
+	delete shortRestState;
+	delete longRestState;
 }
 
-void Tomato::slotStart()
+void Pomidoro::slotStart()
 {
+	state->start();
+	/*
 	if(start->text() == "Start")
 	{
 		time->setHMS(0, workDuration, 0);
@@ -101,15 +115,17 @@ void Tomato::slotStart()
 	}
 
 	tray->setIcon(QIcon(":/Icons/red.png"));
+	*/
 }
 
-void Tomato::slotPause()
+void Pomidoro::slotPause()
 {
-
+	state->pause();
 }
 
-void Tomato::slotReset()
+void Pomidoro::slotReset()
 {
+	/*
 	switch(type)
 	{
 		case WORK:
@@ -126,10 +142,13 @@ void Tomato::slotReset()
 	}
 
 	updateInfo();
+	*/
 }
 
-void Tomato::slotStop()
+void Pomidoro::slotStop()
 {
+	state->stop();
+	/*
 	qDebug() << "STOP";
 	timer->stop();
 	type = WORK;
@@ -138,10 +157,10 @@ void Tomato::slotStop()
 	updateInfo();
 	start->setText("Start");
 	tray->setIcon(QIcon(":/Icons/gray.png"));
-}
+	}
 
-void Tomato::slotUpdate()
-{
+	void Pomidoro::slotUpdate()
+	{
 	if(time->minute() > 0 || time->second() > 0)
 	{
 		*time = time->addSecs(-1);
@@ -204,9 +223,15 @@ void Tomato::slotUpdate()
 
 	updateInfo();
 	qDebug() << time->toString("mm:ss");
+	*/
 }
 
-void Tomato::slotOpenSettings()
+void Pomidoro::slotTimerElapsed()
+{
+	state->timerElapsed();
+}
+
+void Pomidoro::slotOpenSettings()
 {
 	qDebug() << workDuration;
 	SettingsDialog* pdialog = new SettingsDialog(&workDuration,

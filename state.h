@@ -3,13 +3,13 @@
 
 class Pomidoro;
 
-class AbstractState
+class State
 {
 
 public:
-	AbstractState(int repetitions, Pomidoro* context);
+	State(int repetitions, Pomidoro* context);
 
-	~AbstractState();
+	virtual ~State();
 
 	virtual void start();
 

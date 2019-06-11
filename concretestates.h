@@ -1,68 +1,68 @@
 #ifndef CONCRETESTATES_H
 #define CONCRETESTATES_H
 
-#include "abstractstate.h"
+#include "state.h"
 
 class Pomidoro;
 
-class Inactive : public AbstractState
+class Inactive : public State
 {
 	// AbstractState interface
 public:
 	Inactive(int reps, Pomidoro* context);
-	~Inactive();
+	virtual ~Inactive();
 
 	void start() override;
 };
 
-class Active : public AbstractState
+class Active : public State
 {
+public:
 	Active(int reps, Pomidoro* context);
-	~Active();
+	virtual ~Active();
 
 	// AbstractState interface
-public:
 	void pause() override;
 	void reset() override;
 	void stop() override;
 	void timerElapsed() override;
 };
 
-class Paused : public AbstractState
+class Paused : public State
 {
+public:
 	Paused(int reps, Pomidoro* context);
-	~Paused();
+	virtual ~Paused();
 
 	// AbstractState interface
-public:
 	void start() override;
 	void reset() override;
 	void stop() override;
 	void timerElapsed() override;
 };
 
-class ShortRest : public AbstractState
+class ShortRest : public State
 {
 
+public:
 	ShortRest(int reps, Pomidoro* context);
-	~ShortRest();
+	virtual ~ShortRest();
 
 	// AbstractState interface
-public:
 	void pause() override;
 	void reset() override;
 	void stop() override;
 	void timerElapsed() override;
 };
 
-class LongRest : public AbstractState
+class LongRest : public State
 {
 
+public:
 	LongRest(int reps, Pomidoro* context);
-	~LongRest();
+	virtual ~LongRest();
 
 	// AbstractState interface
-public:
 	void pause() override;
 	void reset() override;
 	void stop() override;

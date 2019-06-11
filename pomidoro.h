@@ -13,10 +13,11 @@
 
 #include "settingsdialog.h"
 #include "requestdialog.h"
+#include "concretestates.h"
 
 const QString VERSION = "v1.3";
 
-class Tomato: public QObject
+class Pomidoro: public QObject
 {
 	Q_OBJECT
 private:
@@ -45,20 +46,28 @@ private:
 
 	enum TYPE {WORK = 0, SHORTREST, LONGREST} type = WORK;
 
+	State* inactiveState;
+	State* activeState;
+	State* pausedState;
+	State* shortRestState;
+	State* longRestState;
+	State* state;
+
 	void updateInfo();
 	void saveSettings();
 	void restoreSettings();
 
 public:
-	Tomato(QObject* p = nullptr);
-	~Tomato();
+	Pomidoro(QObject* p = nullptr);
+	~Pomidoro();
 
 private slots:
 	void slotStart();
 	void slotPause();
 	void slotReset();
 	void slotStop();
-	void slotUpdate();
+	void slotTimerElapsed();
+	//	void slotUpdate();
 
 	void slotOpenSettings();
 };
