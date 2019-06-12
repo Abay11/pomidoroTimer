@@ -19,7 +19,7 @@ class Active : public State
 {
 public:
 	Active(int reps, Pomidoro* context);
-	virtual ~Active();
+	virtual ~Active() override;
 
 	// AbstractState interface
 	void pause() override;
@@ -32,7 +32,7 @@ class Paused : public State
 {
 public:
 	Paused(int reps, Pomidoro* context);
-	virtual ~Paused();
+	virtual ~Paused() override;
 
 	// AbstractState interface
 	void start() override;
@@ -46,7 +46,7 @@ class ShortRest : public State
 
 public:
 	ShortRest(int reps, Pomidoro* context);
-	virtual ~ShortRest();
+	virtual ~ShortRest() override;
 
 	// AbstractState interface
 	void pause() override;
@@ -60,7 +60,7 @@ class LongRest : public State
 
 public:
 	LongRest(int reps, Pomidoro* context);
-	virtual ~LongRest();
+	virtual ~LongRest() override;
 
 	// AbstractState interface
 	void pause() override;

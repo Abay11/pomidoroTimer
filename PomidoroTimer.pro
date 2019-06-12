@@ -31,7 +31,8 @@ SOURCES += \
     utility.cpp \
     concretestates.cpp \
     state.cpp \
-    pomidoro.cpp
+    pomidoro.cpp \
+    trayui.cpp
 
 HEADERS += \
     settingsdialog.h \
@@ -39,7 +40,8 @@ HEADERS += \
     utility.h \
     concretestates.h \
     state.h \
-    pomidoro.h
+    pomidoro.h \
+    trayui.h
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin

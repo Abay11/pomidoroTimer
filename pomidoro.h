@@ -1,38 +1,30 @@
 #ifndef TOMATO_H
 #define TOMATO_H
 
-#include <QSystemTrayIcon>
-#include <QMenu>
-#include <QApplication>
-#include <QDebug>
-#include <QTimer>
-#include <QTime>
-#include <QFile>
-#include <QDataStream>
-#include <QSound>
+class TrayUI;
 
 #include "settingsdialog.h"
 #include "requestdialog.h"
 #include "concretestates.h"
 
-const QString VERSION = "v1.3";
 
 class Pomidoro: public QObject
 {
 	Q_OBJECT
+public:
+	Pomidoro(TrayUI* ui_instance);
+
+	~Pomidoro();
+
+	int getWorkDuration() const;
+
+	void setWorkDuration(int value);
+
 private:
-	QSystemTrayIcon* tray;
-	QMenu* menu;
-	QAction* display;
-	QAction* rounds;
-	QAction* start;
-	QAction* reset;
-	QAction* stop;
-	QAction* version;
+	TrayUI* ui_;
 	QTimer* timer;
 	QTime* time;
-	QSound* player;
-
+	//	QSound* player;
 
 	int	workDuration = 20;
 	int shortRestDuration = 5;
@@ -56,20 +48,6 @@ private:
 	void updateInfo();
 	void saveSettings();
 	void restoreSettings();
-
-public:
-	Pomidoro(QObject* p = nullptr);
-	~Pomidoro();
-
-private slots:
-	void slotStart();
-	void slotPause();
-	void slotReset();
-	void slotStop();
-	void slotTimerElapsed();
-	//	void slotUpdate();
-
-	void slotOpenSettings();
 };
 
 #endif // TOMATO_H

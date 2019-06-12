@@ -1,10 +1,10 @@
 #include <QApplication>
 #include <pomidoro.h>
 
-int main(int argc, char *argv[])
+int main(int argc, char* argv[])
 {
- QApplication a(argc, argv);
- Pomidoro w(&a);
+	QApplication a(argc, argv);
+	// Pomidoro w(&a);
 
- return a.exec();
+	return a.exec();
 }

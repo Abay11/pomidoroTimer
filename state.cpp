@@ -6,6 +6,11 @@ State::State(int reps, Pomidoro* context)
 {
 }
 
+State::~State()
+{
+
+}
+
 void State::start()
 {
 

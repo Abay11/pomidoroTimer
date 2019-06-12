@@ -12,6 +12,8 @@ public:
 	~Test();
 
 private slots:
+	void test_main_logic0();
+
 	void test_count_possible_repetitions0();
 	void test_count_possible_repetitions1();
 	void test_count_possible_repetitions2();
@@ -31,6 +33,11 @@ Test::Test()
 }
 
 Test::~Test()
+{
+
+}
+
+void Test::test_main_logic0()
 {
 
 }

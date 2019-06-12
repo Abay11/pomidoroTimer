@@ -4,6 +4,8 @@ Utility::Utility()
 {
 }
 
+const QString Utility::VERSION = "1.3";
+
 std::pair<int, QTime> Utility::count_possible_repetitions(int pomidoroDuration, int shortRest, int longRest, QTime time)
 {
 	int hour = time.hour();
@@ -47,3 +49,4 @@ QTime Utility::next_completion(int pomidoroDuration, int shortRest, QTime time)
 	return QTime(res_hours,
 			res_minutes);
 }
+
