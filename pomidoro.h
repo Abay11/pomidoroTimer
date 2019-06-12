@@ -1,11 +1,17 @@
 #ifndef TOMATO_H
 #define TOMATO_H
 
-class TrayUI;
 
 #include "settingsdialog.h"
 #include "requestdialog.h"
 #include "concretestates.h"
+
+#include <QObject>
+
+class TrayUI;
+class State;
+
+class QTimer;
 
 
 class Pomidoro: public QObject

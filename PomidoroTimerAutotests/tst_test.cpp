@@ -3,6 +3,8 @@
 // add necessary includes here
 #include "../utility.h"
 
+#include "../pomidoro.h"
+
 class Test : public QObject
 {
 	Q_OBJECT
@@ -39,7 +41,8 @@ Test::~Test()
 
 void Test::test_main_logic0()
 {
-
+	//	TrayUI* tr;
+	Pomidoro* pomidoro = new Pomidoro(nullptr);
 }
 
 void Test::test_count_possible_repetitions0()
