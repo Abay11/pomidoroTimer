@@ -5,9 +5,10 @@ class Pomidoro;
 
 class State
 {
-
 public:
-	State(int repetitions, Pomidoro* context);
+	enum class STATES;
+
+	State(int repetitions, STATES s, Pomidoro* context);
 
 	virtual ~State();
 
@@ -21,10 +22,18 @@ public:
 
 	virtual void timerElapsed();
 
-private:
+	STATES type() const;
+
+	enum class STATES {INACTIVE, ACTIVE, PAUSED, SHORT_REST, LONG_REST};
+
+protected:
 	Pomidoro* context;
 
+private:
+
 	int repetitions;
+
+	const STATES type_;
 };
 
 #endif // ABSTRACTSTATE_H
