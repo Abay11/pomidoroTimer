@@ -13,7 +13,6 @@ class State;
 
 class QTimer;
 
-
 class Pomidoro: public QObject
 {
 	Q_OBJECT
@@ -24,7 +23,38 @@ public:
 
 	int getWorkDuration() const;
 
-	void setWorkDuration(int value);
+	void setWorkDuration(int minutes);
+
+
+	State* getState();
+
+	void setShortRestDuration(int value);
+
+	void setLongRestDuration(int value);
+
+	void setReps(int value);
+
+	State* getInactiveState();
+
+	State* getActiveState();
+
+	State* getPausedState();
+
+	State* getShortRestState();
+
+	State* getLongRestState();
+
+	void setNewState(State* state);
+
+public slots:
+
+	void slotStart();
+
+	void slotPause();
+
+	void slotStop();
+
+	void slotReset();
 
 private:
 	TrayUI* ui_;
@@ -49,7 +79,7 @@ private:
 	State* pausedState;
 	State* shortRestState;
 	State* longRestState;
-	State* state;
+	State* state_;
 
 	void updateInfo();
 	void saveSettings();

@@ -12,6 +12,76 @@ void Pomidoro::setWorkDuration(int value)
 	workDuration = value;
 }
 
+State* Pomidoro::getState()
+{
+	return state_;
+}
+
+void Pomidoro::setShortRestDuration(int value)
+{
+	shortRestDuration = value;
+}
+
+void Pomidoro::setLongRestDuration(int value)
+{
+	longRestDuration = value;
+}
+
+void Pomidoro::setReps(int value)
+{
+	reps = value;
+}
+
+void Pomidoro::slotStart()
+{
+	state_->start();
+}
+
+void Pomidoro::slotPause()
+{
+	state_->pause();
+}
+
+void Pomidoro::slotStop()
+{
+	state_->stop();
+}
+
+void Pomidoro::slotReset()
+{
+	state_->reset();
+}
+
+State* Pomidoro::getLongRestState()
+{
+	return longRestState;
+}
+
+void Pomidoro::setNewState(State* state)
+{
+	state_ = state;
+}
+
+State* Pomidoro::getShortRestState()
+{
+	return shortRestState;
+}
+
+State* Pomidoro::getPausedState()
+{
+	return pausedState;
+}
+
+State* Pomidoro::getActiveState()
+{
+	return activeState;
+}
+
+State* Pomidoro::getInactiveState()
+{
+	return inactiveState;
+}
+
 void Pomidoro::updateInfo()
 {
 	//	ui_.
@@ -56,7 +126,7 @@ Pomidoro::Pomidoro(TrayUI* ui)
 	, pausedState(new Paused(reps, this))
 	, shortRestState(new ShortRest(reps, this))
 	, longRestState(new LongRest(reps, this))
-	, state(inactiveState)
+	, state_(inactiveState)
 {
 	restoreSettings();
 	updateInfo();
