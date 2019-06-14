@@ -5,6 +5,8 @@
 
 #include "../pomidoro.h"
 
+#include "../state.h"
+
 class Test : public QObject
 {
 	Q_OBJECT
@@ -15,6 +17,8 @@ public:
 
 private slots:
 	void test_main_logic0();
+	void test_main_logic1();
+	void test_main_logic2();
 
 	void test_count_possible_repetitions0();
 	void test_count_possible_repetitions1();
@@ -41,8 +45,46 @@ Test::~Test()
 
 void Test::test_main_logic0()
 {
-	//	TrayUI* tr;
 	Pomidoro* pomidoro = new Pomidoro(nullptr);
+
+	QCOMPARE(pomidoro->getActiveState()->type(), State::STATES::ACTIVE);
+	QCOMPARE(pomidoro->getInactiveState()->type(), State::STATES::INACTIVE);
+	QCOMPARE(pomidoro->getPausedState()->type(), State::STATES::PAUSED);
+	QCOMPARE(pomidoro->getShortRestState()->type(), State::STATES::SHORT_REST);
+	QCOMPARE(pomidoro->getLongRestState()->type(), State::STATES::LONG_REST);
+
+	delete pomidoro;
+}
+
+void Test::test_main_logic1()
+{
+	Pomidoro* pomidoro = new Pomidoro(nullptr);
+	QCOMPARE(pomidoro->getState()->type(), State::STATES::INACTIVE);
+
+	delete pomidoro;
+}
+
+void Test::test_main_logic2()
+{
+	Pomidoro* pomidoro = new Pomidoro(nullptr);
+
+	pomidoro->slotStart();
+
+	QCOMPARE(pomidoro->getState()->type(), State::STATES::ACTIVE);
+
+	pomidoro->slotPause();
+
+	QCOMPARE(pomidoro->getState()->type(), State::STATES::PAUSED);
+
+	pomidoro->slotStart();
+
+	QCOMPARE(pomidoro->getState()->type(), State::STATES::ACTIVE);
+
+	pomidoro->slotStop();
+
+	QCOMPARE(pomidoro->getState()->type(), State::STATES::INACTIVE);
+
+	delete pomidoro;
 }
 
 void Test::test_count_possible_repetitions0()
