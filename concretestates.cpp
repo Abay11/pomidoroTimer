@@ -1,23 +1,20 @@
 #include "concretestates.h"
 
+#include "pomidoro.h"
+
 Inactive::Inactive(int reps, Pomidoro* context)
-	: State(reps, context)
-{
-
-}
-
-Inactive::~Inactive()
+	: State(reps, STATES::INACTIVE, context)
 {
 
 }
 
 void Inactive::start()
 {
-
+	context->setNewState(context->getActiveState());
 }
 
 Active::Active(int reps, Pomidoro* context)
-	: State(reps, context)
+	: State(reps, STATES::ACTIVE, context)
 {
 
 }
@@ -29,7 +26,7 @@ Active::~Active()
 
 void Active::pause()
 {
-
+	context->setNewState(context->getPausedState());
 }
 
 void Active::reset()
@@ -39,7 +36,7 @@ void Active::reset()
 
 void Active::stop()
 {
-
+	context->setNewState(context->getInactiveState());
 }
 
 void Active::timerElapsed()
@@ -48,7 +45,7 @@ void Active::timerElapsed()
 }
 
 Paused::Paused(int reps, Pomidoro* context)
-	: State(reps, context)
+	: State(reps, STATES::PAUSED, context)
 {
 
 }
@@ -60,7 +57,7 @@ Paused::~Paused()
 
 void Paused::start()
 {
-
+	context->setNewState(context->getActiveState());
 }
 
 void Paused::reset()
@@ -79,7 +76,7 @@ void Paused::timerElapsed()
 }
 
 ShortRest::ShortRest(int reps, Pomidoro* context)
-	: State(reps, context)
+	: State(reps, STATES::SHORT_REST, context)
 {
 }
 
@@ -109,7 +106,7 @@ void ShortRest::timerElapsed()
 }
 
 LongRest::LongRest(int reps, Pomidoro* context)
-	: State(reps, context)
+	: State(reps, STATES::LONG_REST, context)
 {
 
 }
