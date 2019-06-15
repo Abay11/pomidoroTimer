@@ -1,5 +1,9 @@
 #include "state.h"
 
+#include <QString>
+
+QString State::log;
+
 State::State(int reps, STATES type, Pomidoro* context)
 	: context(context),
 		repetitions(reps),
@@ -9,6 +13,7 @@ State::State(int reps, STATES type, Pomidoro* context)
 
 State::~State()
 {
+	//	delete log;
 }
 
 //default ignore commands
@@ -35,4 +40,42 @@ void State::timerElapsed()
 State::STATES State::type() const
 {
 	return type_;
+}
+
+QString State::getLog() const
+{
+	return log;
+}
+
+void State::doLog()
+{
+	QString toString;
+
+	switch(type_)
+	{
+		case STATES::INACTIVE:
+			toString = "INACTIVE";
+			break;
+
+		case STATES::ACTIVE:
+			toString = "ACTIVE";
+			break;
+
+		case STATES::PAUSED:
+			toString = "PAUSED";
+			break;
+
+		case STATES::SHORT_REST:
+			toString = "SHORT_REST";
+			break;
+
+		case STATES::LONG_REST:
+			toString = "LONG_REST";
+			break;
+	}
+
+	if(!log.isEmpty())
+		log.append("->");
+
+	log.append(toString);
 }

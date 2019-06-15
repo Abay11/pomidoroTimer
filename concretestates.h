@@ -18,7 +18,6 @@ class Active : public State
 {
 public:
 	Active(int reps, Pomidoro* context);
-	virtual ~Active() override;
 
 	// AbstractState interface
 	void pause() override;

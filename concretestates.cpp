@@ -5,23 +5,20 @@
 Inactive::Inactive(int reps, Pomidoro* context)
 	: State(reps, STATES::INACTIVE, context)
 {
-
 }
 
 void Inactive::start()
 {
+	doLog();
+
 	context->setNewState(context->getActiveState());
+
+	context->startTimer(context->getWorkDuration());
 }
 
 Active::Active(int reps, Pomidoro* context)
 	: State(reps, STATES::ACTIVE, context)
 {
-
-}
-
-Active::~Active()
-{
-
 }
 
 void Active::pause()
@@ -41,7 +38,9 @@ void Active::stop()
 
 void Active::timerElapsed()
 {
+	doLog();
 
+	context->setNewState(context->getInactiveState());
 }
 
 Paused::Paused(int reps, Pomidoro* context)

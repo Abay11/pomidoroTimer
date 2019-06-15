@@ -2,6 +2,43 @@
 
 #include "trayui.h"
 
+#include <QTimer>
+
+
+Pomidoro::Pomidoro(TrayUI* ui)
+	: QObject(ui)
+	, timer(new QTimer)
+	, inactiveState(new Inactive(reps_, this))
+	, activeState(new Active(reps_, this))
+	, pausedState(new Paused(reps_, this))
+	, shortRestState(new ShortRest(reps_, this))
+	, longRestState(new LongRest(reps_, this))
+	, state_(inactiveState)
+{
+	restoreSettings();
+	updateInfo();
+
+	//	connect(start, SIGNAL(triggered()), SLOT(slotStart()));
+	//	connect(reset, SIGNAL(triggered()), SLOT(slotReset()));
+	//	connect(stop, SIGNAL(triggered()), SLOT(slotStop()));
+	connect(timer, SIGNAL(timeout()), SLOT(slotTimeOut()));
+
+	qApp->setQuitOnLastWindowClosed(false);
+}
+
+Pomidoro::~Pomidoro()
+{
+	saveSettings();
+
+	delete timer;
+
+	delete inactiveState;
+	delete activeState;
+	delete pausedState;
+	delete shortRestState;
+	delete longRestState;
+}
+
 int Pomidoro::getWorkDuration() const
 {
 	return work_;
@@ -15,6 +52,11 @@ int Pomidoro::getRestDuration() const
 int Pomidoro::getLongRestDuration() const
 {
 	return long_rest_;
+}
+
+int Pomidoro::getReps() const
+{
+	return reps_;
 }
 
 void Pomidoro::setDurations(int work, int rest, int long_rest)
@@ -71,6 +113,11 @@ void Pomidoro::slotReset()
 	state_->reset();
 }
 
+void Pomidoro::slotTimeOut()
+{
+	state_->timerElapsed();
+}
+
 State* Pomidoro::getLongRestState()
 {
 	return longRestState;
@@ -79,6 +126,11 @@ State* Pomidoro::getLongRestState()
 void Pomidoro::setNewState(State* state)
 {
 	state_ = state;
+}
+
+void Pomidoro::startTimer(int min)
+{
+	timer->start(min * 1000);
 }
 
 State* Pomidoro::getShortRestState()
@@ -136,38 +188,6 @@ void Pomidoro::restoreSettings()
 	//			>> reps >> turnLongRest >> showAgainDialog;
 	//	}
 }
-
-Pomidoro::Pomidoro(TrayUI* ui)
-	: QObject(ui)
-	, inactiveState(new Inactive(reps_, this))
-	, activeState(new Active(reps_, this))
-	, pausedState(new Paused(reps_, this))
-	, shortRestState(new ShortRest(reps_, this))
-	, longRestState(new LongRest(reps_, this))
-	, state_(inactiveState)
-{
-	restoreSettings();
-	updateInfo();
-
-	//	connect(start, SIGNAL(triggered()), SLOT(slotStart()));
-	//	connect(reset, SIGNAL(triggered()), SLOT(slotReset()));
-	//	connect(stop, SIGNAL(triggered()), SLOT(slotStop()));
-	//	connect(timer, SIGNAL(timeout()), SLOT(slotUpdate()));
-
-	qApp->setQuitOnLastWindowClosed(false);
-}
-
-Pomidoro::~Pomidoro()
-{
-	saveSettings();
-
-	delete inactiveState;
-	delete activeState;
-	delete pausedState;
-	delete shortRestState;
-	delete longRestState;
-}
-
 /*
 void Pomidoro::slotStart()
 {

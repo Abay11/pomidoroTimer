@@ -3,6 +3,8 @@
 
 class Pomidoro;
 
+class QString;
+
 class State
 {
 public:
@@ -26,8 +28,15 @@ public:
 
 	enum class STATES {INACTIVE, ACTIVE, PAUSED, SHORT_REST, LONG_REST};
 
+	QString getLog() const;
+
+	virtual void doLog();
+
 protected:
 	Pomidoro* context;
+
+	//for the tests to check workflow
+	static QString log;
 
 private:
 

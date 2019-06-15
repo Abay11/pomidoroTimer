@@ -27,6 +27,8 @@ public:
 
 	int getLongRestDuration() const;
 
+	int getReps() const;
+
 	void setDurations(int work, int rest, int long_rest);
 
 	void setWorkDuration(int min);
@@ -51,6 +53,8 @@ public:
 
 	void setNewState(State* state);
 
+	void startTimer(int min);
+
 public slots:
 
 	void slotStart();
@@ -60,6 +64,10 @@ public slots:
 	void slotStop();
 
 	void slotReset();
+
+private slots:
+
+	void slotTimeOut();
 
 signals:
 	//	void
