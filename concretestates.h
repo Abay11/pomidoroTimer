@@ -10,7 +10,6 @@ class Inactive : public State
 	// AbstractState interface
 public:
 	Inactive(int reps, Pomidoro* context);
-	virtual ~Inactive();
 
 	void start() override;
 };
