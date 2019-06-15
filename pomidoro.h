@@ -23,6 +23,10 @@ public:
 
 	int getWorkDuration() const;
 
+	int getRestDuration() const;
+
+	int getLongRestDuration() const;
+
 	void setDurations(int work, int rest, int long_rest);
 
 	void setWorkDuration(int min);

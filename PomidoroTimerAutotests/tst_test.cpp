@@ -19,6 +19,8 @@ private slots:
 	void test_main_logic0();
 	void test_main_logic1();
 	void test_main_logic2();
+	void test_main_logic3();
+	void test_main_logic4();
 
 	void test_count_possible_repetitions0();
 	void test_count_possible_repetitions1();
@@ -85,6 +87,46 @@ void Test::test_main_logic2()
 	QCOMPARE(pomidoro->getState()->type(), State::STATES::INACTIVE);
 
 	delete pomidoro;
+}
+
+void Test::test_main_logic3()
+{
+	Pomidoro* pomidoro = new Pomidoro(nullptr);
+
+	int work = 4;
+	int rest = 12;
+	int lrest = 33;
+
+
+	pomidoro->setDurations(work, rest, lrest);
+
+	QCOMPARE(pomidoro->getWorkDuration(), work);
+	QCOMPARE(pomidoro->getRestDuration(), rest);
+	QCOMPARE(pomidoro->getLongRestDuration(), lrest);
+
+	work = 643;
+	rest = 462;
+	lrest = 907;
+
+	pomidoro->setWorkDuration(work);
+	pomidoro->setShortRestDuration(rest);
+	pomidoro->setLongRestDuration(lrest);
+
+	QCOMPARE(pomidoro->getWorkDuration(), work);
+	QCOMPARE(pomidoro->getRestDuration(), rest);
+	QCOMPARE(pomidoro->getLongRestDuration(), lrest);
+
+	delete pomidoro;
+}
+
+void Test::test_main_logic4()
+{
+	Pomidoro* pomidoro = new Pomidoro(nullptr);
+
+
+
+	delete pomidoro;
+
 }
 
 void Test::test_count_possible_repetitions0()

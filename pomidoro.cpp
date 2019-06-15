@@ -7,6 +7,16 @@ int Pomidoro::getWorkDuration() const
 	return work_;
 }
 
+int Pomidoro::getRestDuration() const
+{
+	return rest_;
+}
+
+int Pomidoro::getLongRestDuration() const
+{
+	return long_rest_;
+}
+
 void Pomidoro::setDurations(int work, int rest, int long_rest)
 {
 	work_ = work;
@@ -129,7 +139,6 @@ void Pomidoro::restoreSettings()
 
 Pomidoro::Pomidoro(TrayUI* ui)
 	: QObject(ui)
-	, ui_(ui)
 	, inactiveState(new Inactive(reps_, this))
 	, activeState(new Active(reps_, this))
 	, pausedState(new Paused(reps_, this))
