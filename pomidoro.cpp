@@ -4,12 +4,21 @@
 
 int Pomidoro::getWorkDuration() const
 {
-	return workDuration;
+	return work_;
 }
 
-void Pomidoro::setWorkDuration(int value)
+void Pomidoro::setDurations(int work, int rest, int long_rest)
 {
-	workDuration = value;
+	work_ = work;
+
+	rest_ = rest;
+
+	long_rest_ = long_rest;
+}
+
+void Pomidoro::setWorkDuration(int min)
+{
+	work_ = min;
 }
 
 State* Pomidoro::getState()
@@ -17,19 +26,19 @@ State* Pomidoro::getState()
 	return state_;
 }
 
-void Pomidoro::setShortRestDuration(int value)
+void Pomidoro::setShortRestDuration(int min)
 {
-	shortRestDuration = value;
+	rest_ = min;
 }
 
-void Pomidoro::setLongRestDuration(int value)
+void Pomidoro::setLongRestDuration(int min)
 {
-	longRestDuration = value;
+	long_rest_ = min;
 }
 
 void Pomidoro::setReps(int value)
 {
-	reps = value;
+	reps_ = value;
 }
 
 void Pomidoro::slotStart()
@@ -121,11 +130,11 @@ void Pomidoro::restoreSettings()
 Pomidoro::Pomidoro(TrayUI* ui)
 	: QObject(ui)
 	, ui_(ui)
-	, inactiveState(new Inactive(reps, this))
-	, activeState(new Active(reps, this))
-	, pausedState(new Paused(reps, this))
-	, shortRestState(new ShortRest(reps, this))
-	, longRestState(new LongRest(reps, this))
+	, inactiveState(new Inactive(reps_, this))
+	, activeState(new Active(reps_, this))
+	, pausedState(new Paused(reps_, this))
+	, shortRestState(new ShortRest(reps_, this))
+	, longRestState(new LongRest(reps_, this))
 	, state_(inactiveState)
 {
 	restoreSettings();

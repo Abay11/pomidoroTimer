@@ -23,14 +23,15 @@ public:
 
 	int getWorkDuration() const;
 
-	void setWorkDuration(int minutes);
+	void setDurations(int work, int rest, int long_rest);
 
+	void setWorkDuration(int min);
+
+	void setShortRestDuration(int min);
+
+	void setLongRestDuration(int min);
 
 	State* getState();
-
-	void setShortRestDuration(int value);
-
-	void setLongRestDuration(int value);
 
 	void setReps(int value);
 
@@ -56,18 +57,20 @@ public slots:
 
 	void slotReset();
 
-private:
-	TrayUI* ui_;
-	QTimer* timer;
-	QTime* time;
-	//	QSound* player;
+signals:
+	//	void
 
-	int	workDuration = 20;
-	int shortRestDuration = 5;
-	int longRestDuration  = 15;
-	int reps = 1;
-	int round = 0;
-	int total = 0;
+private:
+	QTimer* timer;
+
+	QTime* time;
+
+	int	work_ = 20;
+	int rest_ = 5;
+	int long_rest_  = 15;
+	int reps_ = 1;
+	int rounds_ = 0;
+	int total_ = 0;
 
 	bool turnLongRest = false;
 	bool showAgainDialog = true;
