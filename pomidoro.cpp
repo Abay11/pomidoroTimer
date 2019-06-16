@@ -18,9 +18,6 @@ Pomidoro::Pomidoro(TrayUI* ui)
 	restoreSettings();
 	updateInfo();
 
-	//	connect(start, SIGNAL(triggered()), SLOT(slotStart()));
-	//	connect(reset, SIGNAL(triggered()), SLOT(slotReset()));
-	//	connect(stop, SIGNAL(triggered()), SLOT(slotStop()));
 	connect(timer, SIGNAL(timeout()), SLOT(slotTimeOut()));
 
 	qApp->setQuitOnLastWindowClosed(false);
