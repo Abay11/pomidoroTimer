@@ -8,11 +8,11 @@
 Pomidoro::Pomidoro(TrayUI* ui)
 	: QObject(ui)
 	, timer(new QTimer)
-	, inactiveState(new Inactive(reps_, this))
-	, activeState(new Active(reps_, this))
-	, pausedState(new Paused(reps_, this))
-	, shortRestState(new ShortRest(reps_, this))
-	, longRestState(new LongRest(reps_, this))
+	, inactiveState(new Inactive(this))
+	, activeState(new Active(this))
+	, pausedState(new Paused(this))
+	, shortRestState(new ShortRest(this))
+	, longRestState(new LongRest(this))
 	, state_(inactiveState)
 {
 	restoreSettings();

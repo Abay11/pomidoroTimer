@@ -4,9 +4,8 @@
 
 QString State::log;
 
-State::State(int reps, STATES type, Pomidoro* context)
+State::State(STATES type, Pomidoro* context)
 	: context(context),
-		repetitions(reps),
 		type_(type)
 {
 }
@@ -47,7 +46,7 @@ QString State::getLog() const
 	return log;
 }
 
-void State::doLog()
+void State::doLog(QString comment)
 {
 	QString toString;
 
@@ -77,5 +76,5 @@ void State::doLog()
 	if(!log.isEmpty())
 		log.append("->");
 
-	log.append(toString);
+	log.append(toString + "::" + comment);
 }

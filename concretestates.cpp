@@ -2,8 +2,8 @@
 
 #include "pomidoro.h"
 
-Inactive::Inactive(int reps, Pomidoro* context)
-	: State(reps, STATES::INACTIVE, context)
+Inactive::Inactive(Pomidoro* context)
+	: State(STATES::INACTIVE, context)
 {
 }
 
@@ -16,8 +16,8 @@ void Inactive::start()
 	context->startTimer(context->getWorkDuration());
 }
 
-Active::Active(int reps, Pomidoro* context)
-	: State(reps, STATES::ACTIVE, context)
+Active::Active(Pomidoro* context)
+	: State(STATES::ACTIVE, context)
 {
 }
 
@@ -43,8 +43,8 @@ void Active::timerElapsed()
 	context->setNewState(context->getInactiveState());
 }
 
-Paused::Paused(int reps, Pomidoro* context)
-	: State(reps, STATES::PAUSED, context)
+Paused::Paused(Pomidoro* context)
+	: State(STATES::PAUSED, context)
 {
 
 }
@@ -74,8 +74,8 @@ void Paused::timerElapsed()
 
 }
 
-ShortRest::ShortRest(int reps, Pomidoro* context)
-	: State(reps, STATES::SHORT_REST, context)
+ShortRest::ShortRest(Pomidoro* context)
+	: State(STATES::SHORT_REST, context)
 {
 }
 
@@ -104,8 +104,8 @@ void ShortRest::timerElapsed()
 
 }
 
-LongRest::LongRest(int reps, Pomidoro* context)
-	: State(reps, STATES::LONG_REST, context)
+LongRest::LongRest(Pomidoro* context)
+	: State(STATES::LONG_REST, context)
 {
 
 }

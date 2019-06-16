@@ -10,7 +10,7 @@ class State
 public:
 	enum class STATES;
 
-	State(int repetitions, STATES s, Pomidoro* context);
+	State(STATES s, Pomidoro* context);
 
 	virtual ~State();
 
@@ -30,7 +30,7 @@ public:
 
 	QString getLog() const;
 
-	virtual void doLog();
+	virtual void doLog(QString comment);
 
 protected:
 	Pomidoro* context;
@@ -39,8 +39,6 @@ protected:
 	static QString log;
 
 private:
-
-	int repetitions;
 
 	const STATES type_;
 };
