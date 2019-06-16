@@ -32,6 +32,8 @@ public:
 
 	virtual void doLog(QString comment);
 
+	static void clearLog();
+
 protected:
 	Pomidoro* context;
 

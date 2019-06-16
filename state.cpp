@@ -78,3 +78,8 @@ void State::doLog(QString comment)
 
 	log.append(toString + "::" + comment);
 }
+
+void State::clearLog()
+{
+	log.clear();
+}
