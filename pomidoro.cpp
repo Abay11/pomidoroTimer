@@ -4,10 +4,8 @@
 
 #include <QTimer>
 
-
-Pomidoro::Pomidoro(TrayUI* ui)
-	: QObject(ui)
-	, timer(new QTimer)
+Pomidoro::Pomidoro(QObject* parent, TrayUI* ui)
+	: QObject(parent)
 	, inactiveState(new Inactive(this))
 	, activeState(new Active(this))
 	, pausedState(new Paused(this))
@@ -18,7 +16,11 @@ Pomidoro::Pomidoro(TrayUI* ui)
 	restoreSettings();
 	updateInfo();
 
+	timer = new QTimer;
 	connect(timer, SIGNAL(timeout()), SLOT(slotTimeOut()));
+
+	loop = new QEventLoop;
+	connect(timer, SIGNAL(timeout()), loop, SLOT(quit()));
 
 	qApp->setQuitOnLastWindowClosed(false);
 }
@@ -28,7 +30,6 @@ Pomidoro::~Pomidoro()
 	saveSettings();
 
 	delete timer;
-
 	delete inactiveState;
 	delete activeState;
 	delete pausedState;
@@ -110,6 +111,14 @@ void Pomidoro::slotReset()
 	state_->reset();
 }
 
+void Pomidoro::slotStartTimer(int min)
+{
+	timer->start(min * 1000);
+
+	loop->exec();
+}
+
+
 void Pomidoro::slotTimeOut()
 {
 	state_->timerElapsed();
@@ -123,11 +132,6 @@ State* Pomidoro::getLongRestState()
 void Pomidoro::setNewState(State* state)
 {
 	state_ = state;
-}
-
-void Pomidoro::startTimer(int min)
-{
-	timer->start(min * 1000);
 }
 
 State* Pomidoro::getShortRestState()

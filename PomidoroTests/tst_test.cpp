@@ -1,5 +1,4 @@
 #include <QtTest>
-#include <QCoreApplication>
 
 // add necessary includes here
 #include "../utility.h"
@@ -164,6 +163,7 @@ void test::test_main_logic2()
 {
 	Pomidoro* pomidoro = new Pomidoro(this);
 
+	pomidoro->setDurations(10, 0, 0);
 	pomidoro->slotStart();
 
 	QCOMPARE(pomidoro->getState()->type(), State::STATES::ACTIVE);
@@ -186,9 +186,20 @@ void test::test_main_logic2()
 
 void test::test_main_logic3()
 {
+	State::clearLog();
+
 	Pomidoro* pomidoro = new Pomidoro(nullptr);
 
+	pomidoro->setReps(1);
+	pomidoro->setDurations(0, 0, 0);
+
+	pomidoro->slotStart();
+
+	QString expectedLog("INACTIVE::start()->ACTIVE::timerElapsed()");
+	QCOMPARE(expectedLog, pomidoro->getState()->getLog());
+
 	delete pomidoro;
+	State::clearLog();
 }
 
 QTEST_MAIN(test)

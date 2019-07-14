@@ -17,7 +17,7 @@ class Pomidoro: public QObject
 {
 	Q_OBJECT
 public:
-	Pomidoro(TrayUI* ui_instance);
+	Pomidoro(QObject* parent = nullptr, TrayUI* ui_instance = nullptr);
 
 	~Pomidoro();
 
@@ -53,8 +53,6 @@ public:
 
 	void setNewState(State* state);
 
-	void startTimer(int min);
-
 public slots:
 
 	void slotStart();
@@ -65,6 +63,8 @@ public slots:
 
 	void slotReset();
 
+	void slotStartTimer(int min);
+
 private slots:
 
 	void slotTimeOut();
@@ -74,8 +74,7 @@ signals:
 
 private:
 	QTimer* timer;
-
-	QTime* time;
+	QEventLoop* loop;
 
 	int	work_ = 20;
 	int rest_ = 5;
