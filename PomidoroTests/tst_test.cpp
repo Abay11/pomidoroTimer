@@ -7,6 +7,8 @@
 
 #include "../state.h"
 
+#include "../threadcontroller.h"
+
 class test : public QObject
 {
 	Q_OBJECT
@@ -28,10 +30,13 @@ private slots:
 	void test_next_completion2();
 	void test_next_completion3();
 
+	void test_thread_controller();
+
 	void test_main_logic0();
 	void test_main_logic1();
 	void test_main_logic2();
 	void test_main_logic3();
+	void test_main_logic4();
 };
 
 test::test()
@@ -135,6 +140,17 @@ void test::test_next_completion3()
 	QCOMPARE(res, QTime::fromString("01:55", "hh:mm"));
 }
 
+void test::test_thread_controller()
+{
+	ThreadController* controller = new ThreadController;
+
+	controller->run();
+
+	controller->stop();
+
+	delete controller;
+}
+
 void test::test_main_logic0()
 {
 	Pomidoro* pomidoro = new Pomidoro(nullptr);
@@ -161,24 +177,26 @@ void test::test_main_logic1()
 
 void test::test_main_logic2()
 {
-	Pomidoro* pomidoro = new Pomidoro(this);
+	ThreadController* controller = new ThreadController;
 
-	pomidoro->setDurations(10, 0, 0);
+	controller->run();
+
+	Pomidoro* pomidoro = controller->pomidoro();
+	pomidoro->setDurations(0, 0, 0);
+
 	pomidoro->slotStart();
-
 	QCOMPARE(pomidoro->getState()->type(), State::STATES::ACTIVE);
 
 	pomidoro->slotPause();
-
 	QCOMPARE(pomidoro->getState()->type(), State::STATES::PAUSED);
 
 	pomidoro->slotStart();
-
 	QCOMPARE(pomidoro->getState()->type(), State::STATES::ACTIVE);
 
 	pomidoro->slotStop();
-
 	QCOMPARE(pomidoro->getState()->type(), State::STATES::INACTIVE);
+
+	controller->stop();
 
 	delete pomidoro;
 	State::clearLog();
@@ -186,8 +204,6 @@ void test::test_main_logic2()
 
 void test::test_main_logic3()
 {
-	State::clearLog();
-
 	Pomidoro* pomidoro = new Pomidoro(nullptr);
 
 	pomidoro->setReps(1);
@@ -200,6 +216,11 @@ void test::test_main_logic3()
 
 	delete pomidoro;
 	State::clearLog();
+}
+
+void test::test_main_logic4()
+{
+
 }
 
 QTEST_MAIN(test)

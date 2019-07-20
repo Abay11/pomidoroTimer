@@ -10,10 +10,12 @@ SOURCES +=  tst_test.cpp \
     ../utility.cpp \
     ../pomidoro.cpp \
     ../state.cpp \
-    ../concretestates.cpp
+    ../concretestates.cpp \
+    ../threadcontroller.cpp
 
 HEADERS += \
     ../utility.h \
     ../pomidoro.h \
     ../state.h \
-    ../concretestates.cpp
+    ../concretestates.cpp \
+    ../threadcontroller.h
