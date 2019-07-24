@@ -5,6 +5,8 @@
 
 class Pomidoro;
 
+class QThread;
+
 /*
 This class used to have possibility to send user's commands
 to the Pomidoro class (there is an event loop
@@ -20,29 +22,37 @@ class ThreadController : public QObject
 	Q_OBJECT
 
 public:
-	explicit ThreadController(QObject* parent = nullptr);
+	explicit ThreadController(Pomidoro* instance = nullptr, QObject* parent = nullptr);
 
 	//delete P and the thread
 	~ThreadController();
 
 	Pomidoro* pomidoro() const;
 
+	void startPomidoro();
+
+	void stopPomidoro();
+
 signals:
+	//***Pomidoro interface commands***//
+	void cmdStart();
+
+	void cmdStop();
+	//********************************//
 
 public slots:
 
-	//init the thread and P
-	//then move the P to the thread
-	//and run the thread
+	//move P to the thread
+	//and run the one
 	void run();
 
 	//quit the thread and wait until it will be stopped
 	void stop();
 
 private:
-	QThread* thread_;
+	QThread* thread_ = nullptr;
 
-	Pomidoro* pomidoro_;
+	Pomidoro* pomidoro_ = nullptr;
 };
 
 #endif // THREADCONTROLLER_H
