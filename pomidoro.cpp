@@ -16,13 +16,15 @@ Pomidoro::Pomidoro(QObject* parent, TrayUI* ui)
 	restoreSettings();
 	updateInfo();
 
-	timer = new QTimer;
-	connect(timer, SIGNAL(timeout()), SLOT(slotTimeOut()));
-
-	loop = new QEventLoop;
-	connect(timer, SIGNAL(timeout()), loop, SLOT(quit()));
+	isRunning_ = false;
 
 	qApp->setQuitOnLastWindowClosed(false);
+}
+
+Pomidoro::Pomidoro(const Pomidoro& other)
+	: QObject(other.parent())
+{
+	//TODO: add realisation
 }
 
 Pomidoro::~Pomidoro()
@@ -93,6 +95,10 @@ void Pomidoro::setReps(int value)
 
 void Pomidoro::slotStart()
 {
+	qDebug() << "Pomidoro::slotStart()";
+
+	isRunning_ = true;
+
 	state_->start();
 }
 
@@ -103,7 +109,13 @@ void Pomidoro::slotPause()
 
 void Pomidoro::slotStop()
 {
+	loop->quit();
+
+	timer->stop();
+
 	state_->stop();
+
+	isRunning_ = false;
 }
 
 void Pomidoro::slotReset()
@@ -113,15 +125,31 @@ void Pomidoro::slotReset()
 
 void Pomidoro::slotStartTimer(int min)
 {
-	timer->start(min * 1000);
+	initIfNotTimer_Eventloop();
+
+	timer->start(min * 1000 * 60);
 
 	loop->exec();
 }
 
-
 void Pomidoro::slotTimeOut()
 {
 	state_->timerElapsed();
+}
+
+void Pomidoro::initIfNotTimer_Eventloop()
+{
+	if(!timer)
+	{
+		timer = new QTimer;
+		connect(timer, SIGNAL(timeout()), SLOT(slotTimeOut()));
+	}
+
+	if(!loop)
+	{
+		loop = new QEventLoop();
+		connect(timer, SIGNAL(timeout()), loop, SLOT(quit()));
+	}
 }
 
 State* Pomidoro::getLongRestState()
@@ -132,6 +160,11 @@ State* Pomidoro::getLongRestState()
 void Pomidoro::setNewState(State* state)
 {
 	state_ = state;
+}
+
+bool Pomidoro::isRunning()
+{
+	return isRunning_.load();
 }
 
 State* Pomidoro::getShortRestState()

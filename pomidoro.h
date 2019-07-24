@@ -5,6 +5,7 @@
 #include "settingsdialog.h"
 #include "requestdialog.h"
 #include "concretestates.h"
+#include "threadcontroller.h"
 
 #include <QObject>
 
@@ -13,11 +14,15 @@ class State;
 
 class QTimer;
 
-class Pomidoro: public QObject
+class Pomidoro : protected QObject
 {
 	Q_OBJECT
 public:
+	friend ThreadController;
+
 	Pomidoro(QObject* parent = nullptr, TrayUI* ui_instance = nullptr);
+
+	Pomidoro(const Pomidoro& other);
 
 	~Pomidoro();
 
@@ -53,6 +58,8 @@ public:
 
 	void setNewState(State* state);
 
+	bool isRunning();
+
 public slots:
 
 	void slotStart();
@@ -72,13 +79,17 @@ private slots:
 signals:
 	//	void
 
+	//class members
 private:
-	QTimer* timer;
-	QEventLoop* loop;
+	void initIfNotTimer_Eventloop();
+
+private:
+	QTimer* timer = nullptr;
+	QEventLoop* loop = nullptr;
 
 	int	work_ = 20;
 	int rest_ = 5;
-	int long_rest_  = 15;
+	int long_rest_ = 15;
 	int reps_ = 1;
 	int rounds_ = 0;
 	int total_ = 0;
@@ -86,7 +97,8 @@ private:
 	bool turnLongRest = false;
 	bool showAgainDialog = true;
 
-	enum TYPE {WORK = 0, SHORTREST, LONGREST} type = WORK;
+	std::atomic<bool> isRunning_;
+	QMutex isRunning_mutex;
 
 	State* inactiveState;
 	State* activeState;
@@ -99,5 +111,7 @@ private:
 	void saveSettings();
 	void restoreSettings();
 };
+
+Q_DECLARE_METATYPE(Pomidoro);
 
 #endif // TOMATO_H
