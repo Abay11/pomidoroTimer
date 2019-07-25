@@ -98,7 +98,6 @@ private:
 	bool showAgainDialog = true;
 
 	std::atomic<bool> isRunning_;
-	QMutex isRunning_mutex;
 
 	State* inactiveState;
 	State* activeState;

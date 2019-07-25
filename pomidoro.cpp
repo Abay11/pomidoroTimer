@@ -95,8 +95,6 @@ void Pomidoro::setReps(int value)
 
 void Pomidoro::slotStart()
 {
-	qDebug() << "Pomidoro::slotStart()";
-
 	isRunning_ = true;
 
 	state_->start();
