@@ -12,11 +12,16 @@ This class used to have possibility to send user's commands
 to the Pomidoro class (there is an event loop
 and from one thread we can't process user's commands).
 
+Also we cannot controll QTimer from another thread.
+This class should be used to controll Pomidoro class using
+signals and slots.
+
 The class create a thread and by command run() create P,
 move it to that thread and run the thread.
-To controll P need to fetch it by a getter
-and use it from GUI
+
+To controll P need to to use the interface provided by this class
 */
+
 class ThreadController : public QObject
 {
 	Q_OBJECT
@@ -29,16 +34,21 @@ public:
 
 	Pomidoro* pomidoro() const;
 
+	//*****An interface to control Pomidoro states*****//
 	void startPomidoro();
 
 	void stopPomidoro();
 
+	void pausePomidoro();
+	//************************************************//
+
 signals:
-	//***Pomidoro interface commands***//
+	//these signals emits by slots in the declared above interfaces
 	void cmdStart();
 
 	void cmdStop();
-	//********************************//
+
+	void cmdPause();
 
 public slots:
 

@@ -13,6 +13,8 @@ ThreadController::ThreadController(Pomidoro* instance, QObject* parent) : QObjec
 	connect(this, SIGNAL(cmdStart()), pomidoro_, SLOT(slotStart()));
 
 	connect(this, SIGNAL(cmdStop()), pomidoro_, SLOT(slotStop()));
+
+	connect(this, SIGNAL(cmdPause()), pomidoro_, SLOT(slotPause()));
 }
 
 ThreadController::~ThreadController()
@@ -35,6 +37,13 @@ void ThreadController::startPomidoro()
 void ThreadController::stopPomidoro()
 {
 	emit cmdStop();
+}
+
+void ThreadController::pausePomidoro()
+{
+	pomidoro_->loop->quit();
+
+	emit cmdPause();
 }
 
 void ThreadController::run()
