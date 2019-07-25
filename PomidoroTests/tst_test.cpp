@@ -34,10 +34,10 @@ private slots:
 
 	void test_pomidoro_activity_state0();
 
-	/*
 	void test_main_logic0();
 	void test_main_logic1();
 	void test_main_logic2();
+	/*
 	void test_main_logic3();
 	void test_main_logic4();
 	*/
@@ -171,13 +171,15 @@ void test::test_pomidoro_activity_state0()
 	QCOMPARE(pomidoro->isRunning(), true);
 
 	controller->stopPomidoro();
+	QThread::msleep(50);
+	QCOMPARE(pomidoro->isRunning(), false);
+
 	controller->stop();
 
 	delete pomidoro;
 	State::clearLog();
 }
 
-/*
 void test::test_main_logic0()
 {
 	Pomidoro* pomidoro = new Pomidoro(nullptr);
@@ -201,27 +203,31 @@ void test::test_main_logic1()
 	State::clearLog();
 }
 
+
 void test::test_main_logic2()
 {
 	ThreadController* controller = new ThreadController;
 
 	Pomidoro* pomidoro = controller->pomidoro();
-	pomidoro->setDurations(0, 0, 0);
+	pomidoro->setDurations(1, 0, 0);
 
 	controller->run();
 
 	controller->startPomidoro();
 
-	//	QThread::msleep(500);
+	QThread::msleep(50);
 	QCOMPARE(pomidoro->getState()->type(), State::STATES::ACTIVE);
 
-	//	pomidoro->slotPause();
-	//	QCOMPARE(pomidoro->getState()->type(), State::STATES::PAUSED);
+	controller->pausePomidoro();
+	QThread::msleep(50);
+	QCOMPARE(pomidoro->getState()->type(), State::STATES::PAUSED);
 
-	//	pomidoro->slotStart();
-	//	QCOMPARE(pomidoro->getState()->type(), State::STATES::ACTIVE);
+	pomidoro->slotStart();
+	QThread::msleep(50);
+	QCOMPARE(pomidoro->getState()->type(), State::STATES::ACTIVE);
 
-	pomidoro->slotStop();
+	controller->stopPomidoro();
+	QThread::msleep(50);
 	QCOMPARE(pomidoro->getState()->type(), State::STATES::INACTIVE);
 
 	controller->stop();
@@ -230,6 +236,7 @@ void test::test_main_logic2()
 	State::clearLog();
 }
 
+/*
 void test::test_main_logic3()
 {
 	ThreadController* controller = new ThreadController;
