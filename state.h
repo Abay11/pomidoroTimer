@@ -28,7 +28,7 @@ public:
 
 	enum class STATES {INACTIVE, ACTIVE, PAUSED, SHORT_REST, LONG_REST};
 
-	QString getLog() const;
+	static QString getLog();
 
 	virtual void doLog(QString comment);
 

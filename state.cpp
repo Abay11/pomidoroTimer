@@ -41,7 +41,7 @@ State::STATES State::type() const
 	return type_;
 }
 
-QString State::getLog() const
+QString State::getLog()
 {
 	return log;
 }
