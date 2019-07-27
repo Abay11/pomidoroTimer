@@ -48,38 +48,34 @@ QString State::getLog()
 
 void State::doLog(QString comment)
 {
-	QString toString;
-
-	switch(type_)
-	{
-		case STATES::INACTIVE:
-			toString = "INACTIVE";
-			break;
-
-		case STATES::ACTIVE:
-			toString = "ACTIVE";
-			break;
-
-		case STATES::PAUSED:
-			toString = "PAUSED";
-			break;
-
-		case STATES::SHORT_REST:
-			toString = "SHORT_REST";
-			break;
-
-		case STATES::LONG_REST:
-			toString = "LONG_REST";
-			break;
-	}
-
 	if(!log.isEmpty())
 		log.append("->");
 
-	log.append(toString + "::" + comment);
+	log.append(toString() + "::" + comment);
 }
 
 void State::clearLog()
 {
 	log.clear();
+}
+
+QString State::toString()
+{
+	switch(type_)
+	{
+		case STATES::INACTIVE:
+			return "INACTIVE";
+
+		case STATES::ACTIVE:
+			return "ACTIVE";
+
+		case STATES::PAUSED:
+			return "PAUSED";
+
+		case STATES::SHORT_REST:
+			return "SHORT_REST";
+
+		case STATES::LONG_REST:
+			return "LONG_REST";
+	}
 }

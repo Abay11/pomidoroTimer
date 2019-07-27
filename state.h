@@ -34,6 +34,9 @@ public:
 
 	static void clearLog();
 
+private:
+	QString toString();
+
 protected:
 	Pomidoro* context;
 
