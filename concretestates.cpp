@@ -9,8 +9,6 @@ Inactive::Inactive(Pomidoro* context)
 
 void Inactive::start()
 {
-	doLog("start()");
-
 	context->setNewState(context->getActiveState());
 
 	context->slotStartTimer(context->getWorkDuration());
@@ -38,8 +36,6 @@ void Active::stop()
 
 void Active::timerElapsed()
 {
-	doLog("timerElapsed()");
-
 	context->setNewState(context->getInactiveState());
 }
 

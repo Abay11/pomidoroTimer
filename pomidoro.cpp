@@ -97,11 +97,15 @@ void Pomidoro::slotStart()
 {
 	isRunning_ = true;
 
+	state_->doLog("start()");
+
 	state_->start();
 }
 
 void Pomidoro::slotPause()
 {
+	state_->doLog("pause()");
+
 	state_->pause();
 }
 
@@ -125,6 +129,7 @@ void Pomidoro::slotStartTimer(int min)
 {
 	initIfNotTimer_Eventloop();
 
+	timer->setSingleShot(true);
 	timer->start(min * 1000 * 60);
 
 	loop->exec();
@@ -132,6 +137,8 @@ void Pomidoro::slotStartTimer(int min)
 
 void Pomidoro::slotTimeOut()
 {
+	state_->doLog("timerElapsed()");
+
 	state_->timerElapsed();
 }
 
