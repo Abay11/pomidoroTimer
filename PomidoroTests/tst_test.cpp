@@ -37,8 +37,8 @@ private slots:
 	void test_main_logic0();
 	void test_main_logic1();
 	void test_main_logic2();
-	/*
 	void test_main_logic3();
+	/*
 	void test_main_logic4();
 	*/
 
@@ -236,7 +236,6 @@ void test::test_main_logic2()
 	State::clearLog();
 }
 
-/*
 void test::test_main_logic3()
 {
 	ThreadController* controller = new ThreadController;
@@ -248,17 +247,19 @@ void test::test_main_logic3()
 
 	controller->run();
 
-	p->slotStart();
+	controller->startPomidoro();
+
+	QThread::msleep(50);
+	QString expectedLog("INACTIVE::start()->ACTIVE::timerElapsed()");
+	QCOMPARE(p->getState()->type(), State::STATES::INACTIVE);
+	QCOMPARE(State::getLog(), expectedLog);
 
 	controller->stop();
-
-	QString expectedLog("INACTIVE::start()->ACTIVE::timerElapsed()");
-	//	QString expectedLog("INACTIVE::start()");
-	QCOMPARE(p->getState()->getLog(), expectedLog);
 
 	State::clearLog();
 }
 
+/*
 void test::test_main_logic4()
 {
 
