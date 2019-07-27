@@ -6,3 +6,7 @@ PomidoroTimer\.pro\.user\.4\.8-pre1
 PomidoroTimer\.pro\.user
 
 build-PomidoroTests-Desktop_Qt_5_11_1_GCC_64bit-Debug/
+
+pomidoro\.cpp\.autosave
+
+*.autosave
