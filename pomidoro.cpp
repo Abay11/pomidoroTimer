@@ -4,7 +4,7 @@
 
 #include <QTimer>
 
-Pomidoro::Pomidoro(QObject* parent, TrayUI* ui)
+Pomidoro::Pomidoro(QObject* parent, TrayUI* /*ui*/)
 	: QObject(parent)
 	, inactiveState(new Inactive(this))
 	, activeState(new Active(this))
@@ -142,6 +142,12 @@ void Pomidoro::slotTimeOut()
 	state_->timerElapsed();
 }
 
+void Pomidoro::slotProcessEvents()
+{
+	if(loop)
+		loop->processEvents();
+}
+
 void Pomidoro::initIfNotTimer_Eventloop()
 {
 	if(!timer)
@@ -155,6 +161,15 @@ void Pomidoro::initIfNotTimer_Eventloop()
 		loop = new QEventLoop();
 		connect(timer, SIGNAL(timeout()), loop, SLOT(quit()));
 	}
+
+	if(!eventProcessorTimer)
+	{
+		eventProcessorTimer = new QTimer;
+		eventProcessorTimer->setInterval(1000);
+		connect(eventProcessorTimer, SIGNAL(timeout()), SLOT(slotProcessEvents()));
+	}
+
+	emit eventloopInited();
 }
 
 State* Pomidoro::getLongRestState()

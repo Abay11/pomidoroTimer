@@ -76,8 +76,10 @@ private slots:
 
 	void slotTimeOut();
 
+	void slotProcessEvents();
+
 signals:
-	//	void
+	void eventloopInited();
 
 	//class members
 private:
@@ -85,6 +87,7 @@ private:
 
 private:
 	QTimer* timer = nullptr;
+	QTimer* eventProcessorTimer = nullptr;
 	QEventLoop* loop = nullptr;
 
 	int	work_ = 20;

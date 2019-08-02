@@ -29,6 +29,8 @@ class ThreadController : public QObject
 public:
 	explicit ThreadController(Pomidoro* instance = nullptr, QObject* parent = nullptr);
 
+	explicit ThreadController(const ThreadController& other);
+
 	//delete P and the thread
 	~ThreadController();
 
@@ -50,8 +52,10 @@ signals:
 
 	void cmdPause();
 
-public slots:
+	void cmdQuitLoop();
 
+public slots:
+	//calls setConnections()
 	//move P to the thread
 	//and run the one
 	void run();
@@ -59,10 +63,21 @@ public slots:
 	//quit the thread and wait until it will be stopped
 	void stop();
 
+	//after init of eventloop(EL) in the P
+	//a signal will be emitted and when we receive it
+	//we'll call this slot
+	//where we connect a signal with EL to interrupt it
+	void slotSetConnections();
+
+private:
+	void quitLoop();
+
 private:
 	QThread* thread_ = nullptr;
 
 	Pomidoro* pomidoro_ = nullptr;
 };
+
+Q_DECLARE_METATYPE(ThreadController);
 
 #endif // THREADCONTROLLER_H
