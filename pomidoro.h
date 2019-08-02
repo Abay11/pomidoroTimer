@@ -76,8 +76,6 @@ private slots:
 
 	void slotTimeOut();
 
-	void slotProcessEvents();
-
 signals:
 	void eventloopInited();
 

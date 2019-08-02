@@ -22,7 +22,7 @@ move it to that thread and run the thread.
 To controll P need to to use the interface provided by this class
 */
 
-class ThreadController : public QObject
+class ThreadController : private QObject
 {
 	Q_OBJECT
 
@@ -62,15 +62,6 @@ public slots:
 
 	//quit the thread and wait until it will be stopped
 	void stop();
-
-	//after init of eventloop(EL) in the P
-	//a signal will be emitted and when we receive it
-	//we'll call this slot
-	//where we connect a signal with EL to interrupt it
-	void slotSetConnections();
-
-private:
-	void quitLoop();
 
 private:
 	QThread* thread_ = nullptr;

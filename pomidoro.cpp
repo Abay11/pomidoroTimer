@@ -111,8 +111,6 @@ void Pomidoro::slotPause()
 
 void Pomidoro::slotStop()
 {
-	loop->quit();
-
 	timer->stop();
 
 	state_->stop();
@@ -131,8 +129,6 @@ void Pomidoro::slotStartTimer(int min)
 
 	timer->setSingleShot(true);
 	timer->start(min * 1000 * 60);
-
-	loop->exec();
 }
 
 void Pomidoro::slotTimeOut()
@@ -142,12 +138,6 @@ void Pomidoro::slotTimeOut()
 	state_->timerElapsed();
 }
 
-void Pomidoro::slotProcessEvents()
-{
-	if(loop)
-		loop->processEvents();
-}
-
 void Pomidoro::initIfNotTimer_Eventloop()
 {
 	if(!timer)
@@ -155,21 +145,6 @@ void Pomidoro::initIfNotTimer_Eventloop()
 		timer = new QTimer;
 		connect(timer, SIGNAL(timeout()), SLOT(slotTimeOut()));
 	}
-
-	if(!loop)
-	{
-		loop = new QEventLoop();
-		connect(timer, SIGNAL(timeout()), loop, SLOT(quit()));
-	}
-
-	if(!eventProcessorTimer)
-	{
-		eventProcessorTimer = new QTimer;
-		eventProcessorTimer->setInterval(1000);
-		connect(eventProcessorTimer, SIGNAL(timeout()), SLOT(slotProcessEvents()));
-	}
-
-	emit eventloopInited();
 }
 
 State* Pomidoro::getLongRestState()

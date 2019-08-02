@@ -12,8 +12,6 @@ ThreadController::ThreadController(Pomidoro* instance, QObject* parent) : QObjec
 
 	qRegisterMetaType(pomidoro_);
 
-	connect(pomidoro_, SIGNAL(eventloopInited()), SLOT(slotSetConnections()));
-
 	connect(this, SIGNAL(cmdStart()), pomidoro_, SLOT(slotStart()));
 
 	connect(this, SIGNAL(cmdStop()), pomidoro_, SLOT(slotStop()));
@@ -50,14 +48,7 @@ void ThreadController::stopPomidoro()
 
 void ThreadController::pausePomidoro()
 {
-	quitLoop();
-
 	emit cmdPause();
-}
-
-void ThreadController::quitLoop()
-{
-	emit cmdQuitLoop();
 }
 
 void ThreadController::run()
@@ -72,14 +63,7 @@ void ThreadController::stop()
 	if(pomidoro_->isRunning_)
 		pomidoro_->slotStop();
 
-	//		emit quitLoop();
-
 	thread_->quit();
 
 	thread_->wait();
-}
-
-void ThreadController::slotSetConnections()
-{
-	connect(this, SIGNAL(cmdQuitLoop()), pomidoro_->loop, SLOT(quit()), Qt::ConnectionType::DirectConnection);
 }
