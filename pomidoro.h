@@ -17,9 +17,15 @@ class QTimer;
 class Pomidoro : protected QObject
 {
 	Q_OBJECT
-public:
-	friend ThreadController;
 
+	friend ThreadController;
+	friend Inactive;
+	friend Active;
+	friend Paused;
+	friend ShortRest;
+	friend LongRest;
+
+public:
 	Pomidoro(QObject* parent = nullptr, TrayUI* ui_instance = nullptr);
 
 	Pomidoro(const Pomidoro& other);
@@ -60,7 +66,7 @@ public:
 
 	bool isRunning();
 
-	int& rounds();
+	void setIsContinuousWork(bool value);
 
 public slots:
 
@@ -87,19 +93,23 @@ signals:
 private:
 	void initIfNotTimer_Eventloop();
 
+protected:
+	//indicates if need to switch on longRestState after finishing pomidoro
+	bool isContinuousWork = false;
+
+	int	work_ = 20;
+	int sh_rest_ = 5;
+	int l_rest_ = 15;
+	int reps_ = 1;
+	int rounds_ = 0;
+	//indicates already have been finished total pomidoro count
+	int total_ = 0;
+
 private:
 	QTimer* timer = nullptr;
 	QTimer* eventProcessorTimer = nullptr;
 	QEventLoop* loop = nullptr;
 
-	int	work_ = 20;
-	int rest_ = 5;
-	int long_rest_ = 15;
-	int reps_ = 1;
-	int rounds_ = 0;
-	int total_ = 0;
-
-	bool turnLongRest = false;
 	bool showAgainDialog = true;
 
 	std::atomic<bool> isRunning_;

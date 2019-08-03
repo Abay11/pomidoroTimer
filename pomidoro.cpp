@@ -41,12 +41,12 @@ int Pomidoro::getWorkDuration() const
 
 int Pomidoro::getRestDuration() const
 {
-	return rest_;
+	return sh_rest_;
 }
 
 int Pomidoro::getLongRestDuration() const
 {
-	return long_rest_;
+	return l_rest_;
 }
 
 int Pomidoro::getReps() const
@@ -58,9 +58,9 @@ void Pomidoro::setDurations(int work, int rest, int long_rest)
 {
 	work_ = work;
 
-	rest_ = rest;
+	sh_rest_ = rest;
 
-	long_rest_ = long_rest;
+	l_rest_ = long_rest;
 }
 
 void Pomidoro::setWorkDuration(int min)
@@ -75,12 +75,12 @@ State* Pomidoro::getState()
 
 void Pomidoro::setShortRestDuration(int min)
 {
-	rest_ = min;
+	sh_rest_ = min;
 }
 
 void Pomidoro::setLongRestDuration(int min)
 {
-	long_rest_ = min;
+	l_rest_ = min;
 }
 
 void Pomidoro::setReps(int value)
@@ -132,7 +132,7 @@ void Pomidoro::slotTimeOut()
 
 	state_->timerElapsed();
 
-	if(rounds_ > 3)
+	if(total_ >= reps_)
 	{
 		isRunning_ = false;
 
@@ -149,11 +149,6 @@ void Pomidoro::initIfNotTimer_Eventloop()
 	}
 }
 
-int& Pomidoro::rounds()
-{
-	return rounds_;
-}
-
 State* Pomidoro::getLongRestState()
 {
 	return longRestState;
@@ -167,6 +162,11 @@ void Pomidoro::setNewState(State* state)
 bool Pomidoro::isRunning()
 {
 	return isRunning_.load();
+}
+
+void Pomidoro::setIsContinuousWork(bool value)
+{
+	isContinuousWork = value;
 }
 
 State* Pomidoro::getShortRestState()
