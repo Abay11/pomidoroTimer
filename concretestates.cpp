@@ -36,7 +36,22 @@ void Active::stop()
 
 void Active::timerElapsed()
 {
-	context->setNewState(context->getInactiveState());
+	static int& rounds = context->rounds();
+
+	rounds += 1;
+
+	if(rounds < 4)
+	{
+		//switch to shortRest state
+		context->setNewState(context->getShortRestState());
+
+		context->slotStartTimer(context->getRestDuration());
+	}
+	//TODO: else if() - for longRest
+	else
+	{
+		context->setNewState(context->getInactiveState());
+	}
 }
 
 Paused::Paused(Pomidoro* context)
@@ -67,7 +82,9 @@ void Paused::stop()
 
 void Paused::timerElapsed()
 {
+	context->setNewState(context->getActiveState());
 
+	context->slotStartTimer(context->getWorkDuration());
 }
 
 ShortRest::ShortRest(Pomidoro* context)
@@ -97,7 +114,9 @@ void ShortRest::stop()
 
 void ShortRest::timerElapsed()
 {
+	context->setNewState(context->getActiveState());
 
+	context->slotStartTimer(context->getWorkDuration());
 }
 
 LongRest::LongRest(Pomidoro* context)

@@ -131,6 +131,13 @@ void Pomidoro::slotTimeOut()
 	state_->doLog("timerElapsed()");
 
 	state_->timerElapsed();
+
+	if(rounds_ > 3)
+	{
+		isRunning_ = false;
+
+		emit finished();
+	}
 }
 
 void Pomidoro::initIfNotTimer_Eventloop()
@@ -140,6 +147,11 @@ void Pomidoro::initIfNotTimer_Eventloop()
 		timer = new QTimer;
 		connect(timer, SIGNAL(timeout()), SLOT(slotTimeOut()));
 	}
+}
+
+int& Pomidoro::rounds()
+{
+	return rounds_;
 }
 
 State* Pomidoro::getLongRestState()

@@ -60,6 +60,8 @@ public:
 
 	bool isRunning();
 
+	int& rounds();
+
 public slots:
 
 	void slotStart();
@@ -78,6 +80,8 @@ private slots:
 
 signals:
 	void eventloopInited();
+
+	void finished();
 
 	//class members
 private:

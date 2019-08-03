@@ -60,10 +60,18 @@ void ThreadController::run()
 
 void ThreadController::stop()
 {
-	if(pomidoro_->isRunning_)
-		pomidoro_->slotStop();
+	QEventLoop* l = new QEventLoop;
+	Q_ASSERT(connect(pomidoro_, SIGNAL(finished()), l, SLOT(quit())));
+
+	if(pomidoro_->isRunning())
+		l->exec();
+
+	QThread::sleep(1);
+
 
 	thread_->quit();
 
 	thread_->wait();
+
+	//	delete l;s
 }

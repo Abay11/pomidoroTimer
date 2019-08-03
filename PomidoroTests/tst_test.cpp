@@ -196,32 +196,6 @@ void test::test_main_logic0()
 
 void test::test_main_logic1()
 {
-	ThreadController* c = new ThreadController;
-
-	Pomidoro* pomidoro = c->pomidoro();
-	QCOMPARE(pomidoro->getState()->type(), State::STATES::INACTIVE);
-
-	pomidoro->setDurations(1, 0, 0);
-
-	c->run();
-
-	c->startPomidoro();
-
-	QThread::msleep(50);
-	QCOMPARE(pomidoro->getState()->type(), State::STATES::ACTIVE);
-
-	c->stopPomidoro();
-	QThread::msleep(50);
-	QCOMPARE(pomidoro->getState()->type(), State::STATES::INACTIVE);
-
-	c->stop();
-
-	delete pomidoro;
-	State::clearLog();
-}
-
-void test::test_main_logic2()
-{
 	ThreadController* controller = new ThreadController;
 
 	Pomidoro* pomidoro = controller->pomidoro();
@@ -252,6 +226,39 @@ void test::test_main_logic2()
 	State::clearLog();
 }
 
+void test::test_main_logic2()
+{
+	ThreadController* c = new ThreadController;
+
+	Pomidoro* pomidoro = c->pomidoro();
+	QCOMPARE(pomidoro->getState()->type(), State::STATES::INACTIVE);
+
+	pomidoro->setReps(1);
+	pomidoro->setDurations(0, 0, 0);
+
+	c->run();
+
+	c->startPomidoro();
+
+	QString expected("INACTIVE::start()"
+		"->ACTIVE::timerElapsed()" //1 pomidoro
+		"->SHORT_REST::timerElapsed()"
+		"->ACTIVE::timerElapsed()" //2
+		"->SHORT_REST::timerElapsed()"
+		"->ACTIVE::timerElapsed()" //3
+		"->SHORT_REST::timerElapsed()"
+		"->ACTIVE::timerElapsed()" //4
+	);
+
+	c->stop();
+
+	QCOMPARE(State::getLog(), expected);
+
+	delete pomidoro;
+	State::clearLog();
+}
+
+
 /*
 void test::test_main_logic3()
 {
@@ -260,17 +267,17 @@ void test::test_main_logic3()
 	Pomidoro* p = controller->pomidoro();
 
 	p->setReps(1);
-	p->setDurations(0, 0, 0);
+	p->setDurations(1, 0, 0);
 
 	controller->run();
 
 	controller->startPomidoro();
 
 	QThread::msleep(50);
+
+	//	controller->
+
 	QString expectedLog("INACTIVE::start()->ACTIVE::timerElapsed()");
-
-	QCOMPARE(p->getState()->type(), State::STATES::INACTIVE);
-
 	QCOMPARE(State::getLog(), expectedLog);
 
 	controller->stop();
