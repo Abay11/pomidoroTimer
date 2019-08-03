@@ -13,9 +13,6 @@ Pomidoro::Pomidoro(QObject* parent, TrayUI* /*ui*/)
 	, longRestState(new LongRest(this))
 	, state_(inactiveState)
 {
-	restoreSettings();
-	updateInfo();
-
 	isRunning_ = false;
 
 	qApp->setQuitOnLastWindowClosed(false);
@@ -29,8 +26,6 @@ Pomidoro::Pomidoro(const Pomidoro& other)
 
 Pomidoro::~Pomidoro()
 {
-	saveSettings();
-
 	delete timer;
 	delete inactiveState;
 	delete activeState;
@@ -182,41 +177,6 @@ State* Pomidoro::getInactiveState()
 	return inactiveState;
 }
 
-void Pomidoro::updateInfo()
-{
-	//	ui_.
-	//	display->setText(time->toString("mm:ss"));
-	//	tray->setToolTip(time->toString("mm:ss"));
-	//	rounds->setText(QString("%1/%2. Total: %3").arg(round % reps).arg(reps).arg(total));
-}
-
-void Pomidoro::saveSettings()
-{
-	//	QFile file("data.bin");
-
-	//	if(file.open(QIODevice::WriteOnly))
-	//	{
-	//		QDataStream in(&file);
-	//		in << workDuration
-	//			<< shortRestDuration
-	//			<< longRestDuration
-	//			<< reps
-	//			<< turnLongRest
-	//			<< showAgainDialog;
-	//	}
-}
-
-void Pomidoro::restoreSettings()
-{
-	//	QFile file("data.bin");
-
-	//	if(file.open(QIODevice::ReadOnly))
-	//	{
-	//		QDataStream out(&file);
-	//		out >> workDuration >> shortRestDuration >> longRestDuration
-	//			>> reps >> turnLongRest >> showAgainDialog;
-	//	}
-}
 /*
 void Pomidoro::slotStart()
 {

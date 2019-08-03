@@ -106,10 +106,6 @@ private:
 	State* shortRestState;
 	State* longRestState;
 	State* state_;
-
-	void updateInfo();
-	void saveSettings();
-	void restoreSettings();
 };
 
 Q_DECLARE_METATYPE(Pomidoro);
