@@ -6,6 +6,7 @@
 #include "requestdialog.h"
 #include "concretestates.h"
 #include "threadcontroller.h"
+#include "statesholder.h"
 
 #include <QObject>
 
@@ -14,7 +15,7 @@ class State;
 
 class QTimer;
 
-class Pomidoro : protected QObject
+class Pomidoro : protected QObject, public StatesHolder
 {
 	Q_OBJECT
 
@@ -48,21 +49,7 @@ public:
 
 	void setLongRestDuration(int min);
 
-	State* getState();
-
 	void setReps(int value);
-
-	State* getInactiveState();
-
-	State* getActiveState();
-
-	State* getPausedState();
-
-	State* getShortRestState();
-
-	State* getLongRestState();
-
-	void setNewState(State* state);
 
 	bool isRunning();
 
@@ -85,13 +72,11 @@ private slots:
 	void slotTimeOut();
 
 signals:
-	void eventloopInited();
-
 	void finished();
 
 	//class members
 private:
-	void initIfNotTimer_Eventloop();
+	void initTimerIfNot();
 
 protected:
 	//indicates if need to switch on longRestState after finishing pomidoro
@@ -107,19 +92,10 @@ protected:
 
 private:
 	QTimer* timer = nullptr;
-	QTimer* eventProcessorTimer = nullptr;
-	QEventLoop* loop = nullptr;
 
 	bool showAgainDialog = true;
 
 	std::atomic<bool> isRunning_;
-
-	State* inactiveState;
-	State* activeState;
-	State* pausedState;
-	State* shortRestState;
-	State* longRestState;
-	State* state_;
 };
 
 Q_DECLARE_METATYPE(Pomidoro);

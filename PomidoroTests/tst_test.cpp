@@ -39,8 +39,6 @@ private slots:
 	void test_main_logic2();
 	void test_main_logic3();
 	void test_main_logic4();
-	/*
-	*/
 
 };
 

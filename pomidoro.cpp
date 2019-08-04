@@ -1,19 +1,13 @@
 #include "pomidoro.h"
-
+#include "concretestates.h"
 #include "trayui.h"
 
 #include <QTimer>
 
-#include "concretestates.h"
+
 
 Pomidoro::Pomidoro(QObject* parent, TrayUI* /*ui*/)
-	: QObject(parent)
-	, inactiveState(new Inactive(this))
-	, activeState(new Active(this))
-	, pausedState(new Paused(this))
-	, shortRestState(new ShortRest(this))
-	, longRestState(new LongRest(this))
-	, state_(inactiveState)
+	: QObject(parent), StatesHolder(this)
 {
 	isRunning_ = false;
 
@@ -21,7 +15,7 @@ Pomidoro::Pomidoro(QObject* parent, TrayUI* /*ui*/)
 }
 
 Pomidoro::Pomidoro(const Pomidoro& other)
-	: QObject(other.parent())
+	: QObject(other.parent()), StatesHolder(this)
 {
 	//TODO: add realisation
 }
@@ -29,11 +23,6 @@ Pomidoro::Pomidoro(const Pomidoro& other)
 Pomidoro::~Pomidoro()
 {
 	delete timer;
-	delete inactiveState;
-	delete activeState;
-	delete pausedState;
-	delete shortRestState;
-	delete longRestState;
 }
 
 int Pomidoro::getWorkDuration() const
@@ -68,11 +57,6 @@ void Pomidoro::setDurations(int work, int rest, int long_rest)
 void Pomidoro::setWorkDuration(int min)
 {
 	work_ = min;
-}
-
-State* Pomidoro::getState()
-{
-	return state_;
 }
 
 void Pomidoro::setShortRestDuration(int min)
@@ -129,7 +113,7 @@ void Pomidoro::slotReset()
 
 void Pomidoro::slotStartTimer(int min)
 {
-	initIfNotTimer_Eventloop();
+	initTimerIfNot();
 
 	timer->setSingleShot(true);
 	timer->start(min * 1000 * 60);
@@ -149,23 +133,13 @@ void Pomidoro::slotTimeOut()
 	}
 }
 
-void Pomidoro::initIfNotTimer_Eventloop()
+void Pomidoro::initTimerIfNot()
 {
 	if(!timer)
 	{
 		timer = new QTimer;
 		connect(timer, SIGNAL(timeout()), SLOT(slotTimeOut()));
 	}
-}
-
-State* Pomidoro::getLongRestState()
-{
-	return longRestState;
-}
-
-void Pomidoro::setNewState(State* state)
-{
-	state_ = state;
 }
 
 bool Pomidoro::isRunning()
@@ -178,25 +152,6 @@ void Pomidoro::setIsContinuousWork(bool value)
 	isContinuousWork = value;
 }
 
-State* Pomidoro::getShortRestState()
-{
-	return shortRestState;
-}
-
-State* Pomidoro::getPausedState()
-{
-	return pausedState;
-}
-
-State* Pomidoro::getActiveState()
-{
-	return activeState;
-}
-
-State* Pomidoro::getInactiveState()
-{
-	return inactiveState;
-}
 
 /*
 void Pomidoro::slotStart()

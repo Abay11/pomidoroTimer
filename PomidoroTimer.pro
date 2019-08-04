@@ -28,6 +28,7 @@ SOURCES += \
         main.cpp \
     settingsdialog.cpp \
     requestdialog.cpp \
+ statesholder.cpp \
     utility.cpp \
     concretestates.cpp \
     state.cpp \
@@ -38,6 +39,7 @@ SOURCES += \
 HEADERS += \
     settingsdialog.h \
     requestdialog.h \
+    statesholder.h \
     utility.h \
     concretestates.h \
     state.h \
