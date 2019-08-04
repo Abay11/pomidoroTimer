@@ -29,11 +29,6 @@ void Active::reset()
 
 }
 
-void Active::stop()
-{
-	context->setNewState(context->getInactiveState());
-}
-
 void Active::timerElapsed()
 {
 	++context->rounds_;
@@ -85,11 +80,6 @@ void Paused::reset()
 
 }
 
-void Paused::stop()
-{
-
-}
-
 void Paused::timerElapsed()
 {
 	context->setNewState(context->getActiveState());
@@ -113,11 +103,6 @@ void ShortRest::pause()
 }
 
 void ShortRest::reset()
-{
-
-}
-
-void ShortRest::stop()
 {
 
 }
@@ -146,11 +131,6 @@ void LongRest::pause()
 }
 
 void LongRest::reset()
-{
-
-}
-
-void LongRest::stop()
 {
 
 }

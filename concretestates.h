@@ -22,7 +22,6 @@ public:
 	// AbstractState interface
 	void pause() override;
 	void reset() override;
-	void stop() override;
 	void timerElapsed() override;
 };
 
@@ -35,7 +34,6 @@ public:
 	// AbstractState interface
 	void start() override;
 	void reset() override;
-	void stop() override;
 	void timerElapsed() override;
 };
 
@@ -49,7 +47,6 @@ public:
 	// AbstractState interface
 	void pause() override;
 	void reset() override;
-	void stop() override;
 	void timerElapsed() override;
 };
 
@@ -63,7 +60,6 @@ public:
 	// AbstractState interface
 	void pause() override;
 	void reset() override;
-	void stop() override;
 	void timerElapsed() override;
 };
 

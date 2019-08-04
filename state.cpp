@@ -1,5 +1,7 @@
 #include "state.h"
 
+#include "pomidoro.h"
+
 #include <QString>
 
 QString State::log;
@@ -30,6 +32,7 @@ void State::reset()
 
 void State::stop()
 {
+	context->setNewState(context->getInactiveState());
 }
 
 void State::timerElapsed()
