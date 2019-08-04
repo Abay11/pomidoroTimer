@@ -35,6 +35,9 @@ public:
 	void start() override;
 	void reset() override;
 	void timerElapsed() override;
+
+	//to save previous state
+	STATES previous = STATES::INACTIVE;
 };
 
 class ShortRest : public State

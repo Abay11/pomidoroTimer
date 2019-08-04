@@ -4,6 +4,8 @@
 
 #include <QTimer>
 
+#include "concretestates.h"
+
 Pomidoro::Pomidoro(QObject* parent, TrayUI* /*ui*/)
 	: QObject(parent)
 	, inactiveState(new Inactive(this))
@@ -100,6 +102,13 @@ void Pomidoro::slotStart()
 void Pomidoro::slotPause()
 {
 	state_->doLog("pause()");
+
+	//need to save previous state,
+	//because the PAUSED state should to know
+	//on which state need to switch on
+	//after slotStart() was invoked
+	auto p = dynamic_cast<Paused*>(pausedState);
+	p->previous = state_->type();
 
 	state_->pause();
 }

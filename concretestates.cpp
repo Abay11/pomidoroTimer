@@ -72,7 +72,33 @@ Paused::~Paused()
 
 void Paused::start()
 {
-	context->setNewState(context->getActiveState());
+	switch(previous)
+	{
+		case STATES::ACTIVE:
+		{
+			context->setNewState(context->getActiveState());
+			break;
+		}
+
+		case STATES::SHORT_REST:
+		{
+			context->setNewState(context->getShortRestState());
+			break;
+		}
+
+		case STATES::LONG_REST:
+		{
+			context->setNewState(context->getLongRestState());
+			break;
+		}
+
+		default:
+		{
+			qWarning() << "Paused::start()" << "something went wrong. A nonexpected state";
+			break;
+		}
+	}
+
 }
 
 void Paused::reset()
@@ -99,7 +125,7 @@ ShortRest::~ShortRest()
 
 void ShortRest::pause()
 {
-
+	context->setNewState(context->getPausedState());
 }
 
 void ShortRest::reset()
@@ -127,7 +153,7 @@ LongRest::~LongRest()
 
 void LongRest::pause()
 {
-
+	context->setNewState(context->getPausedState());
 }
 
 void LongRest::reset()

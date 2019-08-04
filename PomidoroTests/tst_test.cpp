@@ -38,8 +38,8 @@ private slots:
 	void test_main_logic1();
 	void test_main_logic2();
 	void test_main_logic3();
-	/*
 	void test_main_logic4();
+	/*
 	*/
 
 };
@@ -304,41 +304,31 @@ void test::test_main_logic3()
 	State::clearLog();
 }
 
-/*
 void test::test_main_logic4()
 {
-	ThreadController* controller = new ThreadController;
-
-	Pomidoro* p = controller->pomidoro();
+	Pomidoro* p = new Pomidoro;
 
 	p->setReps(1);
-	p->setDurations(1, 0, 0);
+	p->setDurations(1, 1, 1);
 
-	controller->run();
+	p->slotStart();
 
-	controller->startPomidoro();
+	p->setNewState(p->getShortRestState());
+	p->slotPause();
+	QCOMPARE(p->getState()->type(), State::STATES::PAUSED);
+	p->slotStart();
+	//Pomidoro should return to the state, on which it was paused
+	QCOMPARE(p->getState()->type(), State::STATES::SHORT_REST);
 
-	controller->pausePomidoro();
-
-	//	controller->startPomidoro();
-
-	//	controller->stopPomidoro();
-
-	QThread::msleep(100);
-	QString expectedLog("INACTIVE::start()->"
-		"ACTIVE::pause()");
-	//		"PAUSE::start()->"
-	//		"ACTIVE::stop()");
-
-	QCOMPARE(State::getLog(), expectedLog);
-
-	//	QCOMPARE(p->getState()->type(), State::STATES::INACTIVE);
-
-	controller->stop();
+	p->setNewState(p->getLongRestState());
+	p->slotPause();
+	QCOMPARE(p->getState()->type(), State::STATES::PAUSED);
+	p->slotStart();
+	//Pomidoro should return to the state, on which it was paused
+	QCOMPARE(p->getState()->type(), State::STATES::LONG_REST);
 
 	State::clearLog();
 }
-*/
 
 QTEST_MAIN(test)
 
