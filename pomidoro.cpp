@@ -1,13 +1,14 @@
 #include "pomidoro.h"
 #include "concretestates.h"
 #include "trayui.h"
+#include "datasaver.h"
 
 #include <QTimer>
 
-
-
 Pomidoro::Pomidoro(QObject* parent, TrayUI* /*ui*/)
-	: QObject(parent), StatesHolder(this)
+	: QObject(parent),
+		StatesHolder(this),
+		saver(new DataSaver(this))
 {
 	isRunning_ = false;
 
@@ -151,7 +152,6 @@ void Pomidoro::setIsContinuousWork(bool value)
 {
 	isContinuousWork = value;
 }
-
 
 /*
 void Pomidoro::slotStart()

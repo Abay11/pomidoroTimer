@@ -3,6 +3,8 @@
 
 #include <QTime>
 
+extern const char* CONFIG_PATH;
+
 class Utility
 {
 public:

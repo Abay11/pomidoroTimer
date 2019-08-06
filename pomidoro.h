@@ -12,6 +12,7 @@
 
 class TrayUI;
 class State;
+class DataSaver;
 
 class QTimer;
 
@@ -19,6 +20,9 @@ class Pomidoro : protected QObject, public StatesHolder
 {
 	Q_OBJECT
 
+	friend class test;
+
+	friend DataSaver;
 	friend ThreadController;
 	friend Inactive;
 	friend Active;
@@ -79,6 +83,8 @@ private:
 	void initTimerIfNot();
 
 protected:
+	DataSaver* saver;
+
 	//indicates if need to switch on longRestState after finishing pomidoro
 	bool isContinuousWork = false;
 

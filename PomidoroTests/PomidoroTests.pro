@@ -7,6 +7,7 @@ CONFIG -= app_bundle
 TEMPLATE = app
 
 SOURCES +=  tst_test.cpp \
+    ../datasaver.cpp \
     ../statesholder.cpp \
     ../utility.cpp \
     ../pomidoro.cpp \
@@ -15,6 +16,7 @@ SOURCES +=  tst_test.cpp \
     ../threadcontroller.cpp
 
 HEADERS += \
+    ../datasaver.h \
     ../statesholder.h \
     ../utility.h \
     ../pomidoro.h \

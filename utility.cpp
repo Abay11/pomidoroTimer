@@ -1,5 +1,7 @@
 #include "utility.h"
 
+const char* CONFIG_PATH = "./config.json";
+
 Utility::Utility()
 {
 }

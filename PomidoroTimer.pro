@@ -25,6 +25,7 @@ DEFINES += QT_DEPRECATED_WARNINGS
 CONFIG += c++11
 
 SOURCES += \
+ datasaver.cpp \
         main.cpp \
     settingsdialog.cpp \
     requestdialog.cpp \
@@ -37,6 +38,7 @@ SOURCES += \
     threadcontroller.cpp
 
 HEADERS += \
+    datasaver.h \
     settingsdialog.h \
     requestdialog.h \
     statesholder.h \

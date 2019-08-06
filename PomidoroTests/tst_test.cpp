@@ -9,6 +9,8 @@
 
 #include "../threadcontroller.h"
 
+#include "../datasaver.h"
+
 class test : public QObject
 {
 	Q_OBJECT
@@ -40,6 +42,7 @@ private slots:
 	void test_main_logic3();
 	void test_main_logic4();
 
+	void test_data_saving_restoring();
 };
 
 test::test()
@@ -326,6 +329,29 @@ void test::test_main_logic4()
 	QCOMPARE(p->getState()->type(), State::STATES::LONG_REST);
 
 	State::clearLog();
+}
+
+void test::test_data_saving_restoring()
+{
+	Pomidoro* p = new Pomidoro;
+
+	p->setDurations(44, 22, 33);
+	p->setReps(77);
+
+	p->saver->saveData();
+
+	//clear parameters to check restoring :)
+	p->setDurations(0, 0, 0);
+	p->setReps(0);
+
+	p->saver->restoreData();
+
+	QCOMPARE(p->work_, 44);
+	QCOMPARE(p->sh_rest_, 22);
+	QCOMPARE(p->l_rest_, 33);
+	QCOMPARE(p->reps_, 77);
+
+	delete p;
 }
 
 QTEST_MAIN(test)
