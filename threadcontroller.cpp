@@ -36,21 +36,6 @@ Pomidoro* ThreadController::pomidoro() const
 	return pomidoro_;
 }
 
-void ThreadController::startPomidoro()
-{
-	emit cmdStart();
-}
-
-void ThreadController::stopPomidoro()
-{
-	emit cmdStop();
-}
-
-void ThreadController::pausePomidoro()
-{
-	emit cmdPause();
-}
-
 void ThreadController::run()
 {
 	pomidoro_->moveToThread(thread_);
@@ -66,12 +51,35 @@ void ThreadController::stop()
 	if(pomidoro_->isRunning())
 		l->exec();
 
-	QThread::sleep(1);
-
-
 	thread_->quit();
 
 	thread_->wait();
 
-	//	delete l;s
+	delete l;
 }
+
+void ThreadController::startPomidoro()
+{
+	//should wait until Pomidoro will started
+	//otherwise it immediately will finish
+	//despite the QEventLoop in stop() -
+	//Pomidoro not get in time changing isRunning flag
+	QEventLoop* l = new QEventLoop;
+
+	connect(pomidoro_, SIGNAL(started()), l, SLOT(quit()));
+
+	emit cmdStart();
+
+	l->exec();
+}
+
+void ThreadController::stopPomidoro()
+{
+	emit cmdStop();
+}
+
+void ThreadController::pausePomidoro()
+{
+	emit cmdPause();
+}
+

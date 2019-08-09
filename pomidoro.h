@@ -76,6 +76,11 @@ private slots:
 	void slotTimeOut();
 
 signals:
+	//Pomidoro should emit this signals
+	//cause Controller will be wait for these
+	//and not will finished to fast
+	void started();
+
 	void finished();
 
 	//class members

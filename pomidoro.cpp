@@ -82,6 +82,8 @@ void Pomidoro::slotStart()
 	state_->doLog("start()");
 
 	state_->start();
+
+	emit started();
 }
 
 void Pomidoro::slotPause()

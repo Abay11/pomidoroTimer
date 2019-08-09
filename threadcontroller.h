@@ -22,7 +22,7 @@ move it to that thread and run the thread.
 To controll P need to to use the interface provided by this class
 */
 
-class ThreadController : private QObject
+class ThreadController : public QObject
 {
 	Q_OBJECT
 
@@ -36,13 +36,13 @@ public:
 
 	Pomidoro* pomidoro() const;
 
-	//*****An interface to control Pomidoro states*****//
-	void startPomidoro();
+	//calls setConnections()
+	//move P to the thread
+	//and run the one
+	void run();
 
-	void stopPomidoro();
-
-	void pausePomidoro();
-	//************************************************//
+	//quit the thread and wait until it will be stopped
+	void stop();
 
 signals:
 	//these signals emits by slots in the declared above interfaces
@@ -55,13 +55,13 @@ signals:
 	void cmdQuitLoop();
 
 public slots:
-	//calls setConnections()
-	//move P to the thread
-	//and run the one
-	void run();
+	//*****An interface to control Pomidoro states*****//
+	void startPomidoro();
 
-	//quit the thread and wait until it will be stopped
-	void stop();
+	void stopPomidoro();
+
+	void pausePomidoro();
+	//************************************************//
 
 private:
 	QThread* thread_ = nullptr;
