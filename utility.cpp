@@ -52,3 +52,15 @@ QTime Utility::next_completion(int pomidoroDuration, int shortRest, QTime time)
 			res_minutes);
 }
 
+QString Utility::formatTimerRemainingToString(int ms)
+{
+	int s = ms / 1000;
+
+	int minutes = s / 60;
+	int seconds = s % 60;
+
+	QTime t(0, minutes, seconds);
+
+	return t.toString("mm:ss");
+}
+

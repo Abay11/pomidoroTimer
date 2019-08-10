@@ -14,6 +14,8 @@ public:
 
 	static QTime next_completion(int pomidoroDuration, int shortRest, QTime time = QTime::currentTime());
 
+	static QString formatTimerRemainingToString(int ms);
+
 	static const QString VERSION;
 };
 

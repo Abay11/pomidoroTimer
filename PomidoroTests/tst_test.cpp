@@ -43,6 +43,8 @@ private slots:
 	void test_main_logic4();
 
 	void test_data_saving_restoring();
+
+	void test_formatTimerRemainingToString();
 };
 
 test::test()
@@ -241,6 +243,10 @@ void test::test_main_logic2()
 
 	c->startPomidoro();
 
+	c->stop();
+
+	QCOMPARE(pomidoro->getState()->type(), State::STATES::INACTIVE);
+
 	QString expected("INACTIVE::start()"
 		"->ACTIVE::timerElapsed()" //1 pomidoro
 		"->SHORT_REST::timerElapsed()"
@@ -251,16 +257,11 @@ void test::test_main_logic2()
 		"->ACTIVE::timerElapsed()" //4
 	);
 
-	c->stop();
-
-	QCOMPARE(pomidoro->getState()->type(), State::STATES::INACTIVE);
-
 	QCOMPARE(State::getLog(), expected);
 
 	delete pomidoro;
 	State::clearLog();
 }
-
 
 void test::test_main_logic3()
 {
@@ -352,6 +353,25 @@ void test::test_data_saving_restoring()
 	QCOMPARE(p->reps_, 77);
 
 	delete p;
+}
+
+void test::test_formatTimerRemainingToString()
+{
+	QString expected = "20:00";
+	QString actual = Utility::formatTimerRemainingToString(20 * 60 * 1000);
+	QCOMPARE(actual, expected);
+
+	expected = "20:01";
+	actual = Utility::formatTimerRemainingToString((20 * 60 + 1) * 1000);
+	QCOMPARE(actual, expected);
+
+	expected = "19:59";
+	actual = Utility::formatTimerRemainingToString((19 * 60 + 59) * 1000);
+	QCOMPARE(actual, expected);
+
+	expected = "00:00";
+	actual = Utility::formatTimerRemainingToString(0);
+	QCOMPARE(actual, expected);
 }
 
 QTEST_MAIN(test)
