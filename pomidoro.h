@@ -59,6 +59,8 @@ public:
 
 	void setIsContinuousWork(bool value);
 
+	int getTimerRemainingTime();
+
 public slots:
 
 	void slotStart();
@@ -102,7 +104,7 @@ protected:
 	int total_ = 0;
 
 private:
-	QTimer* timer = nullptr;
+	QTimer* timer_ = nullptr;
 
 	bool showAgainDialog = true;
 

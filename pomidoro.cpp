@@ -23,7 +23,7 @@ Pomidoro::Pomidoro(const Pomidoro& other)
 
 Pomidoro::~Pomidoro()
 {
-	delete timer;
+	delete timer_;
 }
 
 int Pomidoro::getWorkDuration() const
@@ -102,7 +102,7 @@ void Pomidoro::slotPause()
 
 void Pomidoro::slotStop()
 {
-	timer->stop();
+	timer_->stop();
 
 	state_->stop();
 
@@ -118,8 +118,8 @@ void Pomidoro::slotStartTimer(int min)
 {
 	initTimerIfNot();
 
-	timer->setSingleShot(true);
-	timer->start(min * 1000 * 60);
+	timer_->setSingleShot(true);
+	timer_->start(min * 1000 * 60);
 }
 
 void Pomidoro::slotTimeOut()
@@ -138,10 +138,10 @@ void Pomidoro::slotTimeOut()
 
 void Pomidoro::initTimerIfNot()
 {
-	if(!timer)
+	if(!timer_)
 	{
-		timer = new QTimer;
-		connect(timer, SIGNAL(timeout()), SLOT(slotTimeOut()));
+		timer_ = new QTimer;
+		connect(timer_, SIGNAL(timeout()), SLOT(slotTimeOut()));
 	}
 }
 
@@ -153,6 +153,16 @@ bool Pomidoro::isRunning()
 void Pomidoro::setIsContinuousWork(bool value)
 {
 	isContinuousWork = value;
+}
+
+int Pomidoro::getTimerRemainingTime()
+{
+	if(timer_)
+		return timer_->remainingTime();
+
+	//cause QTimer::remainingTime() returns milliseconds
+	//need to convert to milliseconds (we store minutes)
+	return work_ * 60 * 1000;
 }
 
 /*
