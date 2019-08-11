@@ -46,7 +46,7 @@ void ThreadController::run()
 void ThreadController::stop()
 {
 	QEventLoop* l = new QEventLoop;
-	Q_ASSERT(connect(pomidoro_, SIGNAL(finished()), l, SLOT(quit())));
+	Q_ASSERT(connect(pomidoro_, SIGNAL(inactive()), l, SLOT(quit())));
 
 	if(pomidoro_->isRunning())
 		l->exec();
@@ -66,7 +66,7 @@ void ThreadController::startPomidoro()
 	//Pomidoro not get in time changing isRunning flag
 	QEventLoop* l = new QEventLoop;
 
-	connect(pomidoro_, SIGNAL(started()), l, SLOT(quit()));
+	connect(pomidoro_, SIGNAL(active()), l, SLOT(quit()));
 
 	emit cmdStart();
 

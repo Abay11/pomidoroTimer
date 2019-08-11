@@ -83,7 +83,7 @@ void Pomidoro::slotStart()
 
 	state_->start();
 
-	emit started();
+	emit active();
 }
 
 void Pomidoro::slotPause()
@@ -107,6 +107,8 @@ void Pomidoro::slotStop()
 	state_->stop();
 
 	isRunning_ = false;
+
+	emit inactive();
 }
 
 void Pomidoro::slotReset()
@@ -126,13 +128,20 @@ void Pomidoro::slotTimeOut()
 {
 	state_->doLog("timerElapsed()");
 
+	//need to emit a signal for UI to set rest icon,
+	//if we switch on SHORT or LONG REST state
+	//for it, check if current state is ACTIVE
+	bool isWorkState = state_->type() == State::STATES::ACTIVE;
+
+	if(isWorkState) emit rest();
+
 	state_->timerElapsed();
 
 	if(total_ >= reps_)
 	{
 		isRunning_ = false;
 
-		emit finished();
+		emit inactive();
 	}
 }
 
@@ -167,7 +176,7 @@ void Pomidoro::setIsContinuousWork(bool value)
 
 int Pomidoro::getTimerRemainingTime()
 {
-	if(timer_)
+	if(timer_ && timer_->isActive())
 		return timer_->remainingTime();
 
 	//cause QTimer::remainingTime() returns milliseconds

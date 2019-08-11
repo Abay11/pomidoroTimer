@@ -1,4 +1,4 @@
-#ifndef TOMATO_H
+﻿#ifndef TOMATO_H
 #define TOMATO_H
 
 
@@ -16,7 +16,7 @@ class DataSaver;
 
 class QTimer;
 
-class Pomidoro : protected QObject, public StatesHolder
+class Pomidoro : public QObject, public StatesHolder
 {
 	Q_OBJECT
 
@@ -84,10 +84,13 @@ private slots:
 signals:
 	//Pomidoro should emit this signals
 	//cause Controller will be wait for these
-	//and not will finished to fast
-	void started();
+	//and those not will finished to fast
+	void active();
 
-	void finished();
+	void inactive();
+
+	//TODO: set more appropriatable name
+	void rest();
 
 	//class members
 private:
