@@ -2,12 +2,15 @@
 #define TRAYUI_H
 
 #include <QObject>
+#include <QSystemTrayIcon>
 
 class Pomidoro;
+class ThreadController;
 
 class QSystemTrayIcon;
 class QMenu;
 class QAction;
+class QTimer;
 
 class TrayUI : public QObject
 {
@@ -15,19 +18,22 @@ class TrayUI : public QObject
 	Q_OBJECT
 
 public:
-	TrayUI();
+	TrayUI(QObject* parent = nullptr);
 
 private slots:
-	void slotStart();
-	void slotPause();
-	void slotReset();
-	void slotStop();
-	void slotTimerElapsed();
 	void slotOpenSettings();
 
-private:
-	Pomidoro* pomidoro;
+	void slotTrayActivated();
 
+	void slot_timer_updater();
+
+	void slot_set_rounds_info();
+
+private:
+	Pomidoro* pomidoro_;
+	ThreadController* controller_;
+
+	QTimer* timer_updater_;
 
 	QSystemTrayIcon* tray;
 	QMenu* menu;
