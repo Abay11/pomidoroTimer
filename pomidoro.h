@@ -61,6 +61,10 @@ public:
 
 	int getTimerRemainingTime();
 
+	int getTotal() const;
+
+	int getRounds() const;
+
 public slots:
 
 	void slotStart();

@@ -145,6 +145,16 @@ void Pomidoro::initTimerIfNot()
 	}
 }
 
+int Pomidoro::getRounds() const
+{
+	return rounds_;
+}
+
+int Pomidoro::getTotal() const
+{
+	return total_;
+}
+
 bool Pomidoro::isRunning()
 {
 	return isRunning_.load();
