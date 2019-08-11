@@ -36,16 +36,20 @@ TrayUI::TrayUI(QObject* parent)
 
 	slot_set_rounds_info();
 
-	connect(start, SIGNAL(triggered()), controller_, SLOT(controller_->startPomidoro()));
-	connect(reset, SIGNAL(triggered()), controller_, SLOT(controller_->resetPomidoro()));
-	connect(stop, SIGNAL(triggered()), controller_, SLOT(controller_->stopPomidoro()));
+	connect(start, SIGNAL(triggered()), controller_, SLOT(startPomidoro()));
+	//k	connect(reset, SIGNAL(triggered()), controller_, SLOT(controller_->resetPomidoro()));
+	connect(stop, SIGNAL(triggered()), controller_, SLOT(stopPomidoro()));
 
 	connect(tray, SIGNAL(activated(QSystemTrayIcon::ActivationReason)),
 		this, SLOT(slotTrayActivated()));
 
 	connect(timer_updater_, SIGNAL(timeout()), SLOT(slot_timer_updater()));
 
-	tray->setIcon(QIcon(":/Icons/gray.png"));
+	connect(pomidoro_, SIGNAL(active()), SLOT(slot_set_active_icon()));
+	connect(pomidoro_, SIGNAL(inactive()), SLOT(slot_set_inactive_icon()));
+	connect(pomidoro_, SIGNAL(rest()), SLOT(slot_set_rest_icon()));
+
+	slot_set_inactive_icon();
 	tray->setContextMenu(menu);
 	tray->show();
 }
@@ -56,7 +60,9 @@ void TrayUI::slotOpenSettings()
 
 void TrayUI::slotTrayActivated()
 {
-	timer_updater_->start(1000);
+	//set 100 ms for updating to get more
+	//comfortable user expirience
+	timer_updater_->start(100);
 }
 
 void TrayUI::slot_timer_updater()
@@ -67,8 +73,8 @@ void TrayUI::slot_timer_updater()
 		return;
 	}
 
-	//do update info every 1 sec
-	//	display->setText(Utility::formatTimerRemainingToString(pomidoro_->getTimerRemainingTime()));
+	//do update info periodically during context menu is visible
+	display->setText(Utility::formatTimerRemainingToString(pomidoro_->getTimerRemainingTime()));
 }
 
 void TrayUI::slot_set_rounds_info()
@@ -77,4 +83,19 @@ void TrayUI::slot_set_rounds_info()
 		.arg(pomidoro_->getRounds())
 		.arg(pomidoro_->getReps())
 		.arg(pomidoro_->getTotal()));
+}
+
+void TrayUI::slot_set_active_icon()
+{
+	tray->setIcon(QIcon(":/Icons/red.png"));
+}
+
+void TrayUI::slot_set_rest_icon()
+{
+	tray->setIcon(QIcon(":/Icons/green.png"));
+}
+
+void TrayUI::slot_set_inactive_icon()
+{
+	tray->setIcon(QIcon(":/Icons/gray.png"));
 }

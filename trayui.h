@@ -29,6 +29,12 @@ private slots:
 
 	void slot_set_rounds_info();
 
+	void slot_set_active_icon();
+
+	void slot_set_rest_icon();
+
+	void slot_set_inactive_icon();
+
 private:
 	Pomidoro* pomidoro_;
 	ThreadController* controller_;
