@@ -16,6 +16,20 @@ class DataSaver;
 
 class QTimer;
 
+struct ConfigParams
+{
+	//indicates if need to switch on longRestState after finishing pomidoro
+	bool isContinuousWork = false;
+
+	int	work_ = 20;
+	int sh_rest_ = 5;
+	int l_rest_ = 15;
+	int reps_ = 1;
+	int rounds_ = 0;
+	//indicates already have been finished total pomidoro count
+	int total_ = 0;
+};
+
 class Pomidoro : public QObject, public StatesHolder
 {
 	Q_OBJECT
@@ -65,8 +79,9 @@ public:
 
 	int getRounds() const;
 
-public slots:
+	ConfigParams* configs();
 
+public slots:
 	void slotStart();
 
 	void slotPause();
@@ -78,7 +93,6 @@ public slots:
 	void slotStartTimer(int min);
 
 private slots:
-
 	void slotTimeOut();
 
 signals:
@@ -97,18 +111,9 @@ private:
 	void initTimerIfNot();
 
 protected:
+	ConfigParams* configs_;
+
 	DataSaver* saver;
-
-	//indicates if need to switch on longRestState after finishing pomidoro
-	bool isContinuousWork = false;
-
-	int	work_ = 20;
-	int sh_rest_ = 5;
-	int l_rest_ = 15;
-	int reps_ = 1;
-	int rounds_ = 0;
-	//indicates already have been finished total pomidoro count
-	int total_ = 0;
 
 private:
 	QTimer* timer_ = nullptr;

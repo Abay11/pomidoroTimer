@@ -2,6 +2,7 @@
 #define ABSTRACTSTATE_H
 
 class Pomidoro;
+struct ConfigParams;
 
 class QString;
 
@@ -34,11 +35,16 @@ public:
 
 	static void clearLog();
 
+	static void setParams(ConfigParams* configs);
+
 private:
 	QString toString();
 
 protected:
 	Pomidoro* context;
+	//cause all states relative to the one pomidoro
+	//configs are same for all states
+	static ConfigParams* configs_;
 
 	//for the tests to check workflow
 	static QString log;

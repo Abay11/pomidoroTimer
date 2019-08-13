@@ -1,10 +1,11 @@
 #include "state.h"
-
 #include "pomidoro.h"
 
 #include <QString>
 
 QString State::log;
+
+ConfigParams* State::configs_ = nullptr;
 
 State::State(STATES type, Pomidoro* context)
 	: context(context),
@@ -60,6 +61,11 @@ void State::doLog(QString comment)
 void State::clearLog()
 {
 	log.clear();
+}
+
+void State::setParams(ConfigParams* configs)
+{
+	configs_ = configs;
 }
 
 QString State::toString()

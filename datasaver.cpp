@@ -7,7 +7,8 @@
 #include <QJsonDocument>
 
 DataSaver::DataSaver(Pomidoro* context)
-	: context_(context)
+	: context_(context),
+		configs_(context->configs_)
 {
 }
 
@@ -19,10 +20,10 @@ bool DataSaver::saveData()
 		return false;
 
 	QJsonObject obj;
-	obj[WORK] = context_->work_;
-	obj[SH_REST] = context_->sh_rest_;
-	obj[L_REST] = context_->l_rest_;
-	obj[REPS] = context_->reps_;
+	obj[WORK] = configs_->work_;
+	obj[SH_REST] = configs_->sh_rest_;
+	obj[L_REST] = configs_->l_rest_;
+	obj[REPS] = configs_->reps_;
 
 	QJsonDocument doc(obj);
 
@@ -47,10 +48,10 @@ bool DataSaver::restoreData()
 
 	QJsonObject obj = doc.object();
 
-	context_->work_ = obj[WORK].toInt();
-	context_->sh_rest_ = obj[SH_REST].toInt();
-	context_->l_rest_ = obj[L_REST].toInt();
-	context_->reps_ = obj[REPS].toInt();
+	configs_->work_ = obj[WORK].toInt();
+	configs_->sh_rest_ = obj[SH_REST].toInt();
+	configs_->l_rest_ = obj[L_REST].toInt();
+	configs_->reps_ = obj[REPS].toInt();
 
 	return true;
 }

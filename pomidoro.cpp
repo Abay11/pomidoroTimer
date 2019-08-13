@@ -8,8 +8,11 @@
 Pomidoro::Pomidoro(QObject* parent, TrayUI* /*ui*/)
 	: QObject(parent),
 		StatesHolder(this),
+		configs_(new ConfigParams),
 		saver(new DataSaver(this))
 {
+	State::setParams(configs_);
+
 	isRunning_ = false;
 
 	qApp->setQuitOnLastWindowClosed(false);
@@ -28,51 +31,51 @@ Pomidoro::~Pomidoro()
 
 int Pomidoro::getWorkDuration() const
 {
-	return work_;
+	return configs_->work_;
 }
 
 int Pomidoro::getRestDuration() const
 {
-	return sh_rest_;
+	return configs_->sh_rest_;
 }
 
 int Pomidoro::getLongRestDuration() const
 {
-	return l_rest_;
+	return configs_->l_rest_;
 }
 
 int Pomidoro::getReps() const
 {
-	return reps_;
+	return configs_->reps_;
 }
 
 void Pomidoro::setDurations(int work, int rest, int long_rest)
 {
-	work_ = work;
+	configs_->work_ = work;
 
-	sh_rest_ = rest;
+	configs_->sh_rest_ = rest;
 
-	l_rest_ = long_rest;
+	configs_->l_rest_ = long_rest;
 }
 
 void Pomidoro::setWorkDuration(int min)
 {
-	work_ = min;
+	configs_->work_ = min;
 }
 
 void Pomidoro::setShortRestDuration(int min)
 {
-	sh_rest_ = min;
+	configs_->sh_rest_ = min;
 }
 
 void Pomidoro::setLongRestDuration(int min)
 {
-	l_rest_ = min;
+	configs_->l_rest_ = min;
 }
 
 void Pomidoro::setReps(int value)
 {
-	reps_ = value;
+	configs_->reps_ = value;
 }
 
 void Pomidoro::slotStart()
@@ -137,7 +140,7 @@ void Pomidoro::slotTimeOut()
 
 	state_->timerElapsed();
 
-	if(total_ >= reps_)
+	if(configs_->total_ >= configs_->reps_)
 	{
 		isRunning_ = false;
 
@@ -156,12 +159,17 @@ void Pomidoro::initTimerIfNot()
 
 int Pomidoro::getRounds() const
 {
-	return rounds_;
+	return configs_->rounds_;
+}
+
+ConfigParams* Pomidoro::configs()
+{
+	return configs_;
 }
 
 int Pomidoro::getTotal() const
 {
-	return total_;
+	return configs_->total_;
 }
 
 bool Pomidoro::isRunning()
@@ -171,7 +179,7 @@ bool Pomidoro::isRunning()
 
 void Pomidoro::setIsContinuousWork(bool value)
 {
-	isContinuousWork = value;
+	configs_->isContinuousWork = value;
 }
 
 int Pomidoro::getTimerRemainingTime()
@@ -181,7 +189,7 @@ int Pomidoro::getTimerRemainingTime()
 
 	//cause QTimer::remainingTime() returns milliseconds
 	//need to convert to milliseconds (we store minutes)
-	return work_ * 60 * 1000;
+	return configs_->work_ * 60 * 1000;
 }
 
 /*

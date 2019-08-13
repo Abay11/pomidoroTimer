@@ -2,6 +2,7 @@
 #define DATASAVER_H
 
 class Pomidoro;
+struct ConfigParams;
 
 class QString;
 class QJsonObject;
@@ -22,6 +23,7 @@ public:
 
 private:
 	Pomidoro* context_;
+	ConfigParams* configs_;
 };
 
 #endif // DATASAVER_H

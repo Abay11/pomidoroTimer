@@ -347,10 +347,10 @@ void test::test_data_saving_restoring()
 
 	p->saver->restoreData();
 
-	QCOMPARE(p->work_, 44);
-	QCOMPARE(p->sh_rest_, 22);
-	QCOMPARE(p->l_rest_, 33);
-	QCOMPARE(p->reps_, 77);
+	QCOMPARE(p->configs()->work_, 44);
+	QCOMPARE(p->configs()->sh_rest_, 22);
+	QCOMPARE(p->configs()->l_rest_, 33);
+	QCOMPARE(p->configs()->reps_, 77);
 
 	delete p;
 }
