@@ -12,6 +12,15 @@ StatesHolder::StatesHolder(Pomidoro* context)
 {
 }
 
+StatesHolder::~StatesHolder()
+{
+	delete inactiveState;
+	delete activeState;
+	delete pausedState;
+	delete shortRestState;
+	delete longRestState;
+}
+
 State* StatesHolder::getState()
 {
 	return state_;

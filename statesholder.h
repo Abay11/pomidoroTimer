@@ -9,6 +9,8 @@ class StatesHolder
 public:
 	StatesHolder(Pomidoro* context);
 
+	~StatesHolder();
+
 	State* getState();
 
 	State* getInactiveState();
