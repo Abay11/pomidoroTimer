@@ -88,11 +88,15 @@ void SettingsDialog::slotAccept()
 	params_->isContinuousWork = pchturnLongRest->isChecked();
 	params_->showDialogAgain = !pchshowAgain->isChecked();
 
+	//QDialog virtual slot
+	//close dialog and returns Accepted code
 	accept();
 }
 
 void SettingsDialog::slotReject()
 {
+	//QDialog virtual slot
+	//close dialog and returns Rejected code
 	reject();
 }
 

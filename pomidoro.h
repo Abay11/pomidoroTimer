@@ -1,4 +1,4 @@
-#ifndef TOMATO_H
+﻿#ifndef TOMATO_H
 #define TOMATO_H
 
 
@@ -38,6 +38,7 @@ class Pomidoro : public QObject, public StatesHolder
 
 	friend class test;
 
+	friend TrayUI;
 	friend DataSaver;
 	friend ThreadController;
 	friend Inactive;
@@ -115,7 +116,7 @@ private:
 protected:
 	ConfigParams* configs_;
 
-	DataSaver* saver;
+	DataSaver* saver_;
 
 private:
 	QTimer* timer_ = nullptr;

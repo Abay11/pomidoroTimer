@@ -2,6 +2,7 @@
 
 #include "utility.h"
 #include "pomidoro.h"
+#include "datasaver.h"
 
 #include <QSystemTrayIcon>
 #include <QMenu>
@@ -56,6 +57,10 @@ TrayUI::TrayUI(QObject* parent)
 
 void TrayUI::slotOpenSettings()
 {
+	static SettingsDialog* pdialog = new SettingsDialog(pomidoro_->configs());
+
+	if(pdialog->exec())
+		accept_changes();
 }
 
 void TrayUI::slotTrayActivated()
@@ -98,4 +103,11 @@ void TrayUI::slot_set_rest_icon()
 void TrayUI::slot_set_inactive_icon()
 {
 	tray->setIcon(QIcon(":/Icons/gray.png"));
+}
+
+void TrayUI::accept_changes()
+{
+	qDebug() << "Saving updated data";
+
+	pomidoro_->saver_->saveData();
 }

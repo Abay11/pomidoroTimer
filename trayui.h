@@ -36,6 +36,9 @@ private slots:
 	void slot_set_inactive_icon();
 
 private:
+	void accept_changes();
+
+private:
 	Pomidoro* pomidoro_;
 	ThreadController* controller_;
 

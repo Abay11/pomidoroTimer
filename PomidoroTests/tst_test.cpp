@@ -339,13 +339,13 @@ void test::test_data_saving_restoring()
 	p->setDurations(44, 22, 33);
 	p->setReps(77);
 
-	p->saver->saveData();
+	p->saver_->saveData();
 
 	//clear parameters to check restoring :)
 	p->setDurations(0, 0, 0);
 	p->setReps(0);
 
-	p->saver->restoreData();
+	p->saver_->restoreData();
 
 	QCOMPARE(p->configs()->work_, 44);
 	QCOMPARE(p->configs()->sh_rest_, 22);
