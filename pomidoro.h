@@ -1,4 +1,4 @@
-﻿#ifndef TOMATO_H
+#ifndef TOMATO_H
 #define TOMATO_H
 
 
@@ -16,10 +16,12 @@ class DataSaver;
 
 class QTimer;
 
-struct ConfigParams
+class ConfigParams
 {
+public:
 	//indicates if need to switch on longRestState after finishing pomidoro
 	bool isContinuousWork = false;
+	bool showDialogAgain = true;
 
 	int	work_ = 20;
 	int sh_rest_ = 5;
@@ -117,8 +119,6 @@ protected:
 
 private:
 	QTimer* timer_ = nullptr;
-
-	bool showAgainDialog = true;
 
 	std::atomic<bool> isRunning_;
 };

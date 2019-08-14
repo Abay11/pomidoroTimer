@@ -1,21 +1,12 @@
 #include "settingsdialog.h"
 
-SettingsDialog::SettingsDialog(int* w,
-	int* s,
-	int* l,
-	int* r,
-	bool* turnLongRest,
-	bool* showAgain,
-	QWidget* p)
-	: QDialog(p)
-	, pwork(w)
-	, pshort(s)
-	, plong(l)
-	, preps(r)
-	, pturnLongRest(turnLongRest)
-	, pshowAgain(showAgain)
-	, next_tomato_completion(new QLabel)
-	, max_tomatoes_label(new QLabel)
+#include "pomidoro.h"
+
+SettingsDialog::SettingsDialog(ConfigParams* params,	QWidget* p)
+	: QDialog(p),
+		params_(params),
+		next_tomato_completion(new QLabel),
+		max_tomatoes_label(new QLabel)
 {
 	spinWork = new QSpinBox();
 	spinWork->setSingleStep(5);
@@ -29,12 +20,12 @@ SettingsDialog::SettingsDialog(int* w,
 	pcmdOk = new QPushButton("Accept and reset timer");
 	pcmdCancel = new QPushButton("Cancel");
 
-	spinWork->setValue(*w);
-	spinShort->setValue(*s);
-	spinLong->setValue(*l);
-	spinReps->setValue(*r);
-	pchturnLongRest->setChecked(*turnLongRest);
-	pchshowAgain->setChecked(*showAgain);
+	spinWork->setValue(params_->work_);
+	spinShort->setValue(params_->sh_rest_);
+	spinLong->setValue(params_->l_rest_);
+	spinReps->setValue(params_->reps_);
+	pchturnLongRest->setChecked(params_->isContinuousWork);
+	pchshowAgain->setChecked(params_->showDialogAgain);
 
 	QFormLayout* pflay = new QFormLayout;
 
@@ -90,12 +81,13 @@ void SettingsDialog::setInfoLabels()
 
 void SettingsDialog::slotAccept()
 {
-	*pwork = spinWork->value();
-	*pshort = spinShort->value();
-	*plong = spinLong->value();
-	*preps = spinReps->value();
-	*pturnLongRest = pchturnLongRest->isChecked();
-	*pshowAgain = !pchshowAgain->isChecked();
+	params_->work_ = spinWork->value();
+	params_->sh_rest_ = spinShort->value();
+	params_->l_rest_ = spinLong->value();
+	params_->reps_ = spinReps->value();
+	params_->isContinuousWork = pchturnLongRest->isChecked();
+	params_->showDialogAgain = !pchshowAgain->isChecked();
+
 	accept();
 }
 

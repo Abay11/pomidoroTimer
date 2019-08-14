@@ -2,7 +2,7 @@
 #define ABSTRACTSTATE_H
 
 class Pomidoro;
-struct ConfigParams;
+class ConfigParams;
 
 class QString;
 

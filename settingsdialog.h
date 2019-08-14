@@ -13,19 +13,13 @@
 #include <QDateTime>
 #include <QDebug>
 
+class ConfigParams;
+
 class SettingsDialog: public QDialog
 {
 	Q_OBJECT
 public:
-	SettingsDialog(int* w,
-		int* s,
-		int* l,
-		int* r,
-		bool* turnLongRest,
-		bool* showAgain,
-		QWidget* p = nullptr);
-
-
+	SettingsDialog(ConfigParams* params, QWidget* p = nullptr);
 
 	// QWidget interface
 protected:
@@ -34,15 +28,8 @@ protected:
 private:
 	void setInfoLabels();
 
-
-	int* pwork;
-	int* pshortpshort;
-	int* pshort;
-	int* plong;
-	int* preps;
-	bool* pturnLongRest;
-	bool* pshowAgain;
-	int possibleRepetitions;
+private:
+	ConfigParams* params_;
 
 	QSpinBox* spinWork, *spinShort, *spinLong, *spinReps;
 
