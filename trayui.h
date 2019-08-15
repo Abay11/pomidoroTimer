@@ -5,6 +5,7 @@
 #include <QSystemTrayIcon>
 
 class Pomidoro;
+class ConfigParams;
 class ThreadController;
 
 class QSystemTrayIcon;
@@ -27,8 +28,6 @@ private slots:
 
 	void slot_timer_updater();
 
-	void slot_set_rounds_info();
-
 	void slot_set_active_icon();
 
 	void slot_set_rest_icon();
@@ -38,15 +37,18 @@ private slots:
 private:
 	void accept_changes();
 
+	void loadConfigs();
+
 private:
 	Pomidoro* pomidoro_;
+	ConfigParams* configs_;
 	ThreadController* controller_;
 
 	QTimer* timer_updater_;
 
 	QSystemTrayIcon* tray;
 	QMenu* menu;
-	QAction* display;
+	QAction* timer_data;
 	QAction* rounds;
 	QAction* start;
 	QAction* reset;

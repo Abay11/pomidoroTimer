@@ -16,7 +16,7 @@ TrayUI::TrayUI(QObject* parent)
 		timer_updater_(new QTimer),
 		tray(new QSystemTrayIcon),
 		menu(new QMenu),
-		display(new QAction(menu)),
+		timer_data(new QAction(menu)),
 		rounds(new QAction(menu)),
 		start(new QAction("Start", menu)),
 		reset(new QAction("Reset timer", menu)),
@@ -24,9 +24,11 @@ TrayUI::TrayUI(QObject* parent)
 		version(new QAction(Utility::VERSION, menu))
 {
 	pomidoro_ = controller_->pomidoro();
+	configs_ = pomidoro_->configs_;
 
-	display->setText(QString("%1:00").arg(pomidoro_->getWorkDuration()));
-	menu->addAction(display);
+	loadConfigs();
+
+	menu->addAction(timer_data);
 	menu->addAction(rounds);
 	menu->addAction(start);
 	menu->addAction(reset);
@@ -34,8 +36,6 @@ TrayUI::TrayUI(QObject* parent)
 	menu->addAction("Settings", this, SLOT(slotOpenSettings()));
 	menu->addAction(version);
 	menu->addAction("Exit", qApp, SLOT(quit()));
-
-	slot_set_rounds_info();
 
 	connect(start, SIGNAL(triggered()), controller_, SLOT(startPomidoro()));
 	//k	connect(reset, SIGNAL(triggered()), controller_, SLOT(controller_->resetPomidoro()));
@@ -79,15 +79,7 @@ void TrayUI::slot_timer_updater()
 	}
 
 	//do update info periodically during context menu is visible
-	display->setText(Utility::formatTimerRemainingToString(pomidoro_->getTimerRemainingTime()));
-}
-
-void TrayUI::slot_set_rounds_info()
-{
-	rounds->setText(QString("%1/%2. Total: %3")
-		.arg(pomidoro_->getRounds())
-		.arg(pomidoro_->getReps())
-		.arg(pomidoro_->getTotal()));
+	timer_data->setText(Utility::formatTimerRemainingToString(pomidoro_->getTimerRemainingTime()));
 }
 
 void TrayUI::slot_set_active_icon()
@@ -109,5 +101,19 @@ void TrayUI::accept_changes()
 {
 	qDebug() << "Saving updated data";
 
+	controller_->stopPomidoro();
+
 	pomidoro_->saver_->saveData();
+
+	loadConfigs();
+}
+
+void TrayUI::loadConfigs()
+{
+	timer_data->setText(QString("%1:00").arg(configs_->work_));
+
+	rounds->setText(QString("%1/%2. Total: %3")
+		.arg(configs_->rounds_)
+		.arg(configs_->reps_)
+		.arg(configs_->total_));
 }
