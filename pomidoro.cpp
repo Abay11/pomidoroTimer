@@ -9,7 +9,7 @@ Pomidoro::Pomidoro(QObject* parent, TrayUI* /*ui*/)
 	: QObject(parent),
 		StatesHolder(this),
 		configs_(new ConfigParams),
-		saver_(new DataSaver(this))
+		saver_(new DataSaver(configs_))
 {
 	State::setParams(configs_);
 

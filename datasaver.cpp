@@ -6,9 +6,8 @@
 #include <QJsonObject>
 #include <QJsonDocument>
 
-DataSaver::DataSaver(Pomidoro* context)
-	: context_(context),
-		configs_(context->configs_)
+DataSaver::DataSaver(ConfigParams* configs)
+	: configs_(configs)
 {
 }
 

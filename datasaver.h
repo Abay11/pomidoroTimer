@@ -1,8 +1,7 @@
 #ifndef DATASAVER_H
 #define DATASAVER_H
 
-class Pomidoro;
-struct ConfigParams;
+class ConfigParams;
 
 class QString;
 class QJsonObject;
@@ -15,14 +14,13 @@ class DataSaver
 	const char* REPS = "reps_count";
 
 public:
-	DataSaver(Pomidoro* context);
+	DataSaver(ConfigParams* configs);
 
 	bool saveData();
 
 	bool restoreData();
 
 private:
-	Pomidoro* context_;
 	ConfigParams* configs_;
 };
 
