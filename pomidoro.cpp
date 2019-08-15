@@ -11,6 +11,8 @@ Pomidoro::Pomidoro(QObject* parent, TrayUI* /*ui*/)
 		configs_(new ConfigParams),
 		saver_(new DataSaver(configs_))
 {
+	saver_->restoreData();
+
 	State::setParams(configs_);
 
 	isRunning_ = false;
