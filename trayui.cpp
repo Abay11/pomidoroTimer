@@ -80,6 +80,12 @@ void TrayUI::slot_timer_updater()
 
 	//do update info periodically during context menu is visible
 	timer_data->setText(Utility::formatTimerRemainingToString(pomidoro_->getTimerRemainingTime()));
+
+	//TODO: get more efficient way (no need to update this component every time)
+	rounds->setText(QString("%1/%2. Total: %3")
+		.arg(configs_->rounds_)
+		.arg(configs_->reps_)
+		.arg(configs_->total_));
 }
 
 void TrayUI::slot_set_active_icon()
