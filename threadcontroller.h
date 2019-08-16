@@ -52,6 +52,8 @@ signals:
 
 	void cmdPause();
 
+	void cmdSkip();
+
 	void cmdQuitLoop();
 
 public slots:
@@ -61,6 +63,8 @@ public slots:
 	void stopPomidoro();
 
 	void pausePomidoro();
+
+	void skipPomidoro();
 	//************************************************//
 
 private:

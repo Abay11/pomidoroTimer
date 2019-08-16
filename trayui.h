@@ -46,14 +46,15 @@ private:
 
 	QTimer* timer_updater_;
 
-	QSystemTrayIcon* tray;
-	QMenu* menu;
-	QAction* timer_data;
-	QAction* rounds;
-	QAction* start;
-	QAction* reset;
-	QAction* stop;
-	QAction* version;
+	QSystemTrayIcon* tray_;
+	QMenu* menu_;
+	QAction* timer_data_;
+	QAction* rounds_;
+	QAction* start_;
+	QAction* reset_;
+	QAction* skip_;
+	QAction* stop_;
+	QAction* version_;
 };
 
 #endif // TRAYUI_H

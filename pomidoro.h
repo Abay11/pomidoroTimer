@@ -93,6 +93,8 @@ public slots:
 
 	void slotReset();
 
+	void slotSkip();
+
 	void slotStartTimer(int min);
 
 private slots:

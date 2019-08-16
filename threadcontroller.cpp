@@ -17,6 +17,8 @@ ThreadController::ThreadController(Pomidoro* instance, QObject* parent) : QObjec
 	connect(this, SIGNAL(cmdStop()), pomidoro_, SLOT(slotStop()));
 
 	connect(this, SIGNAL(cmdPause()), pomidoro_, SLOT(slotPause()));
+
+	connect(this, SIGNAL(cmdSkip()), pomidoro_, SLOT(slotSkip()));
 }
 
 ThreadController::ThreadController(const ThreadController& other) : QObject(other.parent())
@@ -81,5 +83,10 @@ void ThreadController::stopPomidoro()
 void ThreadController::pausePomidoro()
 {
 	emit cmdPause();
+}
+
+void ThreadController::skipPomidoro()
+{
+	emit cmdSkip();
 }
 

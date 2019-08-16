@@ -123,6 +123,11 @@ void Pomidoro::slotReset()
 	state_->reset();
 }
 
+void Pomidoro::slotSkip()
+{
+	timer_->setInterval(1000);
+}
+
 void Pomidoro::slotStartTimer(int min)
 {
 	initTimerIfNot();
@@ -141,6 +146,7 @@ void Pomidoro::slotTimeOut()
 	bool isWorkState = state_->type() == State::STATES::ACTIVE;
 
 	if(isWorkState) emit rest();
+	else emit active();
 
 	state_->timerElapsed();
 
