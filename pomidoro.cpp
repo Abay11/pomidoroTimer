@@ -4,12 +4,14 @@
 #include "datasaver.h"
 
 #include <QTimer>
+#include <QSound>
 
 Pomidoro::Pomidoro(QObject* parent, TrayUI* /*ui*/)
 	: QObject(parent),
 		StatesHolder(this),
 		configs_(new ConfigParams),
-		saver_(new DataSaver(configs_))
+		saver_(new DataSaver(configs_)),
+		player_(new QSound(":/Sounds/birds.wav"))
 {
 	saver_->restoreData();
 
@@ -148,6 +150,8 @@ void Pomidoro::slotTimeOut()
 
 		emit inactive();
 	}
+
+	player_->play();
 }
 
 void Pomidoro::initTimerIfNot()

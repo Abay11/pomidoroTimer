@@ -1,7 +1,6 @@
 ﻿#ifndef TOMATO_H
 #define TOMATO_H
 
-
 #include "settingsdialog.h"
 #include "requestdialog.h"
 #include "concretestates.h"
@@ -15,6 +14,7 @@ class State;
 class DataSaver;
 
 class QTimer;
+class QSound;
 
 class ConfigParams
 {
@@ -120,6 +120,8 @@ protected:
 
 private:
 	QTimer* timer_ = nullptr;
+
+	QSound* player_ = nullptr;
 
 	std::atomic<bool> isRunning_;
 };
