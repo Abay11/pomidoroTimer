@@ -19,7 +19,7 @@ ThreadController::ThreadController(Pomidoro* instance, QObject* parent) : QObjec
 	connect(this, SIGNAL(cmdPause()), pomidoro_, SLOT(slotPause()));
 }
 
-ThreadController::ThreadController(const ThreadController& /*other*/)
+ThreadController::ThreadController(const ThreadController& other) : QObject(other.parent())
 {
 	//TODO: add realisation
 }
