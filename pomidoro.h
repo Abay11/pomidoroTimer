@@ -20,8 +20,8 @@ class ConfigParams
 {
 public:
 	//indicates if need to switch on longRestState after finishing pomidoro
-	bool isContinuousWork = false;
-	bool showDialogAgain = true;
+	bool isContinuousWork_ = false;
+	bool showDialogAgain_ = true;
 
 	int	work_ = 20;
 	int sh_rest_ = 5;

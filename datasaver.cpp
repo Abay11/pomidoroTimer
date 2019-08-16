@@ -19,6 +19,8 @@ bool DataSaver::saveData()
 		return false;
 
 	QJsonObject obj;
+	obj[IS_CONTINUOUS_WORK] = configs_->isContinuousWork_;
+	obj[SHOW_DIALOG_AGAIN] = configs_->showDialogAgain_;
 	obj[WORK] = configs_->work_;
 	obj[SH_REST] = configs_->sh_rest_;
 	obj[L_REST] = configs_->l_rest_;
@@ -47,6 +49,8 @@ bool DataSaver::restoreData()
 
 	QJsonObject obj = doc.object();
 
+	configs_->isContinuousWork_ = obj[IS_CONTINUOUS_WORK].toBool();
+	configs_->showDialogAgain_ = obj[SHOW_DIALOG_AGAIN].toBool();
 	configs_->work_ = obj[WORK].toInt();
 	configs_->sh_rest_ = obj[SH_REST].toInt();
 	configs_->l_rest_ = obj[L_REST].toInt();

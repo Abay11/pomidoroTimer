@@ -41,7 +41,7 @@ void Active::timerElapsed()
 
 		context->slotStartTimer(context->getRestDuration());
 	}
-	else if(configs_->isContinuousWork && configs_->total_ < configs_->reps_)
+	else if(configs_->isContinuousWork_ && configs_->total_ < configs_->reps_)
 	{
 		//switch on longRest state
 		context->setNewState(context->getLongRestState());

@@ -181,7 +181,7 @@ bool Pomidoro::isRunning()
 
 void Pomidoro::setIsContinuousWork(bool value)
 {
-	configs_->isContinuousWork = value;
+	configs_->isContinuousWork_ = value;
 }
 
 int Pomidoro::getTimerRemainingTime()

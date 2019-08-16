@@ -24,8 +24,8 @@ SettingsDialog::SettingsDialog(ConfigParams* params,	QWidget* p)
 	spinShort->setValue(params_->sh_rest_);
 	spinLong->setValue(params_->l_rest_);
 	spinReps->setValue(params_->reps_);
-	pchturnLongRest->setChecked(params_->isContinuousWork);
-	pchshowAgain->setChecked(params_->showDialogAgain);
+	pchturnLongRest->setChecked(params_->isContinuousWork_);
+	pchshowAgain->setChecked(params_->showDialogAgain_);
 
 	QFormLayout* pflay = new QFormLayout;
 
@@ -85,8 +85,8 @@ void SettingsDialog::slotAccept()
 	params_->sh_rest_ = spinShort->value();
 	params_->l_rest_ = spinLong->value();
 	params_->reps_ = spinReps->value();
-	params_->isContinuousWork = pchturnLongRest->isChecked();
-	params_->showDialogAgain = !pchshowAgain->isChecked();
+	params_->isContinuousWork_ = pchturnLongRest->isChecked();
+	params_->showDialogAgain_ = !pchshowAgain->isChecked();
 
 	//QDialog virtual slot
 	//close dialog and returns Accepted code
