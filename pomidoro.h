@@ -1,4 +1,4 @@
-﻿#ifndef TOMATO_H
+#ifndef TOMATO_H
 #define TOMATO_H
 
 #include "settingsdialog.h"

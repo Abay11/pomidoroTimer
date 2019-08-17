@@ -40,7 +40,7 @@ TrayUI::TrayUI(QObject* parent)
 	menu_->addAction("Exit", qApp, SLOT(quit()));
 
 	connect(start_, SIGNAL(triggered()), controller_, SLOT(startPomidoro()));
-	//k	connect(reset, SIGNAL(triggered()), controller_, SLOT(controller_->resetPomidoro()));
+	connect(reset_, SIGNAL(triggered()), controller_, SLOT(resetPomidoro()));
 	connect(skip_, SIGNAL(triggered()), controller_, SLOT(skipPomidoro()));
 	connect(stop_, SIGNAL(triggered()), controller_, SLOT(stopPomidoro()));
 

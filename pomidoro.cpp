@@ -120,6 +120,7 @@ void Pomidoro::slotStop()
 
 void Pomidoro::slotReset()
 {
+	//just restarts timer with an interval depends on current state
 	state_->reset();
 }
 
@@ -132,7 +133,6 @@ void Pomidoro::slotStartTimer(int min)
 {
 	initTimerIfNot();
 
-	timer_->setSingleShot(true);
 	timer_->start(min * 1000 * 60);
 }
 
@@ -165,6 +165,7 @@ void Pomidoro::initTimerIfNot()
 	if(!timer_)
 	{
 		timer_ = new QTimer;
+		timer_->setSingleShot(true);
 		connect(timer_, SIGNAL(timeout()), SLOT(slotTimeOut()));
 	}
 }

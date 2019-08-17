@@ -26,6 +26,7 @@ void Active::pause()
 
 void Active::reset()
 {
+	context->slotStartTimer(configs_->work_);
 }
 
 void Active::timerElapsed()
@@ -123,6 +124,7 @@ void ShortRest::pause()
 
 void ShortRest::reset()
 {
+	context->slotStartTimer(configs_->sh_rest_);
 }
 
 void ShortRest::timerElapsed()
@@ -148,6 +150,7 @@ void LongRest::pause()
 
 void LongRest::reset()
 {
+	context->slotStartTimer(configs_->l_rest_);
 }
 
 void LongRest::timerElapsed()
