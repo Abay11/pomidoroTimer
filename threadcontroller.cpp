@@ -6,8 +6,6 @@
 ThreadController::ThreadController(Pomidoro* instance, QObject* parent) : QObject(parent),
 	thread_(new QThread)
 {
-	qRegisterMetaType(this);
-
 	pomidoro_ = instance ? instance : new Pomidoro;
 
 	qRegisterMetaType(pomidoro_);
@@ -19,11 +17,6 @@ ThreadController::ThreadController(Pomidoro* instance, QObject* parent) : QObjec
 	connect(this, SIGNAL(cmdPause()), pomidoro_, SLOT(slotPause()));
 
 	connect(this, SIGNAL(cmdSkip()), pomidoro_, SLOT(slotSkip()));
-}
-
-ThreadController::ThreadController(const ThreadController& other) : QObject(other.parent())
-{
-	//TODO: add realisation
 }
 
 ThreadController::~ThreadController()

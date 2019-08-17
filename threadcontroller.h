@@ -29,8 +29,6 @@ class ThreadController : public QObject
 public:
 	explicit ThreadController(Pomidoro* instance = nullptr, QObject* parent = nullptr);
 
-	explicit ThreadController(const ThreadController& other);
-
 	//delete P and the thread
 	~ThreadController();
 
@@ -72,7 +70,5 @@ private:
 
 	Pomidoro* pomidoro_ = nullptr;
 };
-
-Q_DECLARE_METATYPE(ThreadController);
 
 #endif // THREADCONTROLLER_H
