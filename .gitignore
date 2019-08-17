@@ -12,3 +12,7 @@ pomidoro\.cpp\.autosave
 *.autosave
 
 PomidoroTimer\.pro\.user\.4\.9-pre1
+
+*.o
+
+PomidoroTests/PomidoroTests\.pro\.user\.4\.9-pre1
