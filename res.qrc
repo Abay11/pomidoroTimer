@@ -4,5 +4,9 @@
         <file>Icons/red.png</file>
         <file>Icons/green.png</file>
         <file>Sounds/birds.wav</file>
+        <file>Icons/red.svg</file>
+        <file>Icons/green.svg</file>
+        <file>Icons/yellow.svg</file>
+        <file>Icons/gray.svg</file>
     </qresource>
 </RCC>

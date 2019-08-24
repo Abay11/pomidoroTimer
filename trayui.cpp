@@ -93,17 +93,17 @@ void TrayUI::slot_timer_updater()
 
 void TrayUI::slot_set_active_icon()
 {
-	tray_->setIcon(QIcon(":/Icons/red.png"));
+	tray_->setIcon(QIcon(":/Icons/red.svg"));
 }
 
 void TrayUI::slot_set_rest_icon()
 {
-	tray_->setIcon(QIcon(":/Icons/green.png"));
+	tray_->setIcon(QIcon(":/Icons/green.svg"));
 }
 
 void TrayUI::slot_set_inactive_icon()
 {
-	tray_->setIcon(QIcon(":/Icons/gray.png"));
+	tray_->setIcon(QIcon(":/Icons/gray.svg"));
 }
 
 void TrayUI::accept_changes()
