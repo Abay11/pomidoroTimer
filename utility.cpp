@@ -6,7 +6,7 @@ Utility::Utility()
 {
 }
 
-const QString Utility::VERSION = "1.3";
+const QString Utility::VERSION = "2.0";
 
 std::pair<int, QTime> Utility::count_possible_repetitions(int pomidoroDuration, int shortRest, int longRest, QTime time)
 {
