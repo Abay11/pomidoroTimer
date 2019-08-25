@@ -89,8 +89,6 @@ void Pomidoro::slotStart()
 	state_->doLog("start()");
 
 	state_->start();
-
-	emit active();
 }
 
 void Pomidoro::slotPause()
@@ -145,6 +143,7 @@ void Pomidoro::slotTimeOut()
 	//for it, check if current state is ACTIVE
 	bool isWorkState = state_->type() == State::STATES::ACTIVE;
 
+	//notify GUI to change icon
 	if(isWorkState) emit rest();
 	else emit active();
 
@@ -154,7 +153,7 @@ void Pomidoro::slotTimeOut()
 	{
 		isRunning_ = false;
 
-		emit inactive();
+		emit inactive(); //notify GUI to change icon
 	}
 
 	player_->play();
@@ -168,6 +167,26 @@ void Pomidoro::initTimerIfNot()
 		timer_->setSingleShot(true);
 		connect(timer_, SIGNAL(timeout()), SLOT(slotTimeOut()));
 	}
+}
+
+void Pomidoro::emit_active()
+{
+	emit active();
+}
+
+void Pomidoro::emit_inactive()
+{
+	emit inactive();
+}
+
+void Pomidoro::emit_pause()
+{
+	emit pause();
+}
+
+void Pomidoro::emit_rest()
+{
+	emit rest();
 }
 
 int Pomidoro::getRounds() const

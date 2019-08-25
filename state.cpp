@@ -34,6 +34,9 @@ void State::reset()
 void State::stop()
 {
 	context->setNewState(context->getInactiveState());
+
+	//notify GUI to change icon
+	context->emit_inactive();
 }
 
 void State::timerElapsed()

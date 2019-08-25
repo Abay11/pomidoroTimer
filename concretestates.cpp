@@ -12,6 +12,9 @@ void Inactive::start()
 	context->setNewState(context->getActiveState());
 
 	context->slotStartTimer(context->getWorkDuration());
+
+	//notify GUI to change icon
+	context->emit_active();
 }
 
 Active::Active(Pomidoro* context)

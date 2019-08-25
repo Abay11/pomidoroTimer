@@ -41,6 +41,7 @@ class Pomidoro : public QObject, public StatesHolder
 	friend TrayUI;
 	friend DataSaver;
 	friend ThreadController;
+	friend State;
 	friend Inactive;
 	friend Active;
 	friend Paused;
@@ -108,12 +109,22 @@ signals:
 
 	void inactive();
 
+	void pause();
+
 	//TODO: set more appropriatable name
 	void rest();
 
 	//class members
 private:
 	void initTimerIfNot();
+
+	void emit_active();
+
+	void emit_inactive();
+
+	void emit_pause();
+
+	void emit_rest();
 
 protected:
 	ConfigParams* configs_;
