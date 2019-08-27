@@ -37,7 +37,10 @@ public:
 	void timerElapsed() override;
 
 	//to save previous state
-	STATES previous = STATES::INACTIVE;
+	State* previous = nullptr;
+
+	//to save timer state
+	int remaining_duration;
 };
 
 class ShortRest : public State

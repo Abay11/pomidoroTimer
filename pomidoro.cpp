@@ -99,9 +99,6 @@ void Pomidoro::slotPause()
 	//because the PAUSED state should to know
 	//on which state need to switch on
 	//after slotStart() was invoked
-	auto p = dynamic_cast<Paused*>(pausedState);
-	p->previous = state_->type();
-
 	state_->pause();
 }
 
@@ -216,8 +213,13 @@ void Pomidoro::setIsContinuousWork(bool value)
 
 int Pomidoro::getTimerRemainingTime()
 {
+	//if timer is active returns actual data
 	if(timer_ && timer_->isActive())
 		return timer_->remainingTime();
+
+	//timer is paused, return saved data
+	if(state_->type() == State::STATES::PAUSED)
+		return static_cast<Paused*>(state_)->remaining_duration;
 
 	//cause QTimer::remainingTime() returns milliseconds
 	//need to convert to milliseconds (we store minutes)

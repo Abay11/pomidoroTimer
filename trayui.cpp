@@ -19,6 +19,7 @@ TrayUI::TrayUI(QObject* parent)
 		timer_data_(new QAction(menu_)),
 		rounds_(new QAction(menu_)),
 		start_(new QAction("Start", menu_)),
+		pause_(new QAction("Pause", menu_)),
 		reset_(new QAction("Reset timer", menu_)),
 		skip_(new QAction("Skip timer", menu_)),
 		stop_(new QAction("Stop", menu_)),
@@ -32,6 +33,7 @@ TrayUI::TrayUI(QObject* parent)
 	menu_->addAction(timer_data_);
 	menu_->addAction(rounds_);
 	menu_->addAction(start_);
+	menu_->addAction(pause_);
 	menu_->addAction(reset_);
 	menu_->addAction(skip_);
 	menu_->addAction(stop_);
@@ -40,6 +42,7 @@ TrayUI::TrayUI(QObject* parent)
 	menu_->addAction("Exit", qApp, SLOT(quit()));
 
 	connect(start_, SIGNAL(triggered()), controller_, SLOT(startPomidoro()));
+	connect(pause_, SIGNAL(triggered()), controller_, SLOT(pausePomidoro()));
 	connect(reset_, SIGNAL(triggered()), controller_, SLOT(resetPomidoro()));
 	connect(skip_, SIGNAL(triggered()), controller_, SLOT(skipPomidoro()));
 	connect(stop_, SIGNAL(triggered()), controller_, SLOT(stopPomidoro()));
@@ -50,6 +53,7 @@ TrayUI::TrayUI(QObject* parent)
 	connect(timer_updater_, SIGNAL(timeout()), SLOT(slot_timer_updater()));
 
 	connect(pomidoro_, SIGNAL(active()), SLOT(slot_set_active_icon()));
+	connect(pomidoro_, SIGNAL(pause()), SLOT(slot_set_pause_icon()));
 	connect(pomidoro_, SIGNAL(inactive()), SLOT(slot_set_inactive_icon()));
 	connect(pomidoro_, SIGNAL(rest()), SLOT(slot_set_rest_icon()));
 
@@ -94,6 +98,11 @@ void TrayUI::slot_timer_updater()
 void TrayUI::slot_set_active_icon()
 {
 	tray_->setIcon(QIcon(":/Icons/red.svg"));
+}
+
+void TrayUI::slot_set_pause_icon()
+{
+	tray_->setIcon(QIcon(":/Icons/yellow.svg"));
 }
 
 void TrayUI::slot_set_rest_icon()

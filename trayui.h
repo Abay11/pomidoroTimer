@@ -30,6 +30,8 @@ private slots:
 
 	void slot_set_active_icon();
 
+	void slot_set_pause_icon();
+
 	void slot_set_rest_icon();
 
 	void slot_set_inactive_icon();
@@ -51,6 +53,7 @@ private:
 	QAction* timer_data_;
 	QAction* rounds_;
 	QAction* start_;
+	QAction* pause_;
 	QAction* reset_;
 	QAction* skip_;
 	QAction* stop_;

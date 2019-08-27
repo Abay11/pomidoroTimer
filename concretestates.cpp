@@ -2,6 +2,8 @@
 
 #include "pomidoro.h"
 
+#include <QTimer>
+
 Inactive::Inactive(Pomidoro* context)
 	: State(STATES::INACTIVE, context)
 {
@@ -24,7 +26,17 @@ Active::Active(Pomidoro* context)
 
 void Active::pause()
 {
+	auto p = dynamic_cast<Paused*>(context->pausedState);
+	p->previous = context->state_;
+
+	//also save timer state
+	p->remaining_duration = context->timer_->remainingTime();
+
 	context->setNewState(context->getPausedState());
+
+	context->timer_->stop();
+
+	context->emit_pause();
 }
 
 void Active::reset()
@@ -72,32 +84,15 @@ Paused::~Paused()
 
 void Paused::start()
 {
-	switch(previous)
-	{
-		case STATES::ACTIVE:
-		{
-			context->setNewState(context->getActiveState());
-			break;
-		}
+	context->setNewState(previous);
 
-		case STATES::SHORT_REST:
-		{
-			context->setNewState(context->getShortRestState());
-			break;
-		}
+	//context->slotStartTimer(remaining_duration);
+	context->timer_->start(remaining_duration);
 
-		case STATES::LONG_REST:
-		{
-			context->setNewState(context->getLongRestState());
-			break;
-		}
-
-		default:
-		{
-			qWarning() << "Paused::start()" << "something went wrong. A nonexpected state";
-			break;
-		}
-	}
+	if(previous->type() == STATES::ACTIVE)
+		context->emit_active();
+	else if(previous->type() == STATES::SHORT_REST)
+		context->emit_rest();
 }
 
 void Paused::reset()
@@ -122,7 +117,17 @@ ShortRest::~ShortRest()
 
 void ShortRest::pause()
 {
+	auto p = dynamic_cast<Paused*>(context->pausedState);
+	p->previous = context->state_;
+
+	//also save timer state
+	p->remaining_duration = context->timer_->remainingTime();
+
 	context->setNewState(context->getPausedState());
+
+	context->timer_->stop();
+
+	context->emit_pause();
 }
 
 void ShortRest::reset()
@@ -148,7 +153,17 @@ LongRest::~LongRest()
 
 void LongRest::pause()
 {
+	auto p = dynamic_cast<Paused*>(context->pausedState);
+	p->previous = context->state_;
+
+	//also save timer state
+	p->remaining_duration = context->timer_->remainingTime();
+
 	context->setNewState(context->getPausedState());
+
+	context->timer_->stop();
+
+	context->emit_pause();
 }
 
 void LongRest::reset()
