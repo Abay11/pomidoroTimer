@@ -104,7 +104,8 @@ void Pomidoro::slotPause()
 
 void Pomidoro::slotStop()
 {
-	timer_->stop();
+	if(timer_) //the timer may be not init if not be called Start
+		timer_->stop();
 
 	state_->stop();
 
@@ -129,6 +130,12 @@ void Pomidoro::slotStartTimer(int min)
 	initTimerIfNot();
 
 	timer_->start(min * 1000 * 60);
+}
+
+void Pomidoro::slotSaveConfigs()
+{
+	if(!saver_->saveData())
+		qWarning() << "Pomidoro::slotSaveConfigs(): Couldn't save data";
 }
 
 void Pomidoro::slotTimeOut()

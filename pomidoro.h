@@ -98,6 +98,8 @@ public slots:
 
 	void slotStartTimer(int min);
 
+	void slotSaveConfigs();
+
 private slots:
 	void slotTimeOut();
 

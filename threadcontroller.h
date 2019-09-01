@@ -42,6 +42,8 @@ public:
 	//quit the thread and wait until it will be stopped
 	void stop();
 
+	void callSaveConfigs();
+
 signals:
 	//these signals emits by slots in the declared above interfaces
 	void cmdStart();
@@ -55,6 +57,8 @@ signals:
 	void cmdSkip();
 
 	void cmdQuitLoop();
+
+	void cmdSaveConfigs();
 
 public slots:
 	//*****An interface to control Pomidoro states*****//
