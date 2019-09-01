@@ -98,6 +98,8 @@ void TrayUI::slot_timer_updater()
 void TrayUI::slot_set_active_icon()
 {
 	tray_->setIcon(QIcon(":/Icons/red.svg"));
+
+	tray_->showMessage("Pomidoro timer", "It's time to work!", QSystemTrayIcon::Information, NOTIFY_DELAY);
 }
 
 void TrayUI::slot_set_pause_icon()
@@ -108,6 +110,8 @@ void TrayUI::slot_set_pause_icon()
 void TrayUI::slot_set_rest_icon()
 {
 	tray_->setIcon(QIcon(":/Icons/green.svg"));
+
+	tray_->showMessage("Pomidoro timer", "Have a rest!", QSystemTrayIcon::Information, NOTIFY_DELAY);
 }
 
 void TrayUI::slot_set_inactive_icon()

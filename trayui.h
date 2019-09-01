@@ -15,7 +15,6 @@ class QTimer;
 
 class TrayUI : public QObject
 {
-
 	Q_OBJECT
 
 public:
@@ -47,6 +46,8 @@ private:
 	ThreadController* controller_;
 
 	QTimer* timer_updater_;
+
+	const int NOTIFY_DELAY = 3000;
 
 	QSystemTrayIcon* tray_;
 	QMenu* menu_;
