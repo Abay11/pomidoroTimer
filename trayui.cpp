@@ -23,7 +23,7 @@ TrayUI::TrayUI(QObject* parent)
 		reset_(new QAction("Reset timer", menu_)),
 		skip_(new QAction("Skip timer", menu_)),
 		stop_(new QAction("Stop", menu_)),
-		version_(new QAction(Utility::VERSION, menu_))
+		about_(new QAction("About", menu_))
 {
 	pomidoro_ = controller_->pomidoro();
 	configs_ = pomidoro_->configs_;
@@ -38,7 +38,7 @@ TrayUI::TrayUI(QObject* parent)
 	menu_->addAction(skip_);
 	menu_->addAction(stop_);
 	menu_->addAction("Settings", this, SLOT(slotOpenSettings()));
-	menu_->addAction(version_);
+	menu_->addAction(about_);
 	menu_->addAction("Exit", qApp, SLOT(quit()));
 
 	connect(start_, SIGNAL(triggered()), controller_, SLOT(startPomidoro()));
@@ -46,6 +46,7 @@ TrayUI::TrayUI(QObject* parent)
 	connect(reset_, SIGNAL(triggered()), controller_, SLOT(resetPomidoro()));
 	connect(skip_, SIGNAL(triggered()), controller_, SLOT(skipPomidoro()));
 	connect(stop_, SIGNAL(triggered()), controller_, SLOT(stopPomidoro()));
+	connect(about_, SIGNAL(triggered()), this, SLOT(slot_show_about()));
 
 	connect(tray_, SIGNAL(activated(QSystemTrayIcon::ActivationReason)),
 		this, SLOT(slotTrayActivated()));
@@ -117,6 +118,22 @@ void TrayUI::slot_set_rest_icon()
 void TrayUI::slot_set_inactive_icon()
 {
 	tray_->setIcon(QIcon(":/Icons/gray.svg"));
+}
+
+#include <QMessageBox>
+void TrayUI::slot_show_about()
+{
+	QMessageBox msg_box;
+	msg_box.setWindowTitle("About");
+
+	QString text;
+	QTextStream tx(&text);
+
+	tx << "Free Pomidoro Timer application (v." << Utility::VERSION << "), 2018-2019" << endl;
+	tx << "Alim Abay (Github: @abay11)" << endl;
+
+	msg_box.setText(text);
+	msg_box.exec();
 }
 
 void TrayUI::accept_changes()

@@ -35,6 +35,8 @@ private slots:
 
 	void slot_set_inactive_icon();
 
+	void slot_show_about();
+
 private:
 	void accept_changes();
 
@@ -58,7 +60,7 @@ private:
 	QAction* reset_;
 	QAction* skip_;
 	QAction* stop_;
-	QAction* version_;
+	QAction* about_;
 };
 
 #endif // TRAYUI_H
