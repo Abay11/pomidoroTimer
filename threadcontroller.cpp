@@ -19,6 +19,8 @@ ThreadController::ThreadController(Pomidoro* instance, QObject* parent) : QObjec
 	connect(this, SIGNAL(cmdReset()), pomidoro_, SLOT(slotReset()));
 
 	connect(this, SIGNAL(cmdSkip()), pomidoro_, SLOT(slotSkip()));
+
+	connect(this, SIGNAL(cmdSaveConfigs()), pomidoro_, SLOT(slotSaveConfigs()));
 }
 
 ThreadController::~ThreadController()
@@ -53,6 +55,11 @@ void ThreadController::stop()
 	thread_->wait();
 
 	delete l;
+}
+
+void ThreadController::callSaveConfigs()
+{
+	emit cmdSaveConfigs();
 }
 
 void ThreadController::startPomidoro()

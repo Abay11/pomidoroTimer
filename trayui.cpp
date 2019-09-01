@@ -121,7 +121,7 @@ void TrayUI::accept_changes()
 
 	controller_->stopPomidoro();
 
-	pomidoro_->saver_->saveData();
+	controller_->callSaveConfigs();
 
 	loadConfigs();
 }
