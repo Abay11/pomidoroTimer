@@ -122,7 +122,8 @@ void Pomidoro::slotReset()
 
 void Pomidoro::slotSkip()
 {
-	timer_->setInterval(1000);
+	if(timer_) //may not be init if not be called Start
+		timer_->setInterval(1000);
 }
 
 void Pomidoro::slotStartTimer(int min)
